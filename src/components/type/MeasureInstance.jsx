@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { chWidth } from "../../utility/fns"
-import { InstanceContext } from "../activity/ActivityInstance"
+import { InstanceContext } from "../../state/activityInstanceReducer"
 import { getField } from "../../data/ActivityInstance"
 import regex from "../../utility/regex"
 import { getActiveUnits, getQuantity, setQuantity } from "../../data/typeInstance/MeasureInstance"

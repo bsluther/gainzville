@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { getField } from "../../data/ActivityInstance"
-import { InstanceContext } from "../activity/ActivityInstance"
+import { InstanceContext } from "../../state/activityInstanceReducer"
 import { DateTime } from "luxon"
 import { getISO, setISO } from "../../data/typeInstance/DatetimeInstance"
 

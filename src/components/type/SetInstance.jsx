@@ -1,7 +1,8 @@
 import { useContext } from "react"
-import { InstanceContext } from "../activity/ActivityInstance"
+import { InstanceContext } from "../../state/activityInstanceReducer"
 import { getField } from "../../data/ActivityInstance"
 import { toString, fromString } from "../../data/typeInstance/SetInstance"
+import { getElements } from "../../data/typeTemplate/SetTemplate"
 
 // Let's think hard about what dependencies this component has on other modules. What could change out from under it?
 
@@ -27,7 +28,7 @@ export const SetInstance = ({ address, typeTemplate }) => {
   return (
     <select
       className="
-        bg-neutral-500 focus:bg-neutral-400
+        bg-neutral-400
         outline-none border-2 border-neutral-800 rounded-sm
       "
       value={value}
@@ -37,7 +38,7 @@ export const SetInstance = ({ address, typeTemplate }) => {
           payload: { address, value: fromString(e.target.value)(value) }
         })}
     >
-      {typeTemplate.elements.map(str =>
+      {getElements(typeTemplate).map(str =>
         <option key={str}>{str}</option>)}
     </select>
   )

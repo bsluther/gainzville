@@ -1,10 +1,11 @@
-import { useTypeTemplate } from "../../hooks/useTypeTemplate"
+import { useTypeTemplate } from "../../hooks/type/useTypeTemplate"
 import { BooleanInstance } from "./BooleanInstance";
 import { DatetimeInstance } from "./DatetimeInstance";
 import { FloatInstance } from "./FloatInstance";
 import { DurationInstance, LengthInstance, MassInstance } from "./MeasureInstance";
 import { SetInstance } from "./SetInstance";
 import { StringInstance } from "./StringInstance";
+import { PowersetInstance } from "./PowersetInstance"
 
 
 
@@ -19,7 +20,8 @@ const primitiveHash = {
 }
 
 const constructorHash = {
-  "typ-c-set": SetInstance
+  "typ-c-set": SetInstance,
+  "typ-c-powerset": PowersetInstance
 }
 
 const LoadingType = () => <div>...</div>

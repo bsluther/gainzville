@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { InstanceContext } from "../activity/ActivityInstance"
+import { InstanceContext } from "../../state/activityInstanceReducer"
 import { getField } from "../../data/ActivityInstance"
 import { getBoolean, setBoolean } from "../../data/typeInstance/BooleanInstance"
 
@@ -13,7 +13,7 @@ export const BooleanInstance = ({ typeTemplate, address }) => {
       className="text-neutral-800"
       type="checkbox" 
       checked={boolean}
-      onChange={e => dispatch({
+      onChange={() => dispatch({
         type: "input",
         payload: {
           address,

@@ -1,11 +1,13 @@
 import * as L from 'partial.lenses'
+import { dissoc } from 'ramda'
 
-// Should "a" be a TypeInstance? Probably.
-// setFieldValue :: FacetId -> Nat -> a -> ActivityInstance -> ActivityInstance
-export const setField = facetId => fieldIx =>
-  L.set(['facets', facetId, 'fields', fieldIx])
+// setFieldValue :: Address -> TypeInstance -> ActivityInstance -> ActivityInstance
+export const setField = ({ facet, field }) =>
+  L.set(['facets', facet, 'fields', field])
 
-// Should "a" be a TypeInstance? Probably.
-// getFieldValue :: FacetId -> Nat -> ActivityInstance -> a
+// getFieldValue :: Address -> ActivityInstance -> TypeInstance
 export const getField = ({ facet, field }) =>
   L.get(['facets', facet, 'fields', field])
+
+export const removeFacet = facetId =>
+  L.modify(['facets'])(dissoc(facetId))

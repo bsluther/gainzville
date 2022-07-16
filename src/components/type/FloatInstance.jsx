@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import regex from "../../utility/regex"
 import { chWidth } from "../../utility/fns"
-import { InstanceContext } from "../activity/ActivityInstance"
+import { InstanceContext } from "../../state/activityInstanceReducer"
 import { toString, fromString } from "../../data/typeInstance/FloatInstance"
 import { getField } from "../../data/ActivityInstance"
 

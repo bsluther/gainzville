@@ -1,9 +1,15 @@
-export const massTemplate = {
-  _id: "typ-t-p-measure-mass",
+export const MassTemplate = {
   id: "typ-t-p-measure-mass",
   type: "TypeTemplate",
-  typeConstructor: "primitve",
   name: "mass",
-  aliases: ["weight"]
+  aliases: ["weight"],
+  typeConstructor: "primitive",
 }
 
+export const initializeMassInstance = () => ({
+  type: "TypeInstance",
+  template: "typ-t-p-measure-mass",
+  value: {
+    lb: "0"
+  }
+})

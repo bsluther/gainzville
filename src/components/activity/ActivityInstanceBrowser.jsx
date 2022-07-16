@@ -1,8 +1,12 @@
 import { useState } from "react"
-import { ActivityInstance } from "./ActivityInstance"
+import { XCircleSVG } from "../../svg/XCircleSVG"
 import { ActivityInstanceListbox } from "./ActivityInstanceListbox"
-import { useUserActivityInstances } from "../../hooks/useUserActivityInstances"
+import { useUserActivityInstances } from "../../hooks/activity/useUserActivityInstances"
 import { ActivityTemplateSearch } from "./ActivityTemplateSearch"
+import { NewActivityInstance } from "./NewActivityInstance"
+import { useInsertActivityInstance } from "../../hooks/activity/useInsertActivityInstance"
+import { useDeleteActivityInstance } from "../../hooks/activity/useDeleteActivityInstance"
+import { ActivityInst } from "./ActivityInst"
 
 
 
@@ -10,6 +14,26 @@ export const ActivityInstanceBrowser = ({ user }) => {
   const instancesQ = useUserActivityInstances(user)
   const [selectedInstance, setSelectedInstance] = useState(null)
   const [newInstanceTemplate, setNewInstanceTemplate] = useState(null)
+
+  const insertInstanceM = useInsertActivityInstance()
+  const deleteInstanceM = useDeleteActivityInstance()
+
+  const DeleteButton = ({ instanceId, ...props }) => {
+    return <XCircleSVG
+      {...props}
+      onClick={() => {
+        setSelectedInstance(null)
+        deleteInstanceM.mutate(instanceId)
+      }}
+    />
+  }
+
+  const handleSaveNewInstance = instance => {
+    console.log(instance)
+    setNewInstanceTemplate(null)
+    setSelectedInstance(null)
+    insertInstanceM.mutate(instance)
+  }
 
   return (
     <section className="flex flex-col space-y-2">
@@ -19,7 +43,9 @@ export const ActivityInstanceBrowser = ({ user }) => {
           ? instancesQ.data.map(inst => inst.id) 
           : []} 
         selected={selectedInstance} 
-        setSelected={id => setSelectedInstance(id)} />
+        setSelected={id => setSelectedInstance(id)}
+        ItemButtons={DeleteButton}
+      />
       
        <div className="flex justify-end">
          {selectedInstance !== "new" &&
@@ -34,13 +60,15 @@ export const ActivityInstanceBrowser = ({ user }) => {
               New
             </button>}
          {selectedInstance === "new" &&
-            <ActivityTemplateSearch title="New activty:" handleSelect={id => setNewInstanceTemplate(id)} />
+            (newInstanceTemplate  
+              ? <NewActivityInstance templateId={newInstanceTemplate} user="dev2" handleSaveNewInstance={handleSaveNewInstance} />
+              : <ActivityTemplateSearch title="New activty:" handleSelect={id => setNewInstanceTemplate(id)} />)
          }
        </div>
        
      </div>
       {selectedInstance && selectedInstance !== "new" && 
-        <ActivityInstance activityInstanceId={selectedInstance} />
+        <ActivityInst instanceId={selectedInstance} />
       }
     </section>
   )
