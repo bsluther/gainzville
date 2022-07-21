@@ -16,7 +16,7 @@ export const makeId = prefix => `${prefix}-${uuid()}`
 
 export const snakeToSpace = str => 
   typeof str === "string"
-    ? str.replace("_", " ")
+    ? str.replace(/_/g, " ")
     : str
 
 export default async function fetchWithError(url, options) {

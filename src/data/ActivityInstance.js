@@ -7,7 +7,7 @@ export const setField = ({ facet, field }) =>
 
 // getFieldValue :: Address -> ActivityInstance -> TypeInstance
 export const getField = ({ facet, field }) =>
-  L.get(['facets', facet, 'fields', field])
+  L.get(['instance', 'facets', facet, 'fields', field])
 
 export const removeFacet = facetId =>
   L.modify(['facets'])(dissoc(facetId))

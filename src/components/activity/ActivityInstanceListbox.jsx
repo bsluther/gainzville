@@ -1,6 +1,5 @@
 import { useQueries } from "react-query"
 import { useActivityInstances } from "../../hooks/activity/useActivityInstances"
-import { snakeToSpace } from "../../utility/fns"
 
 
 export function ActivityInstanceListbox({ instanceIds, selected, setSelected, ItemButtons }) {
@@ -32,17 +31,21 @@ export function ActivityInstanceListbox({ instanceIds, selected, setSelected, It
                     h-6
                     flex
                     capitalize
-                    hover:bg-neutral-400 pl-2 pr-1
+                    pl-2 pr-1
                     first:rounded-t-md last:rounded-b-md
-                    ${selected === instanceQ.data.id && 
-                      "bg-yellow-300 hover:bg-yellow-300"}
+                    ${selected === instanceQ.data.id 
+                        ? "bg-yellow-300 hover:bg-yellow-300"
+                        : "hover:bg-neutral-400"}
                   `}
                 >
                   <span
                     className="grow"
-                    onClick={() => setSelected(instanceQ.data.id)}
+                    onClick={() => 
+                      selected === instanceQ.data.id
+                        ? setSelected(null)
+                        : setSelected(instanceQ.data.id)}
                   >
-                    {snakeToSpace(templatesQ.find(templateQ => templateQ.data?.id === instanceQ.data.template)?.data.name)}
+                    {templatesQ.find(templateQ => templateQ.data?.id === instanceQ.data.template)?.data.name}
                   </span>
 
                   {selected === instanceQ.data.id &&

@@ -3,10 +3,9 @@ import { XCircleSVG } from "../../svg/XCircleSVG"
 import { ActivityInstanceListbox } from "./ActivityInstanceListbox"
 import { useUserActivityInstances } from "../../hooks/activity/useUserActivityInstances"
 import { ActivityTemplateSearch } from "./ActivityTemplateSearch"
-import { NewActivityInstance } from "./NewActivityInstance"
 import { useInsertActivityInstance } from "../../hooks/activity/useInsertActivityInstance"
 import { useDeleteActivityInstance } from "../../hooks/activity/useDeleteActivityInstance"
-import { ActivityInst } from "./ActivityInst"
+import { ActivityInstanceController, NewActivityInstanceController } from "./ActivityInstanceController"
 
 
 
@@ -29,7 +28,7 @@ export const ActivityInstanceBrowser = ({ user }) => {
   }
 
   const handleSaveNewInstance = instance => {
-    console.log(instance)
+    console.log("saving new instance: ", instance)
     setNewInstanceTemplate(null)
     setSelectedInstance(null)
     insertInstanceM.mutate(instance)
@@ -39,13 +38,13 @@ export const ActivityInstanceBrowser = ({ user }) => {
     <section className="flex flex-col space-y-2">
      <div className="w-max flex flex-col space-y-2">
        <ActivityInstanceListbox 
-        instanceIds={instancesQ.isSuccess 
-          ? instancesQ.data.map(inst => inst.id) 
-          : []} 
-        selected={selectedInstance} 
-        setSelected={id => setSelectedInstance(id)}
-        ItemButtons={DeleteButton}
-      />
+          instanceIds={instancesQ.isSuccess 
+            ? instancesQ.data.map(inst => inst.id) 
+            : []} 
+          selected={selectedInstance} 
+          setSelected={id => setSelectedInstance(id)}
+          ItemButtons={DeleteButton}
+        />
       
        <div className="flex justify-end">
          {selectedInstance !== "new" &&
@@ -61,14 +60,21 @@ export const ActivityInstanceBrowser = ({ user }) => {
             </button>}
          {selectedInstance === "new" &&
             (newInstanceTemplate  
-              ? <NewActivityInstance templateId={newInstanceTemplate} user="dev2" handleSaveNewInstance={handleSaveNewInstance} />
-              : <ActivityTemplateSearch title="New activty:" handleSelect={id => setNewInstanceTemplate(id)} />)
+              ? <NewActivityInstanceController 
+                  templateId={newInstanceTemplate} 
+                  user="dev2" 
+                  handleSaveNewInstance={handleSaveNewInstance}
+                />
+              : <ActivityTemplateSearch 
+                  title="New activty:" 
+                  handleSelect={id => setNewInstanceTemplate(id)} 
+                />)
          }
        </div>
        
      </div>
       {selectedInstance && selectedInstance !== "new" && 
-        <ActivityInst instanceId={selectedInstance} />
+        <ActivityInstanceController instanceId={selectedInstance} />
       }
     </section>
   )

@@ -4,10 +4,15 @@ import * as L from "partial.lenses";
 import { removeFacet, setField } from "../data/ActivityInstance";
 import { initializeTypeInstance } from "../data/typeTemplate/TypeTemplate";
 
+export const InstanceContext = createContext();
+
 const setAsChanged = L.set(["hasChanged"], true)
 const setAsUnchanged = L.set(["hasChanged"], false)
+export const getInstance = L.get(["instance"]);
+export const setInstance = L.set(["instance"]);
+export const modifyInstance = L.modify(["instance"])
 
-export const reducer = (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case "initialize":
       return pipe(
@@ -41,15 +46,11 @@ export const reducer = (state, action) => {
       )(state)
 
     default:
-      console.log(action);
+      console.log("unrecognized action: ", action);
       return state;
   }
 };
 
-export const getInstance = L.get(["instance"]);
-export const setInstance = L.set(["instance"]);
-export const modifyInstance = L.modify(["instance"])
 
-export const InstanceContext = createContext();
 
 export const useActivityInstanceReducer = initialState => useReducer(reducer, initialState);

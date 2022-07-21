@@ -36,7 +36,7 @@ export const ActivityTemplateSearch = ({ title, handleSelect = x => x }) => {
         {resultsQ.isSuccess &&
           resultsQ.data.length > 0
           ? resultsQ.data.map(tmpl => <li
-            className="text-neutral-400 hover:text-neutral-300"
+            className="text-neutral-400 hover:text-neutral-300 cursor-pointer"
             key={tmpl.id}
             onClick={() => handleSelect(tmpl.id)}
           >{tmpl.name}</li>

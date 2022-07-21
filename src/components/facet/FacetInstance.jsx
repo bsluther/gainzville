@@ -74,9 +74,7 @@ export function FacetInstance({ facetTemplateId, address }) {
           <div
             className="flex items-center space-x-3"
           >
-            <span 
-              className="capitalize"
-            >{snakeToSpace(facetTemplateQuery.data.name)}</span>
+            <span>{facetTemplateQuery.data.name}</span>
             {facetTemplateQuery.data.fields.map((typeId, ix) => 
               <TypeInstance key={`${ix}-${typeId}`} typeTemplateId={typeId} address={{ ...address, field: ix }} />)}
       
@@ -86,6 +84,7 @@ export function FacetInstance({ facetTemplateId, address }) {
                 className="
                   w-6 h-6
                   absolute -top-3 -right-3
+                  cursor-pointer
                 "
                 onClick={e => {
                   setOptionsOpen(prev => !prev)

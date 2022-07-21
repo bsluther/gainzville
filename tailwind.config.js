@@ -19,7 +19,8 @@ module.exports = {
       },
       colors: {
         neutral: {
-          450: "rgb(139 139 139)"
+          450: "rgb(139 139 139)",
+          550: "rgb(98 98 98)"
         }
       }
     },

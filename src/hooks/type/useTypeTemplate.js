@@ -1,6 +1,6 @@
 import { useQuery, useQueries } from "react-query"
-import { getPrimitiveTypeTemplate } from "../../data/typeTemplate/TypeTemplate"
-
+import { getPrimitiveTypeTemplate, isPrimitiveId } from "../../data/typeTemplate/TypeTemplate"
+import fetchWithError from "../../utility/fns"
 
 export const useTypeTemplate = (id, options) => {
   const typeTemplateQuery = useQuery(
@@ -13,22 +13,20 @@ export const useTypeTemplate = (id, options) => {
   return typeTemplateQuery
 }
 
-const isPrimitiveId = id => id.slice(0, 8) === "typ-t-p-"
-
-
-export const useTypeTemplates = ids => {
-  const queries = useQueries(ids.map(id => ({
-    queryKey: ["type", "template", id],
-    queryFn: () => {
-      const isPrimitive = isPrimitiveId(id)
-      if (isPrimitive) {
-        return Promise.resolve(getPrimitiveTypeTemplate(id))
+export const useTypeTemplateV2 = (id, options) => {
+  return useQuery(
+    ["type", "template", id],
+    () => {
+      if (isPrimitiveId) {
+        const template = getPrimitiveTypeTemplate(id)
+        return template
+          ? Promise.resolve(template)
+          : Promise.reject("Error looking up primitive type template.")
       }
-      return fetch(`/api/type/template/${id}`).then(res => res.json())
-    }
-  })))
 
-  return queries
+      return () => fetchWithError(`/api/type/template/${id}`)
+    },
+    options
+  )
 }
-
 

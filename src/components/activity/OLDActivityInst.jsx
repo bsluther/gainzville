@@ -6,7 +6,7 @@ import { useActivityInstanceReducer } from "../../state/activityInstanceReducer"
 import { ActivityInstancePresenter } from "./ActivityInstancePresenter"
 
 
-export const ActivityInst = ({ instanceId }) => {
+const ActivityInst = ({ instanceId }) => {
   const instanceQ = useActivityInstance(instanceId)
   const templateQ = useActivityTemplate(
     instanceQ.data?.template,

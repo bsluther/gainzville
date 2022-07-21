@@ -1,8 +1,9 @@
-import { makeId } from "../utility/fns"
+import { makeId, snakeToSpace } from "../utility/fns"
 import { DateTime } from "luxon"
+import * as L from "partial.lenses"
 
-export const constructInstance = (templateId, user) => {
-  const id = makeId("act-i-")
+const constructInstance = (templateId, user) => {
+  const id = makeId("act-i")
 
   return ({
     _id: id,
@@ -13,3 +14,16 @@ export const constructInstance = (templateId, user) => {
     facets: {}
   })
 }
+
+export const newTemplate = user => {
+  const id = makeId("act-t")
+  return ({
+    _id: id,
+    id,
+    createdBy: user,
+    name: "",
+    aliases: []
+  })
+}
+
+export const name = L.get(["name"])

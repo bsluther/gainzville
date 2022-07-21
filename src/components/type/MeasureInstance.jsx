@@ -60,12 +60,12 @@ const UnitQuantity = ({ unit, quantity, onChange }) =>
     >{unit}</div>
   </div>
 
-export function MeasureInstance({ variant, address }) {
+export function MeasureInstance({ address }) {
   const [store, dispatch] = useContext(InstanceContext)
   const value = getField(address)(store)
-
+  console.log("store in measure", store)
   const activeUnits = value ? getActiveUnits(value) : []
-
+  console.log("value", value)
   return (
     <>
       {activeUnits?.map(unit =>

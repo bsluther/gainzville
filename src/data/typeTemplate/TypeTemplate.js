@@ -12,6 +12,7 @@ import { initializeStringInstance, StringTemplate } from "./StringTemplate"
 export const isPrimitive = typeTemplate =>
   typeTemplate.typeConstructor === "primitive"
 
+export const isPrimitiveId = id => id.slice(0, 8) === "typ-t-p-"
 
 const initializerHash = {
   "typ-t-p-boolean": initializeBooleanInstance,
@@ -41,6 +42,16 @@ export const primitiveHash = {
   "typ-t-p-measure-length": LengthTemplate,
   "typ-t-p-string": StringTemplate
 }
+
+export const primitives = [
+  BooleanTemplate,
+  DatetimeTemplate,
+  DurationTemplate,
+  FloatTemplate,
+  MassTemplate,
+  LengthTemplate,
+  StringTemplate
+]
 
 export const getPrimitiveTypeTemplate = templateId =>
   primitiveHash[templateId]

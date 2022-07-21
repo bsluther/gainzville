@@ -1,4 +1,4 @@
-import { useTypeTemplate } from "../../hooks/type/useTypeTemplate"
+import { useTypeTemplate, useTypeTemplateV2 } from "../../hooks/type/useTypeTemplate"
 import { BooleanInstance } from "./BooleanInstance";
 import { DatetimeInstance } from "./DatetimeInstance";
 import { FloatInstance } from "./FloatInstance";
@@ -6,7 +6,11 @@ import { DurationInstance, LengthInstance, MassInstance } from "./MeasureInstanc
 import { SetInstance } from "./SetInstance";
 import { StringInstance } from "./StringInstance";
 import { PowersetInstance } from "./PowersetInstance"
-
+import { useReducer } from "react";
+import { initializeTypeInstance, isPrimitiveId } from "../../data/typeTemplate/TypeTemplate";
+import { InstanceContext } from "../../state/activityInstanceReducer";
+import * as L from "partial.lenses"
+import { setField } from "../../data/ActivityInstance";
 
 
 const primitiveHash = {
@@ -27,7 +31,7 @@ const constructorHash = {
 const LoadingType = () => <div>...</div>
 
 export function TypeInstance({ typeTemplateId, address }) {
-  const isPrimitive = typeTemplateId.slice(0, 8) === "typ-t-p-"
+  const isPrimitive = isPrimitiveId(typeTemplateId)
   const typeTemplateQ = useTypeTemplate(typeTemplateId, { enabled: !isPrimitive })
 
   const Component = isPrimitive
@@ -38,5 +42,54 @@ export function TypeInstance({ typeTemplateId, address }) {
 
   return (
     <Component typeTemplate={typeTemplateQ.data} address={address} />
+  )
+}
+
+// const DemoContext = createContext()
+
+const demoReducer = (state, action) => {
+  switch (action.type) {
+    case "input":
+      return setField(action.payload.address)(action.payload.value)
+
+    default:
+      console.log(`Unrecognized action type: ${action.type}`)
+      return state
+  }
+}
+
+const DemoController = ({ initialValue, children }) => {
+  const [store, dispatch] = useReducer(demoReducer, initialValue)
+
+  return (
+    <InstanceContext.Provider value={[store, dispatch]}>
+      {children}
+    </InstanceContext.Provider>
+  )
+}
+
+
+export const TypeInstanceDemo = ({ typeTemplate }) => {
+
+  const initialValue = {
+    facets: {
+      "demo": {
+        fields: [initializeTypeInstance(typeTemplate)]
+      }
+    }
+  }
+
+  return (
+    <DemoController initialValue={initialValue}>
+      <div className="flex">
+        <span
+          className="capitalize"
+        >{typeTemplate.name}</span>
+        <TypeInstance 
+          typeTemplateId={typeTemplate.id} 
+          address={{ facet: "demo", field: 0 }} 
+        />
+      </div>
+    </DemoController>
   )
 }

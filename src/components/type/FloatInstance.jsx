@@ -11,7 +11,7 @@ function FloatInstance({ address }) {
   const [store, dispatch] = useContext(InstanceContext)
 
   const value = toString(getField(address)(store))
-
+  console.log("value", value)
   const onChange = e =>
     regex.float.test(e.target.value)
       ? dispatch({ 
