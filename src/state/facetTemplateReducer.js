@@ -1,4 +1,4 @@
-import { pipe, concat } from "ramda"
+import { pipe, concat, remove } from "ramda"
 import { createContext, useReducer } from "react"
 import * as L from "partial.lenses"
 
@@ -27,6 +27,19 @@ const reducer = (state, action) => {
       return pipe(
         L.set(concat(templateLens)(["name"]), action.payload),
         L.set(hasChangedLens, true)
+      )(state)
+
+    case "appendField":
+      return pipe(
+        L.modify(concat(templateLens)(["fields"]), prev => prev.concat(action.payload)),
+        L.set(hasChangedLens, true)
+      )(state)
+
+    case "removeField":
+      return pipe(
+        L.modify(concat(templateLens)
+                       (["fields"]))
+                (remove(action.payload.index)(1))
       )(state)
     
     default:

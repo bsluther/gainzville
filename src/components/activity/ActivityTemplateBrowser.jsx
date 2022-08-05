@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useActivityTemplates } from "../../hooks/activity/useActivityTemplates"
-import { XSVG } from "../../svg/XSvg"
 import { EntityListbox } from "../EntityListbox"
 import { ActivityTemplateController } from "./ActivityTemplateController"
 import { useDeleteActivityTemplate } from "../../hooks/activity/useDeleteActivityTemplate"
@@ -30,9 +29,7 @@ export const ActivityTemplateBrowser = () => {
 
 
   return(
-    <div
-      className="flex flex-col space-y-4"
-    >
+    <div className="flex flex-col space-y-4">
       <div
         className="
           flex flex-col items-center
@@ -49,6 +46,7 @@ export const ActivityTemplateBrowser = () => {
           setSelected={setSelectedTemplate}
           ItemButtons={DeleteIcon}
         />
+
         <button
           className="w-max bg-neutral-800 rounded-md px-2 text-neutral-400"
           onClick={() => setSelectedTemplate("new")}

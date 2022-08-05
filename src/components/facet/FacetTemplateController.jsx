@@ -3,10 +3,12 @@ import { useFacetTemplate } from "../../hooks/facet/useFacetTemplate"
 import { FacetTemplateContext, useFacetTemplateReducer } from "../../state/facetTemplateReducer"
 import * as FacetTemplate from "../../data/FacetTemplate"
 import { FacetTemplatePresenter } from "./FacetTemplatePresenter"
+import { useInsertFacetTemplate } from "../../hooks/facet/useInsertFacetTemplate"
 
 export const FacetTemplateController = ({ templateId }) => {
   const templateQ = useFacetTemplate(templateId, { enabled: templateId !== "new"})
   const [store, dispatch] = useFacetTemplateReducer()
+  const insertM = useInsertFacetTemplate("dev2")
 
   useEffect(() => {
     if (templateQ.isSuccess) {
@@ -38,7 +40,9 @@ export const FacetTemplateController = ({ templateId }) => {
   return (
     <FacetTemplateContext.Provider value={[store, dispatch]}>
       {store &&
-        <FacetTemplatePresenter />}
+        <FacetTemplatePresenter
+          handleSave={template => insertM.mutate(template)}
+        />}
     </FacetTemplateContext.Provider>
   )
 }

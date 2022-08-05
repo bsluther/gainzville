@@ -19,7 +19,7 @@ const initializeActivityInstance = (templateId, user) => {
 }
 
 
-export const NewActivityInstance = ({ templateId, user, handleSaveNewInstance }) => {
+const NewActivityInstance = ({ templateId, user, handleSaveNewInstance }) => {
   const [store, dispatch] = useActivityInstanceReducer(
     initializeActivityInstance(templateId, user)
   )

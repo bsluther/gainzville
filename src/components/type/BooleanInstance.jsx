@@ -1,12 +1,12 @@
 import { useContext } from "react"
-import { InstanceContext } from "../../state/activityInstanceReducer"
-import { getField } from "../../data/ActivityInstance"
 import { getBoolean, setBoolean } from "../../data/typeInstance/BooleanInstance"
 
-export const BooleanInstance = ({ typeTemplate, address }) => {
-  const [store, dispatch] = useContext(InstanceContext)
-  const instance = getField(address)(store)
-  const boolean = instance ? getBoolean(instance) : false
+export const BooleanInstance = ({ Context, typeTemplate, address }) => {
+  const [store, dispatch] = useContext(Context)
+  const typeInstance = Context.getField(address)(store)
+  // const typeInstance = getField(address)(store)
+
+  const boolean = typeInstance ? getBoolean(typeInstance) : false
 
   return (
     <input
@@ -17,7 +17,7 @@ export const BooleanInstance = ({ typeTemplate, address }) => {
         type: "input",
         payload: {
           address,
-          value: setBoolean(!boolean)(instance)
+          value: setBoolean(!boolean)(typeInstance)
         }
       })} 
     />

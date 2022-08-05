@@ -72,86 +72,11 @@ const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu }) => {
   )
 }
 
-
-
-
-export const ActivityInstancePresenter = ({ store, dispatch, template, handleSaveChanges }) => {
-  const [optionsOpen, setOptionsOpen] = useState(false)
-  const optionsIconRef = useRef()
-  
-  const handleAddFacet = facetTemplate => typeTemplates => dispatch({
-    type: "addFacet",
-    payload: {
-      facetTemplate,
-      typeTemplates
-    }
-  })
-
-  const closeMenu = useCallback(() => setOptionsOpen(false))
-
-  console.log(store)
-  return (
-    <InstanceContext.Provider value={[getInstance(store), dispatch]}>
-      <div
-        className="
-          border-2 border-neutral-800 rounded-md bg-neutral-500
-          w-max
-          flex flex-col
-        "
-      >
-        <div
-          className="grow flex bg-neutral-700 justify-center relative
-            rounded-t-sm border-b-2 border-neutral-800"
-        >
-          <span
-          className="
-            font-semibold text-lg  
-             text-neutral-400 uppercase"
-          >
-            {template.name}
-          </span>
-          <DotsVerticalSVGWithRef
-            ref={optionsIconRef}
-            className="w-6 h-6 absolute right-0 top-0.5 text-neutral-400 hover:text-yellow-300 cursor-pointer"
-            onClick={() => setOptionsOpen(prev => !prev)}
-          />
-          {optionsOpen &&
-            <OptionsMenu
-              closeMenu={closeMenu}
-              optionsIconRef={optionsIconRef}
-              handleAddFacet={handleAddFacet}
-            />
-          }
-        </div>
-
-        <div className="px-2 py-3 space-y-3">
-          {map(id => <FacetInstance
-            key={id}
-            facetTemplateId={id}
-            address={{ facet: id }} />)(Object.keys(store.instance.facets))}
-        </div>
-        <button
-          className={`
-            border-2 border-neutral-800 rounded-md
-            bg-neutral-600
-            px-2 mb-2 mr-2
-            w-max
-            self-end
-            ${store?.hasChanged ? "text-neutral-200 hover:text-yellow-300" : "text-neutral-800"}
-          `}
-          disabled={!store?.hasChanged}
-          onClick={() => handleSaveChanges(store.instance)}
-        >Save Changes</button>
-      </div>
-    </InstanceContext.Provider>
-  );
-};
-
-export const ActivityInstancePresenterV2 = ({ Context, template, handleSaveChanges }) => {
+export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges }) => {
   const [optionsOpen, setOptionsOpen] = useState(false)
   const optionsIconRef = useRef()
   const [store, dispatch] = useContext(Context)
-  console.log('store: ', store)
+
   const handleAddFacet = facetTemplate => typeTemplates => dispatch({
     type: "addFacet",
     payload: {
@@ -197,6 +122,7 @@ export const ActivityInstancePresenterV2 = ({ Context, template, handleSaveChang
 
       <div className="px-2 py-3 space-y-3">
         {map(id => <FacetInstance
+          Context={Context}
           key={id}
           facetTemplateId={id}
           address={{ facet: id }} />)(Object.keys(store.instance.facets))}

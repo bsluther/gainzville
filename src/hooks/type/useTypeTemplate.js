@@ -1,6 +1,6 @@
 import { useQuery, useQueries } from "react-query"
 import { getPrimitiveTypeTemplate, isPrimitiveId } from "../../data/typeTemplate/TypeTemplate"
-import fetchWithError from "../../utility/fns"
+import { fetchWithError } from "../../utility/fns"
 
 export const useTypeTemplate = (id, options) => {
   const typeTemplateQuery = useQuery(

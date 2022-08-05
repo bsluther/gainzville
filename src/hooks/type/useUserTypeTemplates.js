@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "react-query"
 import { primitives } from "../../data/typeTemplate/TypeTemplate"
 import { isPrimitiveId } from "../../data/typeTemplate/TypeTemplate"
-import fetchWithError from "../../utility/fns"
+import { fetchWithError } from "../../utility/fns"
 
 export const useUserTypeTemplates = userId => {
   const queryClient = useQueryClient()

@@ -34,7 +34,7 @@ const OptionsMenu = ({ closeMenu, optionsIconRef, handleRemoveFacet }) => {
 }
 
 
-export function FacetInstance({ facetTemplateId, address }) {
+export function FacetInstance({ Context, facetTemplateId, address }) {
   const facetTemplateQuery = useFacetTemplate(facetTemplateId, { 
     enabled: !!facetTemplateId
   })
@@ -76,7 +76,12 @@ export function FacetInstance({ facetTemplateId, address }) {
           >
             <span>{facetTemplateQuery.data.name}</span>
             {facetTemplateQuery.data.fields.map((typeId, ix) => 
-              <TypeInstance key={`${ix}-${typeId}`} typeTemplateId={typeId} address={{ ...address, field: ix }} />)}
+              <TypeInstance
+                Context={Context}
+                key={`${ix}-${typeId}`} 
+                typeTemplateId={typeId} 
+                address={{ ...address, field: ix }} 
+              />)}
       
             {(showOptionIcon || optionsOpen) && 
               <CogSVGWithRef

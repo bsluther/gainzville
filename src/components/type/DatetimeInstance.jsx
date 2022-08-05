@@ -1,16 +1,17 @@
 import { useContext } from "react"
-import { getField } from "../../data/ActivityInstance"
-import { InstanceContext } from "../../state/activityInstanceReducer"
 import { DateTime } from "luxon"
 import { getISO, setISO } from "../../data/typeInstance/DatetimeInstance"
 
+// opportunity to promap here
 
-export const DatetimeInstance = ({ typeTemplate, address }) => {
-  const [store, dispatch] = useContext(InstanceContext)
-  const instance = getField(address)(store)
-  const value = instance ? getISO(instance) : ""
+export const DatetimeInstance = ({ Context, typeTemplate, address }) => {
+  const [store, dispatch] = useContext(Context)
+  const instance = Context.getField(address)(store)
+  // const instance = getField(address)(store)
 
-  if (!value) { return <span>...</span>}
+  const datetime = instance ? getISO(instance) : ""
+
+  if (!datetime) { return <span>...</span>}
   
   return (
     <input
@@ -19,7 +20,7 @@ export const DatetimeInstance = ({ typeTemplate, address }) => {
         border-2 border-neutral-800 rounded-sm outline-none
         px-1"
       type="datetime-local"
-      value={DateTime.fromISO(value).toISO({ includeOffset: false, suppressSeconds: true }) }
+      value={DateTime.fromISO(datetime).toISO({ includeOffset: false, suppressSeconds: true }) }
       onChange={e => {
         if (e.target.value) {
           dispatch({

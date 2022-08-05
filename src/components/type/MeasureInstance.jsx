@@ -1,7 +1,5 @@
 import { useContext } from "react"
 import { chWidth } from "../../utility/fns"
-import { InstanceContext } from "../../state/activityInstanceReducer"
-import { getField } from "../../data/ActivityInstance"
 import regex from "../../utility/regex"
 import { getActiveUnits, getQuantity, setQuantity } from "../../data/typeInstance/MeasureInstance"
 
@@ -25,20 +23,35 @@ const variantHash = {
   }
 }
 
-export function MassInstance({ typeInstance, address }) {
+export function MassInstance({ Context, typeInstance, address }) {
   return (
-    <MeasureInstance variant={'mass'} typeInstance={typeInstance} address={address} />
+    <MeasureInstance
+      Context={Context}
+      variant={'mass'} 
+      typeInstance={typeInstance} 
+      address={address} 
+    />
   )
 }
 
-export function LengthInstance({ typeInstance, address }) {
+export function LengthInstance({ Context, typeInstance, address }) {
   return (
-    <MeasureInstance variant={'length'} typeInstance={typeInstance} address={address} />
+    <MeasureInstance
+      Context={Context}
+      variant={'length'} 
+      typeInstance={typeInstance} 
+      address={address} 
+    />
   )
 }
 
-export const DurationInstance = ({ typeInstance, address}) =>
-  <MeasureInstance variant={"duration"} typeInstance={typeInstance} address={address} />
+export const DurationInstance = ({ Context, typeInstance, address}) =>
+  <MeasureInstance
+    Context={Context}
+    variant={"duration"} 
+    typeInstance={typeInstance} 
+    address={address} 
+  />
 
 const UnitQuantity = ({ unit, quantity, onChange }) =>
   <div className="flex space-x-1 items-center">
@@ -60,18 +73,18 @@ const UnitQuantity = ({ unit, quantity, onChange }) =>
     >{unit}</div>
   </div>
 
-export function MeasureInstance({ address }) {
-  const [store, dispatch] = useContext(InstanceContext)
-  const value = getField(address)(store)
-  console.log("store in measure", store)
-  const activeUnits = value ? getActiveUnits(value) : []
-  console.log("value", value)
+export function MeasureInstance({ Context, address }) {
+  const [store, dispatch] = useContext(Context)
+  const typeInstance = Context.getField(address)(store)
+
+  const activeUnits = typeInstance ? getActiveUnits(typeInstance) : []
+
   return (
     <>
       {activeUnits?.map(unit =>
         <UnitQuantity
           key={unit}
-          quantity={getQuantity(unit)(value)} 
+          quantity={getQuantity(unit)(typeInstance)} 
           unit={unit} 
           onChange={e =>
             regex.float.test(e.target.value)
@@ -79,7 +92,7 @@ export function MeasureInstance({ address }) {
                 type: 'input',
                 payload: {
                   address,
-                  value: setQuantity(unit)(e.target.value)(value)
+                  value: setQuantity(unit)(e.target.value)(typeInstance)
                 }
               })
             : null} 

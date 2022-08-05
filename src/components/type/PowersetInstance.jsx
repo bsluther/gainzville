@@ -1,12 +1,11 @@
 import { useContext } from "react"
-import { InstanceContext } from "../../state/activityInstanceReducer"
-import { getField } from "../../data/ActivityInstance"
 import { appendElement, isElement, removeElement } from "../../data/typeInstance/PowersetInstance"
 import { snakeToSpace } from "../../utility/fns"
 
-export const PowersetInstance = ({ typeTemplate, address }) => {
-  const [store, dispatch] = useContext(InstanceContext)
-  const instance = getField(address)(store)
+export const PowersetInstance = ({ Context, typeTemplate, address }) => {
+  const [store, dispatch] = useContext(Context)
+  const typeInstance = Context.getField(address)(store)
+  // const instance = getField(address)(store)
   const options = typeTemplate.elements
 
   return (
@@ -21,7 +20,7 @@ export const PowersetInstance = ({ typeTemplate, address }) => {
         <li 
           className={`
             capitalize cursor-pointer
-            ${isElement(str)(instance) && "bg-yellow-300"}
+            ${isElement(str)(typeInstance) && "bg-yellow-300"}
             border-b border-neutral-600
             last:border-0
             pl-2
@@ -32,9 +31,9 @@ export const PowersetInstance = ({ typeTemplate, address }) => {
               type: "input",
               payload: {
                 address,
-                value: isElement(str)(instance)
-                  ? removeElement(str)(instance)
-                  : appendElement(str)(instance)
+                value: isElement(str)(typeInstance)
+                  ? removeElement(str)(typeInstance)
+                  : appendElement(str)(typeInstance)
               }
             })
           }}

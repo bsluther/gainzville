@@ -7,6 +7,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        paytoneOne: [
+          '"Paytone One"',
+          'sans-serif'
+        ],
         customMono: [
           '"Source Code Pro"',
           'Menlo',

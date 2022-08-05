@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from "react-query"
 
+
 export const useUserActivityInstances = user => {
   const queryClient = useQueryClient()
   return useQuery(

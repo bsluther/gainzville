@@ -19,7 +19,7 @@ export const snakeToSpace = str =>
     ? str.replace(/_/g, " ")
     : str
 
-export default async function fetchWithError(url, options) {
+export async function fetchWithError(url, options) {
   const response = await fetch(url, options);
 
   if (response.status === 200) {
@@ -34,3 +34,13 @@ export default async function fetchWithError(url, options) {
 
   throw new Error (`Error ${response.status}: ${response.statusText}`);
 }
+
+// export async function fetchWithAuth
+
+// export const throwUnauthorized = getAccessTokenSilently => {
+//   const tokenResponse = await getAccessTokenSilently()
+
+  
+// }
+
+// export async function fetchWithToken()

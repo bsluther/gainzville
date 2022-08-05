@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "react-query"
 import { fetchWithError } from "../../utility/fns"
 
-export const useInsertActivityTemplate = () => {
+export const useInsertFacetTemplate = user => {
   const queryClient = useQueryClient()
 
   return useMutation(
     template => {
-      return fetchWithError("/api/activity/template", {
+      return fetchWithError("/api/facet/template", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(template),
@@ -15,21 +15,21 @@ export const useInsertActivityTemplate = () => {
     {
       onMutate: template => {
         queryClient.setQueryData(
-          ["activity", "template", template.id],
+          ["facet", "template", template.id],
           template
         )
 
         queryClient.setQueryData(
-          ["activity", "template"],
-          prev => (Array.isArray(prev) ? prev.concat(template) : [template])
+          ["user", "facet", "template", user],
+          prev => (prev.concat(template))
         )
 
         return () => {
           queryClient.setQueryData(
-            ["activity", "template"],
+            ["user", "facet", "template"],
             prev => prev.filter(inst => inst !== template.id)
           )
-          queryClient.removeQueries(["activity", "template", template.id], { exact: true })
+          queryClient.removeQueries(["facet", "template", template.id], { exact: true })
         }
       },
       onError: (error, variables, rollback) => rollback()

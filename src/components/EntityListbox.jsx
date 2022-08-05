@@ -3,6 +3,7 @@ import { map } from "ramda"
 
 
 export const EntityListbox = ({ entities, selected, setSelected, ItemButtons }) => {
+
   return (
     <ol
       className="

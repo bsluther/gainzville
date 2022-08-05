@@ -1,12 +1,10 @@
 import { useContext } from "react"
-import { getField } from "../../data/ActivityInstance"
-import { InstanceContext } from "../../state/activityInstanceReducer"
 import { getString, setString } from "../../data/typeInstance/StringInstance"
 
-export const StringInstance = ({ typeTemplate, address }) => {
-  const [store, dispatch] = useContext(InstanceContext)
-  const instance = getField(address)(store)
-  const string = getString(instance) ?? ""
+export const StringInstance = ({ Context, typeTemplate, address }) => {
+  const [store, dispatch] = useContext(Context)
+  const typeInstance = Context.getField(address)(store)
+  const string = getString(typeInstance) ?? ""
 
   return (
     <textarea
@@ -22,7 +20,7 @@ export const StringInstance = ({ typeTemplate, address }) => {
         type: "input",
         payload: {
           address,
-          value: setString(e.target.value)(instance)
+          value: setString(e.target.value)(typeInstance)
       }})}
     />
   )

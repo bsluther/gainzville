@@ -2,10 +2,10 @@ import { useEffect } from "react"
 import { useActivityInstance } from "../../hooks/activity/useActivityInstance"
 import { useActivityTemplate } from "../../hooks/activity/useActivityTemplate"
 import { useUpdateActivityInstance } from "../../hooks/activity/useUpdateActivityInstance"
-import { getInstance, useActivityInstanceReducer } from "../../state/activityInstanceReducer"
+import { useActivityInstanceReducer } from "../../state/activityInstanceReducer"
 import { InstanceContext } from "../../state/activityInstanceReducer"
 import { makeId } from "../../utility/fns"
-import { ActivityInstancePresenterV2 } from "./ActivityInstancePresenter"
+import { ActivityInstancePresenter } from "./ActivityInstancePresenter"
 
 export const ActivityInstanceController = ({ instanceId }) => {
   const instanceQ = useActivityInstance(instanceId)
@@ -39,7 +39,7 @@ export const ActivityInstanceController = ({ instanceId }) => {
   return (
     <InstanceContext.Provider value={[store, dispatch]}>
       {templateQ.isSuccess && store &&
-        <ActivityInstancePresenterV2 
+        <ActivityInstancePresenter 
           Context={InstanceContext}
           template={templateQ.data}
           handleSaveChanges={handleSave}
@@ -73,7 +73,7 @@ export const NewActivityInstanceController = ({ templateId, user = "dev2", handl
   return (
     <InstanceContext.Provider value={[store, dispatch]}>
       {templateQ.isSuccess && 
-        <ActivityInstancePresenterV2
+        <ActivityInstancePresenter
           Context={InstanceContext}
           template={templateQ.data}
           handleSaveChanges={handleSaveNewInstance}

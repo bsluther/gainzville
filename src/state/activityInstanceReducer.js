@@ -1,16 +1,20 @@
 import { pipe } from "ramda";
 import { createContext, useReducer } from "react";
 import * as L from "partial.lenses";
-import { removeFacet, setField } from "../data/ActivityInstance";
+import { getField, removeFacet, setField } from "../data/ActivityInstance";
 import { initializeTypeInstance } from "../data/typeTemplate/TypeTemplate";
 
 export const InstanceContext = createContext();
+// Note that getField is cheating right now, it's looking inside instance, need to have this module handle that, and the data structure only handle things "inside" the data structure
+InstanceContext.getField = getField
 
 const setAsChanged = L.set(["hasChanged"], true)
 const setAsUnchanged = L.set(["hasChanged"], false)
 export const getInstance = L.get(["instance"]);
 export const setInstance = L.set(["instance"]);
 export const modifyInstance = L.modify(["instance"])
+
+
 
 const reducer = (state, action) => {
   switch (action.type) {

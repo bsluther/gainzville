@@ -1,9 +1,9 @@
 import { useEffect } from "react"
-import { useActivityInstance } from "../../hooks/activity/useActivityInstance"
-import { useActivityTemplate } from "../../hooks/activity/useActivityTemplate"
-import { useUpdateActivityInstance } from "../../hooks/activity/useUpdateActivityInstance"
-import { useActivityInstanceReducer } from "../../state/activityInstanceReducer"
-import { ActivityInstancePresenter } from "./ActivityInstancePresenter"
+import { useActivityInstance } from "../hooks/activity/useActivityInstance"
+import { useActivityTemplate } from "../hooks/activity/useActivityTemplate"
+import { useUpdateActivityInstance } from "../hooks/activity/useUpdateActivityInstance"
+import { useActivityInstanceReducer } from "../state/activityInstanceReducer"
+import { ActivityInstancePresenter } from "../components/activity/ActivityInstancePresenter"
 
 
 const ActivityInst = ({ instanceId }) => {

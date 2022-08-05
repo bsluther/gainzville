@@ -6,7 +6,7 @@ import { DurationInstance, LengthInstance, MassInstance } from "./MeasureInstanc
 import { SetInstance } from "./SetInstance";
 import { StringInstance } from "./StringInstance";
 import { PowersetInstance } from "./PowersetInstance"
-import { useReducer } from "react";
+import { createContext, useReducer } from "react";
 import { initializeTypeInstance, isPrimitiveId } from "../../data/typeTemplate/TypeTemplate";
 import { InstanceContext } from "../../state/activityInstanceReducer";
 import * as L from "partial.lenses"
@@ -30,7 +30,7 @@ const constructorHash = {
 
 const LoadingType = () => <div>...</div>
 
-export function TypeInstance({ typeTemplateId, address }) {
+export function TypeInstance({ Context, typeTemplateId, address }) {
   const isPrimitive = isPrimitiveId(typeTemplateId)
   const typeTemplateQ = useTypeTemplate(typeTemplateId, { enabled: !isPrimitive })
 
@@ -41,16 +41,28 @@ export function TypeInstance({ typeTemplateId, address }) {
       : LoadingType
 
   return (
-    <Component typeTemplate={typeTemplateQ.data} address={address} />
+    <Component
+      Context={Context}
+      typeTemplate={typeTemplateQ.data}
+      address={address} 
+    />
   )
 }
 
-// const DemoContext = createContext()
+
+
+/***** TYPE INSTANCE DEMO *****/
+
+const demoGetField = address => state => state
+const demoSetField = address => typeInstance => typeInstance
+
+export const DemoContext = createContext()
+DemoContext.getField = demoGetField
 
 const demoReducer = (state, action) => {
   switch (action.type) {
     case "input":
-      return setField(action.payload.address)(action.payload.value)
+      return demoSetField(action.payload.address)(action.payload.value)
 
     default:
       console.log(`Unrecognized action type: ${action.type}`)
@@ -60,36 +72,28 @@ const demoReducer = (state, action) => {
 
 const DemoController = ({ initialValue, children }) => {
   const [store, dispatch] = useReducer(demoReducer, initialValue)
-
+  
   return (
-    <InstanceContext.Provider value={[store, dispatch]}>
+    <DemoContext.Provider value={[store, dispatch]}>
       {children}
-    </InstanceContext.Provider>
+    </DemoContext.Provider>
   )
 }
 
 
-export const TypeInstanceDemo = ({ typeTemplate }) => {
-
-  const initialValue = {
-    facets: {
-      "demo": {
-        fields: [initializeTypeInstance(typeTemplate)]
-      }
-    }
-  }
+export const TypeInstanceDemo = ({ typeTemplateId }) => {
+  const typeTemplateQ = useTypeTemplateV2(typeTemplateId)
 
   return (
-    <DemoController initialValue={initialValue}>
-      <div className="flex">
-        <span
-          className="capitalize"
-        >{typeTemplate.name}</span>
-        <TypeInstance 
-          typeTemplateId={typeTemplate.id} 
-          address={{ facet: "demo", field: 0 }} 
-        />
-      </div>
-    </DemoController>
+    <>
+      {typeTemplateQ.isSuccess && 
+        <DemoController initialValue={initializeTypeInstance(typeTemplateQ.data)}>
+          <TypeInstance
+            Context={DemoContext}
+            typeTemplateId={typeTemplateId} 
+            address={{}} 
+          />
+        </DemoController>}
+    </>
   )
 }
