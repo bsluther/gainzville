@@ -16,7 +16,7 @@ export const DatetimeInstance = ({ Context, typeTemplate, address }) => {
   return (
     <input
       className="
-        bg-neutral-400 
+        bg-neutral-300 
         border-2 border-neutral-800 rounded-sm outline-none
         px-1"
       type="datetime-local"

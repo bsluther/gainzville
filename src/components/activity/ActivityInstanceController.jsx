@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react"
 import { useEffect } from "react"
 import { useActivityInstance } from "../../hooks/activity/useActivityInstance"
 import { useActivityTemplate } from "../../hooks/activity/useActivityTemplate"
@@ -48,13 +49,13 @@ export const ActivityInstanceController = ({ instanceId }) => {
   )
 }
 
-const initializeActivityInstance = (templateId, user) => {
+const initializeActivityInstance = (templateId, actor) => {
   const id = makeId("act-i")
   return ({
     instance: {
       _id: id,
       id,
-      user,
+      actor,
       template: templateId,
       facets: {}
     },
@@ -64,10 +65,12 @@ const initializeActivityInstance = (templateId, user) => {
 }
 
 
-export const NewActivityInstanceController = ({ templateId, user = "dev2", handleSaveNewInstance }) => {
+export const NewActivityInstanceController = ({ templateId, handleSaveNewInstance }) => {
   const templateQ = useActivityTemplate(templateId)
+  const { user: { sub: actorId } } = useAuth0()
+
   const [store, dispatch] = useActivityInstanceReducer(
-    initializeActivityInstance(templateId, user)
+    initializeActivityInstance(templateId, actorId)
   )
 
   return (

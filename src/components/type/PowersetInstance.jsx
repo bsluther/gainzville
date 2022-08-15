@@ -13,7 +13,7 @@ export const PowersetInstance = ({ Context, typeTemplate, address }) => {
       className="
         w-24
         border-2 border-neutral-800
-        bg-neutral-400
+        bg-neutral-300
       "
     >
       {options.map(str =>

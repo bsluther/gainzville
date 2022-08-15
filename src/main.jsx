@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Auth0ProviderWithHistory>
         <QueryClientProvider client={queryClient}>
           <App /> 
-          <ReactQueryDevtools />
+          {/* <ReactQueryDevtools /> */}
         </QueryClientProvider>
       </Auth0ProviderWithHistory>
     </BrowserRouter>

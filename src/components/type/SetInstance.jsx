@@ -46,7 +46,7 @@ export const SetInstance = ({ Context, address, typeTemplate }) => {
   return (
     <select
       className="
-        bg-neutral-400
+        bg-neutral-300
         outline-none border-2 border-neutral-800 rounded-sm
       "
       value={member}

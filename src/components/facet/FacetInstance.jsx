@@ -59,6 +59,7 @@ export function FacetInstance({ Context, facetTemplateId, address }) {
       <div 
         className={`
           border-2 border-neutral-800 rounded-lg
+          bg-neutral-400
           pl-2 pr-2 py-1
           w-max
           cursor-default

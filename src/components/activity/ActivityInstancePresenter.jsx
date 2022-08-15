@@ -86,60 +86,68 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
   })
 
   const closeMenu = useCallback(() => setOptionsOpen(false))
-
   return (
     <div
       className="
-        border-2 border-neutral-800 rounded-md bg-neutral-500
+        rounded-md bg-neutral-500
         w-max
         flex flex-col
       "
     >
       <div
-        className="grow flex bg-neutral-700 justify-center relative
-          rounded-t-sm border-b-2 border-neutral-800"
+        className="grow flex bg-neutral-800 justify-center items-center relative
+          rounded-t-md border-t-2 border-x-2 border-neutral-800 py-1"
       >
-        <span
-        className="
-          font-semibold text-lg  
-            text-neutral-400 uppercase"
-        >
-          {template.name}
-        </span>
-        <DotsVerticalSVGWithRef
-          ref={optionsIconRef}
-          className="w-6 h-6 absolute right-0 top-0.5 text-neutral-400 hover:text-yellow-300 cursor-pointer"
-          onClick={() => setOptionsOpen(prev => !prev)}
-        />
-        {optionsOpen &&
-          <OptionsMenu
-            closeMenu={closeMenu}
-            optionsIconRef={optionsIconRef}
-            handleAddFacet={handleAddFacet}
+        <div className="h-full w-full flex items-center">
+          <span 
+            style={{ width: `${optionsIconRef.current?.clientWidth}px` }}
           />
-        }
+          <span
+          className="
+            grow px-2 text-center bg-neutral-800 font-semibold text-lg text-neutral-300 uppercase"
+          >
+            {template.name}
+          </span>
+          <DotsVerticalSVGWithRef
+            ref={optionsIconRef}
+            className="w-6 h-6 text-neutral-300 hover:text-yellow-300 cursor-pointer"
+            onClick={() => setOptionsOpen(prev => !prev)}
+          />
+          {optionsOpen &&
+            <OptionsMenu
+              closeMenu={closeMenu}
+              optionsIconRef={optionsIconRef}
+              handleAddFacet={handleAddFacet}
+            />
+          }
+        </div>
       </div>
 
-      <div className="px-2 py-3 space-y-3">
+      <div
+        className="
+          px-2 py-3 space-y-3 border-b-2 border-x-2 border-neutral-800 rounded-b-md
+          flex flex-col
+        "
+      >
         {map(id => <FacetInstance
           Context={Context}
           key={id}
           facetTemplateId={id}
           address={{ facet: id }} />)(Object.keys(store.instance.facets))}
-      </div>
-      <button
-        className={`
+        <span className="h-2"/>
+        <button
+          className={`
           border-2 border-neutral-800 rounded-md
-          bg-neutral-600
-          px-2 mb-2 mr-2
+          bg-neutral-800
+          px-2
           w-max
-          self-end
-          ${store?.hasChanged ? "text-neutral-200 hover:text-yellow-300" : "text-neutral-800"}
-        `}
-        disabled={!store?.hasChanged}
-        onClick={() => handleSaveChanges(store.instance)}
-      >Save Changes</button>
+          self-center
+          ${store?.hasChanged ? "text-neutral-200 hover:text-yellow-300" : "text-neutral-500"}
+          `}
+          disabled={!store?.hasChanged}
+          onClick={() => handleSaveChanges(store.instance)}
+          >Save Changes</button>
+      </div>
     </div>
-
   );
 };

@@ -1,42 +1,50 @@
-import { useState, useMemo } from "react"
-import { ActivityTemplateSearch } from "./ActivityTemplateSearch"
-import { useInsertActivityInstance } from "../../hooks/activity/useInsertActivityInstance"
+import { useState } from "react"
 import { useDeleteActivityInstance } from "../../hooks/activity/useDeleteActivityInstance"
-import { ActivityInstanceController, NewActivityInstanceController } from "./ActivityInstanceController"
 import { EntityListbox } from "../EntityListbox"
 import { assoc, find, prop, propEq } from "ramda"
 import { TrashSVG } from "../../svg/TrashSVG"
-import { useUserActivityInstances } from "../../hooks/activity/useUserActivityInstances"
-import { useActivityTemplates } from "../../hooks/activity/useActivityTemplates"
+import { useActorActivityInstances } from "../../hooks/queries/activity/instance/useActorActivityInstances"
+import { useActivityTemplatesById } from "../../hooks/queries/activity/template/useActivityTemplatesById"
+
+// CLEAN ME!
 
 
 const findTemplate = templateId => templates =>
   find(propEq("id")(templateId))
       (templates)
 
+const pasteName = instance => template =>
+  assoc("name")
+       (prop("name")
+            (template))
+       (instance)
 
-export const ActivityInstanceBrowser = ({ user }) => {
-  const instancesQ = useUserActivityInstances(user)
-  const templatesQ = useActivityTemplates()
+const successes = queries =>
+  queries.reduce((acc, q) =>
+    q.isSuccess ? acc.concat(q.data) : acc,
+    []
+  )
 
-  const decoratedInstances = useMemo(() =>
-    instancesQ.isSuccess && templatesQ.isSuccess
-      ? instancesQ.data.map(inst => {
-          const template = findTemplate(inst.template)
-                                       (templatesQ.data)
-          return assoc("name")
-                      (prop("name")
-                           (template))
-                      (inst)
-        })
-      : [],
-    [instancesQ.isSuccess, templatesQ.isSuccess, instancesQ.data, templatesQ.data])
+
+export const ActivityInstanceBrowser = ({ handleEdit }) => {
+  const instancesQ = useActorActivityInstances()
+  const templateQs = useActivityTemplatesById(
+    instancesQ.data?.map(inst => inst.template),
+    { enabled: instancesQ.isSuccess }
+  )
+  const deleteInstanceM = useDeleteActivityInstance()
+
+
+  const templates = successes(templateQs)
+  const decoratedInstances = instancesQ.data?.map(inst =>
+    pasteName(inst)
+             (findTemplate(inst.template)
+                          (templates)))
+
 
   const [selectedInstance, setSelectedInstance] = useState(null)
-  const [newInstanceTemplate, setNewInstanceTemplate] = useState(null)
 
-  const insertInstanceM = useInsertActivityInstance()
-  const deleteInstanceM = useDeleteActivityInstance()
+  
 
   const DeleteIcon = ({ id, className }) => {
     return (
@@ -52,24 +60,16 @@ export const ActivityInstanceBrowser = ({ user }) => {
     )
   }
 
-  const handleSaveNewInstance = instance => {
-    console.log("saving new instance: ", instance)
-    setNewInstanceTemplate(null)
-    setSelectedInstance(null)
-    insertInstanceM.mutate(instance)
-  }
-
   return (
-    <div className="flex flex-col space-y-4">
+
       <div 
         className="
+          w-full h-full
           flex flex-col items-center
-          bg-neutral-550
-          border-2 border-neutral-800 rounded-md
-          w-max 
-          px-1
+          bg-neutral-800
+          px-4 pb-4 space-y-4
       ">
-        <span>Activity Instances</span>
+        {/* <span>Date</span> */}
         <EntityListbox
           entities={decoratedInstances}
           selected={selectedInstance}
@@ -79,35 +79,15 @@ export const ActivityInstanceBrowser = ({ user }) => {
 
         <div className="flex justify-end">  
           <button
-            className="
-              h-max
-              text-neutral-400 bg-neutral-800 border-2 border-neutral-800 hover:border-neutral-400 rounded-md
-              px-1
-            "
-            onClick={() => setSelectedInstance("new")}
+            className="w-max h-max px-2 py-1 bg-neutral-300 text-neutral-800 rounded-md"
+            onClick={() => handleEdit(selectedInstance)}
           >
-            New
+            Edit
           </button>
         </div>
         
       </div>
 
-      {selectedInstance && selectedInstance !== "new" && 
-        <ActivityInstanceController instanceId={selectedInstance} />
-      }
 
-      {selectedInstance === "new" &&
-        (newInstanceTemplate  
-          ? <NewActivityInstanceController 
-              templateId={newInstanceTemplate} 
-              user="dev2" 
-              handleSaveNewInstance={handleSaveNewInstance}
-            />
-          : <ActivityTemplateSearch 
-              title="New activty:" 
-              handleSelect={id => setNewInstanceTemplate(id)} 
-            />)
-      }
-    </div>
   )
 }

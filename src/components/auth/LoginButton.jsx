@@ -5,7 +5,7 @@ export const LoginButton = () => {
 
   return (
     <button
-      className="border-2 border-neutral-800 bg-neutral-550 px-2 py-1"
+      className="border-2 border-neutral-800 bg-neutral-550 rounded-md text-neutral-300 px-2 py-1"
       onClick={() => loginWithRedirect()}
     >
       Log In

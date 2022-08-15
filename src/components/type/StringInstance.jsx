@@ -11,7 +11,7 @@ export const StringInstance = ({ Context, typeTemplate, address }) => {
       className={`
         w-[25ch]
         h-24
-        bg-neutral-400
+        bg-neutral-300
         border-2 border-neutral-800 rounded-sm outline-none
         px-1
       `}

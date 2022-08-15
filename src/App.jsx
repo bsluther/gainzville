@@ -4,37 +4,41 @@ import { ActivityInstanceBrowser } from "./components/activity/ActivityInstanceB
 import { ActivityTemplateBrowser } from "./components/activity/ActivityTemplateBrowser"
 import { FacetTemplateBrowser } from "./components/facet/FacetTemplateBrowser"
 import { NavBar } from "./components/nav/NavBar"
-import { useAuth0 } from "@auth0/auth0-react"
 import { ProtectedRoute } from "./components/auth/ProtectedRoute"
 import { UserProfile } from "./components/user/UserProfile"
-import { useActorActivityInstances } from "./hooks/queries/activity/instance/useActorActivityInstances"
 import { Welcome } from "./components/Welcome"
 import { Banner } from "./components/Banner"
+import { useLibrary } from "./hooks/queries/library/useLibrary"
+import { LibraryBrowser } from "./components/library/LibraryBrowser"
+import { Record } from "./pages/Record"
 
 console.log(uuid())
 
-
-
 function App() {
-  const { user } = useAuth0()
-  console.log("USER: ", user)
 
-  const instancesQ = useActorActivityInstances()
-  console.log("useActor isError: ", instancesQ.isError)
-  console.log("useActor data:", instancesQ.data)
   return (
     <section className="h-screen w-screen flex flex-col font-customMono">
-      <Banner />
+      {/* <Banner /> */}
       <NavBar />
 
-      <main
-        className="w-screen flex justify-center pt-8"
+      <div
+        className="h-full w-screen flex justify-center"
       >
         <Routes>
         
           <Route
             path="/"
             element={<Welcome />}
+          />
+
+          <Route
+            path="/record"
+            element={<Record />}
+          />
+
+          <Route
+            path="library"
+            element={<LibraryBrowser />}
           />
         
           <Route
@@ -64,7 +68,7 @@ function App() {
           />
 
         </Routes>
-      </main>
+      </div>
 
     </section>
   )

@@ -5,10 +5,10 @@ export const Banner = () => {
   const navigate = useNavigate()
   return (
     <section
-      className="w-screen flex justify-center text-4xl font-paytoneOne pt-2 pb-4"
+      className="w-screen flex justify-start text-4xl font-paytoneOne"
     >
       <span 
-        className="cursor-pointer"
+        className="cursor-pointer h-max pl-12 pt-2"
         onClick={() => navigate("/")}
       >GAINZVILLE</span>
 
