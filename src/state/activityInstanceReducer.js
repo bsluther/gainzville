@@ -10,19 +10,24 @@ InstanceContext.getField = getField
 
 const setAsChanged = L.set(["hasChanged"], true)
 const setAsUnchanged = L.set(["hasChanged"], false)
-export const getInstance = L.get(["instance"]);
-export const setInstance = L.set(["instance"]);
+export const getInstance = L.get(["instance"])
+export const setInstance = L.set(["instance"])
 export const modifyInstance = L.modify(["instance"])
 
 
 
 const reducer = (state, action) => {
+  // console.log("Action: ", action)
+  // console.log("State: ", state)
   switch (action.type) {
     case "initialize":
       return pipe(
-        setInstance(action.payload),
+        setInstance(action.payload.instance),
         setAsUnchanged
       )(state);
+
+    case "clearData":
+      return ({});
       
     case "input":
       return pipe(

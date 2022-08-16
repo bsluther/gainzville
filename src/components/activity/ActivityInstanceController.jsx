@@ -1,12 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { useEffect } from "react"
-import { useActivityInstance } from "../../hooks/activity/useActivityInstance"
-import { useActivityTemplate } from "../../hooks/activity/useActivityTemplate"
+import { prop } from "ramda"
+import { useEffect, useLayoutEffect } from "react"
+import { useActivityInstance } from "../../hooks/queries/activity/instance/useActivityInstance"
+import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
 import { useUpdateActivityInstance } from "../../hooks/activity/useUpdateActivityInstance"
-import { useActivityInstanceReducer } from "../../state/activityInstanceReducer"
+import { getInstance, useActivityInstanceReducer } from "../../state/activityInstanceReducer"
 import { InstanceContext } from "../../state/activityInstanceReducer"
 import { makeId } from "../../utility/fns"
 import { ActivityInstancePresenter } from "./ActivityInstancePresenter"
+import { DateTime } from "luxon"
 
 export const ActivityInstanceController = ({ instanceId }) => {
   const instanceQ = useActivityInstance(instanceId)
@@ -19,7 +21,7 @@ export const ActivityInstanceController = ({ instanceId }) => {
 
   const handleSave = instance => updateM.mutate(instance)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (instanceQ.isSuccess) {
       if (!store) {
         dispatch({
@@ -55,6 +57,7 @@ const initializeActivityInstance = (templateId, actor) => {
     instance: {
       _id: id,
       id,
+      createdAt: DateTime.now().toISO(),
       actor,
       template: templateId,
       facets: {}
@@ -67,11 +70,30 @@ const initializeActivityInstance = (templateId, actor) => {
 
 export const NewActivityInstanceController = ({ templateId, handleSaveNewInstance }) => {
   const templateQ = useActivityTemplate(templateId)
-  const { user: { sub: actorId } } = useAuth0()
+  const { user } = useAuth0()
 
   const [store, dispatch] = useActivityInstanceReducer(
-    initializeActivityInstance(templateId, actorId)
+    initializeActivityInstance(templateId, user?.sub)
   )
+
+  useEffect(() => {
+    dispatch({
+      type: "initialize",
+      payload: initializeActivityInstance(templateId, user?.sub)
+    })
+  }, [user?.sub])
+
+  const instanceTemplate = prop("template")
+                               (getInstance(store))
+
+  useEffect(() => {
+    if (instanceTemplate !== templateId) {
+      dispatch({
+        type: "initialize",
+        payload: initializeActivityInstance(templateId, user?.sub)
+      })
+    }
+  }, [instanceTemplate, user?.sub, templateId])
 
   return (
     <InstanceContext.Provider value={[store, dispatch]}>
@@ -79,7 +101,12 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
         <ActivityInstancePresenter
           Context={InstanceContext}
           template={templateQ.data}
-          handleSaveChanges={handleSaveNewInstance}
+          handleSaveChanges={instance => {
+            dispatch({
+              type: "clearData"
+            })
+            handleSaveNewInstance(instance)
+          }}
         />}
     </InstanceContext.Provider>
   )

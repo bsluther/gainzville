@@ -10,7 +10,7 @@ import { Welcome } from "./components/Welcome"
 import { Banner } from "./components/Banner"
 import { useLibrary } from "./hooks/queries/library/useLibrary"
 import { LibraryBrowser } from "./components/library/LibraryBrowser"
-import { Record } from "./pages/Record"
+import { Record } from "./pages/record/Record"
 
 console.log(uuid())
 
@@ -32,7 +32,7 @@ function App() {
           />
 
           <Route
-            path="/record"
+            path="record/*"
             element={<Record />}
           />
 

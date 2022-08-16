@@ -23,20 +23,22 @@ export const useInsertActivityInstance = () => {
       onMutate: instance => {
         queryClient.setQueryData(
           ["activity", "instances", instance.id],
-          instance
+          instance,
+          { staleTime: 3000 }
         )
 
         queryClient.setQueryData(
-          ["activity", "instances", "actor"],
-          prev => prev ? prev.concat(instance) : [instance]
+          ["activity", "instances", "actor", instance.actor],
+          prev => prev ? prev.concat(instance) : [instance],
+          { staleTime: 1000 }
         )
 
         return () => {
           queryClient.setQueryData(
-            ["activity", "instances", "actor"],
+            ["activity", "instances", "actor", instance.actor],
             prev => prev.filter(inst => inst !== instance.id)
           )
-          queryClient.removeQueries(["activity", "instance", instance.id], { exact: true })
+          queryClient.removeQueries(["activity", "instances", instance.id], { exact: true })
         }
       },
       onError: (error, variables, rollback) => rollback()
