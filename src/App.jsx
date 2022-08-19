@@ -7,8 +7,6 @@ import { NavBar } from "./components/nav/NavBar"
 import { ProtectedRoute } from "./components/auth/ProtectedRoute"
 import { UserProfile } from "./components/user/UserProfile"
 import { Welcome } from "./components/Welcome"
-import { Banner } from "./components/Banner"
-import { useLibrary } from "./hooks/queries/library/useLibrary"
 import { LibraryBrowser } from "./components/library/LibraryBrowser"
 import { Record } from "./pages/record/Record"
 
@@ -18,7 +16,6 @@ function App() {
 
   return (
     <section className="h-screen w-screen flex flex-col font-customMono">
-      {/* <Banner /> */}
       <NavBar />
 
       <div

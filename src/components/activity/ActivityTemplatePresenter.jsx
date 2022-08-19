@@ -8,8 +8,9 @@ export const ActivityTemplatePresenter = ({ handleSave }) => {
   return (
     <div
       className="
+        w-max h-max
         flex flex-col items-end
-        bg-neutral-550
+        bg-neutral-400
         border-2 border-neutral-800 rounded-md
         p-2 space-y-2
       "
@@ -20,7 +21,7 @@ export const ActivityTemplatePresenter = ({ handleSave }) => {
         <span>Activity Name</span>
         <input
           className="
-            bg-neutral-400
+            bg-neutral-300
             border border-neutral-800 rounded-sm outline-none
             px-1
           "

@@ -1,5 +1,5 @@
 import { useQueries } from "react-query"
-import { useActivityInstances } from "../../hooks/activity/useActivityInstances"
+import { useActivityInstances } from "../hooks/activity/useActivityInstances"
 
 
 export function ActivityInstanceListbox({ instanceIds, selected, setSelected, ItemButtons }) {

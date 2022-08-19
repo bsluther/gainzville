@@ -1,12 +1,17 @@
-import { find, head, prop, propEq, propOr, reduce } from "ramda"
+import { find, ifElse, pipe, prop, propEq, propOr, reduce, union } from "ramda"
 import { useState } from "react"
 import { useActivityTemplatesById } from "../../hooks/queries/activity/template/useActivityTemplatesById"
-import { useLibraries } from "../../hooks/queries/library/useLibraries"
-import { useUser } from "../../hooks/queries/user/useUser"
 import { PlusSvg } from "../../svg/PlusSvg"
 import { SearchSvg } from "../../svg/SearchSVG"
 import { EntityListbox } from "../EntityListbox"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { WithTooltip } from "../WithTooltip"
+import { useUserLibraries } from "../../hooks/queries/library/useUserLibraries"
+import { XSVG } from "../../svg/XSVG"
+import { PencilAltSvg } from "../../svg/PencilAltSvg"
+import { useUpdateLibrary } from "../../hooks/queries/library/useUpdateLibrary"
+import { removeElement } from "../../data/Library"
+import { Loading } from "../Loading"
 // AKA ActivityTemplateBrowser...
 
 const unwrapSuccesses = queries =>
@@ -21,29 +26,58 @@ const Button = props =>
     {...props}>{props.children}</button>
 
 export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
-  const [selectedLibrary, setSelectedLibrary] = useState()
-  const handleSelectTemplate = id => {
-    setSelectedTemplate(id)
-  }
+  const [selectedLibrary, setSelectedLibrary] = useState("all")
+  const librariesQ = useUserLibraries()
+  const updateLibraryM = useUpdateLibrary() 
+  const navigate = useNavigate()
 
-  const userQ = useUser()
-  const librariesQ = useLibraries(
-    userQ.data?.libraries, 
-    {
-      enabled: userQ.isSuccess,
-      onSuccess: data => setSelectedLibrary(prop("id")
-                                                (head(data)))
-    }
-  )
+  const templateIds = pipe(
+    propOr([])
+          ("data"),
+    ifElse(() => selectedLibrary === "all")
+          (libs =>
+            reduce((acc, x) => union(acc)(x.elements))
+                  ([])
+                  (libs))
+          (libs => prop("elements")
+                       (find(propEq("id")
+                                   (selectedLibrary))
+                            (libs)))
+  )(librariesQ)
+
   const templatesQ = useActivityTemplatesById(
-    prop("elements")
-        (find(propEq("id")
-                    (selectedLibrary))
-             (propOr([])
-                    ("data")
-                    (librariesQ))),
+    templateIds,
     { enabled: librariesQ.isSuccess }
   )
+
+
+  const TemplateButtons = ({ id, className }) =>
+    <div className="flex space-x-1">
+      <WithTooltip tip="Edit template">
+        <PencilAltSvg
+          onClick={e => {
+            e.stopPropagation()
+            navigate("template-edit")
+          }}
+          className={`w-4 h-4 ${className}`}
+        />
+      </WithTooltip>
+
+      {updateLibraryM.isLoading && updateLibraryM.variables?.id === id
+        ? <Loading className={` ${className} w-4 h-4`} />
+        : <WithTooltip tip="Remove from library">
+            <XSVG
+              className={`w-4 h-4 ${selectedLibrary === "all" && "hidden"} ${className}`}
+              onClick={e => {
+                e.stopPropagation()
+                const currentLibrary = find(propEq("id")(selectedLibrary))
+                                           (librariesQ?.data)
+          
+                updateLibraryM.mutate(removeElement(id)(currentLibrary))
+              }}
+            />
+          </WithTooltip>}
+    </div>
 
   return (
     <div
@@ -66,6 +100,7 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
           onChange={e => setSelectedLibrary(e.target.value)}
           value={selectedLibrary}
         >
+          <option key="all" value="all">all libraries</option>
           {librariesQ.isSuccess &&
             librariesQ.data.map(lib => 
               <option key={lib.id} value={lib.id}>{lib.name}</option>
@@ -77,7 +112,8 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
         <EntityListbox
           entities={unwrapSuccesses(templatesQ)}
           selected={selectedTemplate}
-          setSelected={handleSelectTemplate}
+          setSelected={setSelectedTemplate}
+          ItemButtons={TemplateButtons}
         />
       </div>
       <div className="flex items-center justify-center space-x-2 pt-4">
@@ -102,25 +138,3 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
   )
 }
 
-const WithTooltip = ({ children, tip }) => {
-  const [hovered, setHovered] = useState(false)
-
-  return (
-    <div
-      className="w-max h-max relative" 
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {children}
-      {hovered &&
-        <div
-          className="
-            absolute bottom-full left-1/2 -translate-x-1/2 -translate-y-1
-            bg-neutral-800 text-neutral-200 text-sm text-center rounded-sm
-            w-max px-1
-          "
-        >{tip}</div>
-      }
-    </div>
-  )
-}

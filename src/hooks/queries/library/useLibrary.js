@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react"
 export const useLibrary = (id, options) => {
   const { getAccessTokenSilently } = useAuth0()
   return useQuery(
-    ["library", id],
+    ["libraries", id],
     () =>
       getAccessTokenSilently()
       .then(

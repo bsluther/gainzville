@@ -1,0 +1,125 @@
+"filename", "language", "JavaScript React", "JavaScript", "CSS", "JSON", "Properties", "HTML", "comment", "blank", "total"
+"/Users/bsluther/development/gainzville/.env", "Properties", 0, 0, 0, 0, 4, 0, 0, 0, 4
+"/Users/bsluther/development/gainzville/index.html", "HTML", 0, 0, 0, 0, 0, 15, 0, 1, 16
+"/Users/bsluther/development/gainzville/package-lock.json", "JSON", 0, 0, 0, 4156, 0, 0, 0, 1, 4157
+"/Users/bsluther/development/gainzville/package.json", "JSON", 0, 0, 0, 32, 0, 0, 0, 1, 33
+"/Users/bsluther/development/gainzville/postcss.config.js", "JavaScript", 0, 6, 0, 0, 0, 0, 0, 1, 7
+"/Users/bsluther/development/gainzville/src/App.jsx", "JavaScript React", 26, 0, 0, 0, 0, 0, 43, 6, 75
+"/Users/bsluther/development/gainzville/src/auth/Auth0ProviderWithHistory.jsx", "JavaScript React", 22, 0, 0, 0, 0, 0, 1, 4, 27
+"/Users/bsluther/development/gainzville/src/components/EntityListbox.jsx", "JavaScript React", 41, 0, 0, 0, 0, 0, 2, 5, 48
+"/Users/bsluther/development/gainzville/src/components/Welcome.jsx", "JavaScript React", 36, 0, 0, 0, 0, 0, 0, 7, 43
+"/Users/bsluther/development/gainzville/src/components/WithTooltip.jsx", "JavaScript React", 21, 0, 0, 0, 0, 0, 0, 3, 24
+"/Users/bsluther/development/gainzville/src/components/activity/ActivityInstanceBrowser.jsx", "JavaScript React", 102, 0, 0, 0, 0, 0, 6, 21, 129
+"/Users/bsluther/development/gainzville/src/components/activity/ActivityInstanceController.jsx", "JavaScript React", 100, 0, 0, 0, 0, 0, 0, 13, 113
+"/Users/bsluther/development/gainzville/src/components/activity/ActivityInstancePresenter.jsx", "JavaScript React", 144, 0, 0, 0, 0, 0, 0, 17, 161
+"/Users/bsluther/development/gainzville/src/components/activity/ActivityTemplateBrowser.jsx", "JavaScript React", 54, 0, 0, 0, 0, 0, 0, 7, 61
+"/Users/bsluther/development/gainzville/src/components/activity/ActivityTemplateController.jsx", "JavaScript React", 52, 0, 0, 0, 0, 0, 0, 9, 61
+"/Users/bsluther/development/gainzville/src/components/activity/ActivityTemplatePresenter.jsx", "JavaScript React", 42, 0, 0, 0, 0, 0, 0, 2, 44
+"/Users/bsluther/development/gainzville/src/components/activity/ActivityTemplateSearch.jsx", "JavaScript React", 55, 0, 0, 0, 0, 0, 0, 4, 59
+"/Users/bsluther/development/gainzville/src/components/auth/AuthenticationButton.jsx", "JavaScript React", 9, 0, 0, 0, 0, 0, 0, 3, 12
+"/Users/bsluther/development/gainzville/src/components/auth/LoginButton.jsx", "JavaScript React", 12, 0, 0, 0, 0, 0, 0, 2, 14
+"/Users/bsluther/development/gainzville/src/components/auth/LogoutButton.jsx", "JavaScript React", 14, 0, 0, 0, 0, 0, 0, 2, 16
+"/Users/bsluther/development/gainzville/src/components/auth/ProtectedRoute.jsx", "JavaScript React", 9, 0, 0, 0, 0, 0, 0, 3, 12
+"/Users/bsluther/development/gainzville/src/components/facet/FacetInstance.jsx", "JavaScript React", 102, 0, 0, 0, 0, 0, 0, 12, 114
+"/Users/bsluther/development/gainzville/src/components/facet/FacetTemplateBrowser.jsx", "JavaScript React", 39, 0, 0, 0, 0, 0, 1, 3, 43
+"/Users/bsluther/development/gainzville/src/components/facet/FacetTemplateController.jsx", "JavaScript React", 43, 0, 0, 0, 0, 0, 0, 5, 48
+"/Users/bsluther/development/gainzville/src/components/facet/FacetTemplatePresenter.jsx", "JavaScript React", 166, 0, 0, 0, 0, 0, 8, 16, 190
+"/Users/bsluther/development/gainzville/src/components/library/LibraryBrowser.jsx", "JavaScript React", 94, 0, 0, 0, 0, 0, 1, 10, 105
+"/Users/bsluther/development/gainzville/src/components/nav/NavBar.jsx", "JavaScript React", 58, 0, 0, 0, 0, 0, 6, 4, 68
+"/Users/bsluther/development/gainzville/src/components/type/BooleanInstance.jsx", "JavaScript React", 21, 0, 0, 0, 0, 0, 1, 3, 25
+"/Users/bsluther/development/gainzville/src/components/type/DatetimeInstance.jsx", "JavaScript React", 30, 0, 0, 0, 0, 0, 2, 5, 37
+"/Users/bsluther/development/gainzville/src/components/type/FloatInstance.jsx", "JavaScript React", 31, 0, 0, 0, 0, 0, 0, 11, 42
+"/Users/bsluther/development/gainzville/src/components/type/MeasureInstance.jsx", "JavaScript React", 94, 0, 0, 0, 0, 0, 0, 8, 102
+"/Users/bsluther/development/gainzville/src/components/type/PowersetInstance.jsx", "JavaScript React", 40, 0, 0, 0, 0, 0, 1, 2, 43
+"/Users/bsluther/development/gainzville/src/components/type/SetInstance.jsx", "JavaScript React", 28, 0, 0, 0, 0, 0, 29, 9, 66
+"/Users/bsluther/development/gainzville/src/components/type/StringInstance.jsx", "JavaScript React", 25, 0, 0, 0, 0, 0, 0, 4, 29
+"/Users/bsluther/development/gainzville/src/components/type/TypeInstance.jsx", "JavaScript React", 79, 0, 0, 0, 0, 0, 1, 19, 99
+"/Users/bsluther/development/gainzville/src/components/user/UserProfile.jsx", "JavaScript React", 20, 0, 0, 0, 0, 0, 0, 2, 22
+"/Users/bsluther/development/gainzville/src/data/ActivityInstance.js", "JavaScript", 0, 8, 0, 0, 0, 0, 3, 3, 14
+"/Users/bsluther/development/gainzville/src/data/ActivityTemplate.js", "JavaScript", 0, 25, 0, 0, 0, 0, 0, 4, 29
+"/Users/bsluther/development/gainzville/src/data/FacetTemplate.js", "JavaScript", 0, 11, 0, 0, 0, 0, 0, 1, 12
+"/Users/bsluther/development/gainzville/src/data/Library.js", "JavaScript", 0, 5, 0, 0, 0, 0, 0, 2, 7
+"/Users/bsluther/development/gainzville/src/data/typeConstructor/setConstructor.js", "JavaScript", 0, 24, 0, 0, 0, 0, 0, 3, 27
+"/Users/bsluther/development/gainzville/src/data/typeInstance/BooleanInstance.js", "JavaScript", 0, 3, 0, 0, 0, 0, 0, 3, 6
+"/Users/bsluther/development/gainzville/src/data/typeInstance/DatetimeInstance.js", "JavaScript", 0, 3, 0, 0, 0, 0, 0, 2, 5
+"/Users/bsluther/development/gainzville/src/data/typeInstance/FloatInstance.js", "JavaScript", 0, 3, 0, 0, 0, 0, 0, 2, 5
+"/Users/bsluther/development/gainzville/src/data/typeInstance/MeasureInstance.js", "JavaScript", 0, 9, 0, 0, 0, 0, 0, 3, 12
+"/Users/bsluther/development/gainzville/src/data/typeInstance/PowersetInstance.js", "JavaScript", 0, 9, 0, 0, 0, 0, 0, 4, 13
+"/Users/bsluther/development/gainzville/src/data/typeInstance/SetInstance.js", "JavaScript", 0, 3, 0, 0, 0, 0, 0, 2, 5
+"/Users/bsluther/development/gainzville/src/data/typeInstance/StringInstance.js", "JavaScript", 0, 3, 0, 0, 0, 0, 0, 2, 5
+"/Users/bsluther/development/gainzville/src/data/typeInstance/TypeInstance.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 3, 3
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/BooleanTemplate.js", "JavaScript", 0, 12, 0, 0, 0, 0, 0, 1, 13
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/DatetimeTemplate.js", "JavaScript", 0, 13, 0, 0, 0, 0, 0, 2, 15
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/DurationTemplate.js", "JavaScript", 0, 16, 0, 0, 0, 0, 0, 1, 17
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/FloatTemplate.js", "JavaScript", 0, 12, 0, 0, 0, 0, 0, 1, 13
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/LengthTemplate.js", "JavaScript", 0, 14, 0, 0, 0, 0, 0, 1, 15
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/MassTemplate.js", "JavaScript", 0, 14, 0, 0, 0, 0, 0, 1, 15
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/PowersetTemplate.js", "JavaScript", 0, 5, 0, 0, 0, 0, 0, 0, 5
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/SetTemplate.js", "JavaScript", 0, 8, 0, 0, 0, 0, 0, 2, 10
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/StringTemplate.js", "JavaScript", 0, 12, 0, 0, 0, 0, 0, 1, 13
+"/Users/bsluther/development/gainzville/src/data/typeTemplate/TypeTemplate.js", "JavaScript", 0, 47, 0, 0, 0, 0, 0, 10, 57
+"/Users/bsluther/development/gainzville/src/hooks/activity/useActivityInstance.js", "JavaScript", 0, 11, 0, 0, 0, 0, 0, 2, 13
+"/Users/bsluther/development/gainzville/src/hooks/activity/useActivityInstances.js", "JavaScript", 0, 10, 0, 0, 0, 0, 0, 3, 13
+"/Users/bsluther/development/gainzville/src/hooks/activity/useActivityPair.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/bsluther/development/gainzville/src/hooks/activity/useActivityTemplate.js", "JavaScript", 0, 10, 0, 0, 0, 0, 0, 4, 14
+"/Users/bsluther/development/gainzville/src/hooks/activity/useActivityTemplates.js", "JavaScript", 0, 9, 0, 0, 0, 0, 0, 5, 14
+"/Users/bsluther/development/gainzville/src/hooks/activity/useDeleteActivityInstance.js", "JavaScript", 0, 36, 0, 0, 0, 0, 0, 4, 40
+"/Users/bsluther/development/gainzville/src/hooks/activity/useDeleteActivityTemplate.js", "JavaScript", 0, 36, 0, 0, 0, 0, 0, 5, 41
+"/Users/bsluther/development/gainzville/src/hooks/activity/useInsertActivityTemplate.js", "JavaScript", 0, 34, 0, 0, 0, 0, 0, 5, 39
+"/Users/bsluther/development/gainzville/src/hooks/activity/useNewActivityInstance.js", "JavaScript", 0, 14, 0, 0, 0, 0, 0, 2, 16
+"/Users/bsluther/development/gainzville/src/hooks/activity/useRemoveFacet.js", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 1, 1
+"/Users/bsluther/development/gainzville/src/hooks/activity/useUpdateActivityInstance.js", "JavaScript", 0, 28, 0, 0, 0, 0, 0, 1, 29
+"/Users/bsluther/development/gainzville/src/hooks/activity/useUpdateActivityTemplate.js", "JavaScript", 0, 51, 0, 0, 0, 0, 0, 4, 55
+"/Users/bsluther/development/gainzville/src/hooks/activity/useUserActivityInstances.js", "JavaScript", 0, 18, 0, 0, 0, 0, 0, 2, 20
+"/Users/bsluther/development/gainzville/src/hooks/activity/useUserActivityPairs.js", "JavaScript", 0, 25, 0, 0, 0, 0, 0, 1, 26
+"/Users/bsluther/development/gainzville/src/hooks/entity/useDeleteEntity.js", "JavaScript", 0, 41, 0, 0, 0, 0, 0, 9, 50
+"/Users/bsluther/development/gainzville/src/hooks/facet/useFacetTemplate.js", "JavaScript", 0, 10, 0, 0, 0, 0, 0, 3, 13
+"/Users/bsluther/development/gainzville/src/hooks/facet/useInsertFacetTemplate.js", "JavaScript", 0, 34, 0, 0, 0, 0, 0, 5, 39
+"/Users/bsluther/development/gainzville/src/hooks/facet/useUserFacetTemplates.js", "JavaScript", 0, 18, 0, 0, 0, 0, 0, 1, 19
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/instance/useActivityInstance.js", "JavaScript", 0, 19, 0, 0, 0, 0, 0, 1, 20
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/instance/useActorActivityInstances.js", "JavaScript", 0, 25, 0, 0, 0, 0, 5, 7, 37
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/instance/useDeleteActivityInstance.js", "JavaScript", 0, 41, 0, 0, 0, 0, 0, 5, 46
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/instance/useInsertActivityInstance.js", "JavaScript", 0, 43, 0, 0, 0, 0, 0, 5, 48
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/template/useActivityTemplate.js", "JavaScript", 0, 16, 0, 0, 0, 0, 0, 1, 17
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/template/useActivityTemplatesById.js", "JavaScript", 0, 13, 0, 0, 0, 0, 0, 3, 16
+"/Users/bsluther/development/gainzville/src/hooks/queries/library/useLibraries.js", "JavaScript", 0, 61, 0, 0, 0, 0, 0, 4, 65
+"/Users/bsluther/development/gainzville/src/hooks/queries/library/useLibrary.js", "JavaScript", 0, 33, 0, 0, 0, 0, 0, 1, 34
+"/Users/bsluther/development/gainzville/src/hooks/queries/library/useUpdateLibrary.js", "JavaScript", 0, 37, 0, 0, 0, 0, 0, 4, 41
+"/Users/bsluther/development/gainzville/src/hooks/queries/library/useUserLibraries.js", "JavaScript", 0, 16, 0, 0, 0, 0, 0, 2, 18
+"/Users/bsluther/development/gainzville/src/hooks/queries/user/useUser.js", "JavaScript", 0, 22, 0, 0, 0, 0, 0, 2, 24
+"/Users/bsluther/development/gainzville/src/hooks/type/useTypeTemplate.js", "JavaScript", 0, 27, 0, 0, 0, 0, 0, 6, 33
+"/Users/bsluther/development/gainzville/src/hooks/type/useTypeTemplates.js", "JavaScript", 0, 16, 0, 0, 0, 0, 0, 2, 18
+"/Users/bsluther/development/gainzville/src/hooks/type/useUserTypeTemplates.js", "JavaScript", 0, 23, 0, 0, 0, 0, 1, 1, 25
+"/Users/bsluther/development/gainzville/src/hooks/useController.js", "JavaScript", 0, 6, 0, 0, 0, 0, 0, 3, 9
+"/Users/bsluther/development/gainzville/src/hooks/useLogin.js", "JavaScript", 0, 3, 0, 0, 0, 0, 0, 0, 3
+"/Users/bsluther/development/gainzville/src/hooks/useOutsideClick.js", "JavaScript", 0, 17, 0, 0, 0, 0, 0, 6, 23
+"/Users/bsluther/development/gainzville/src/hooks/useTokenTutorial.js", "JavaScript", 0, 21, 0, 0, 0, 0, 0, 4, 25
+"/Users/bsluther/development/gainzville/src/index.css", "CSS", 0, 0, 3, 0, 0, 0, 13, 2, 18
+"/Users/bsluther/development/gainzville/src/main.jsx", "JavaScript React", 20, 0, 0, 0, 0, 0, 2, 3, 25
+"/Users/bsluther/development/gainzville/src/pages/record/Record.jsx", "JavaScript React", 74, 0, 0, 0, 0, 0, 0, 7, 81
+"/Users/bsluther/development/gainzville/src/pages/record/TemplateSearch.jsx", "JavaScript React", 82, 0, 0, 0, 0, 0, 0, 9, 91
+"/Users/bsluther/development/gainzville/src/state/activityInstanceReducer.js", "JavaScript", 0, 48, 0, 0, 0, 0, 3, 15, 66
+"/Users/bsluther/development/gainzville/src/state/activityTemplateReducer.js", "JavaScript", 0, 32, 0, 0, 0, 0, 0, 7, 39
+"/Users/bsluther/development/gainzville/src/state/facetTemplateReducer.js", "JavaScript", 0, 43, 0, 0, 0, 0, 0, 9, 52
+"/Users/bsluther/development/gainzville/src/svg/BookmarkSvg.jsx", "JavaScript React", 15, 0, 0, 0, 0, 0, 0, 2, 17
+"/Users/bsluther/development/gainzville/src/svg/ChevronUpSVG.jsx", "JavaScript React", 15, 0, 0, 0, 0, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/svg/CogSVG.jsx", "JavaScript React", 45, 0, 0, 0, 0, 0, 0, 2, 47
+"/Users/bsluther/development/gainzville/src/svg/DotsVerticalSVG.jsx", "JavaScript React", 32, 0, 0, 0, 0, 0, 0, 2, 34
+"/Users/bsluther/development/gainzville/src/svg/MinusCircleSVG.jsx", "JavaScript React", 15, 0, 0, 0, 0, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/svg/PlusSvg.jsx", "JavaScript React", 15, 0, 0, 0, 0, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/svg/RecordSvg.jsx", "JavaScript React", 21, 0, 0, 0, 0, 0, 0, 2, 23
+"/Users/bsluther/development/gainzville/src/svg/SearchSvg.jsx", "JavaScript React", 15, 0, 0, 0, 0, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/svg/TrashSVG.jsx", "JavaScript React", 15, 0, 0, 0, 0, 0, 0, 1, 16
+"/Users/bsluther/development/gainzville/src/svg/UserSvg.jsx", "JavaScript React", 15, 0, 0, 0, 0, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/svg/XCircleSVG.jsx", "JavaScript React", 15, 0, 0, 0, 0, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/svg/XSVG.jsx", "JavaScript React", 15, 0, 0, 0, 0, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/utility/fns.js", "JavaScript", 0, 27, 0, 0, 0, 0, 5, 14, 46
+"/Users/bsluther/development/gainzville/src/utility/regex.js", "JavaScript", 0, 2, 0, 0, 0, 0, 0, 5, 7
+"/Users/bsluther/development/gainzville/src/z_TO_BE_DELETED/LoginOLD.jsx", "JavaScript React", 69, 0, 0, 0, 0, 0, 0, 4, 73
+"/Users/bsluther/development/gainzville/src/z_TO_BE_DELETED/OLDActivityInst.jsx", "JavaScript React", 45, 0, 0, 0, 0, 0, 0, 4, 49
+"/Users/bsluther/development/gainzville/src/z_TO_BE_DELETED/OLDActivityInstance.jsx", "JavaScript React", 75, 0, 0, 0, 0, 0, 0, 11, 86
+"/Users/bsluther/development/gainzville/src/z_TO_BE_DELETED/OLDActivityInstanceListbox.jsx", "JavaScript React", 54, 0, 0, 0, 0, 0, 0, 6, 60
+"/Users/bsluther/development/gainzville/src/z_TO_BE_DELETED/OLDNewActivityInstance.jsx", "JavaScript React", 35, 0, 0, 0, 0, 0, 0, 4, 39
+"/Users/bsluther/development/gainzville/tailwind.config.js", "JavaScript", 0, 35, 0, 0, 0, 0, 1, 1, 37
+"/Users/bsluther/development/gainzville/vite.config.js", "JavaScript", 0, 19, 0, 0, 0, 0, 1, 3, 23
+"Total", "-", 2296, 1295, 3, 4188, 4, 15, 136, 507, 8444

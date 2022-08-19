@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "react-query"
 import { fetchWithError } from "../../utility/fns"
 
-export const useInsertActivityTemplate = () => {
+const useInsertActivityTemplate = () => {
   const queryClient = useQueryClient()
 
   return useMutation(

@@ -1,18 +1,24 @@
 import { useEffect } from "react"
-import { useActivityTemplate } from "../../hooks/activity/useActivityTemplate"
 import { useActivityTemplateReducer, ActivityTemplateContext } from "../../state/activityTemplateReducer"
-import { ActivityTemplatePresenter } from "./ActivityTemplatePresenter"
 import * as ActivityTemplate from "../../data/ActivityTemplate"
-import { useInsertActivityTemplate } from "../../hooks/activity/useInsertActivityTemplate"
-import { useUpdateActivityTemplate } from "../../hooks/activity/useUpdateActivityTemplate"
+import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
+import { useInsertActivityTemplate } from "../../hooks/queries/activity/template/useInsertActivityTemplate"
+import { useUpdateActivityTemplate } from "../../hooks/queries/activity/template/useUpdateActivityTemplate"
+
+import { ActivityTemplatePresenter } from "./ActivityTemplatePresenter"
+import { typeofId } from "../../utility/fns"
+import { useAuth0 } from "@auth0/auth0-react"
 
 
 
-export const ActivityTemplateController = ({ templateId }) => {
-  const templateQ = useActivityTemplate(templateId, { enabled: templateId !== "new" })
+export const ActivityTemplateController = ({ templateId, handleSaveNewTemplate }) => {
+  const templateQ = useActivityTemplate(templateId, {
+    enabled: typeofId === "ActivityTemplate" 
+  })
   const [store, dispatch] = useActivityTemplateReducer()
   const insertTemplateM = useInsertActivityTemplate()
   const updateTemplateM = useUpdateActivityTemplate()
+  const { user } = useAuth0()
 
   useEffect(() => {
     if (templateQ.isSuccess) {
@@ -35,7 +41,7 @@ export const ActivityTemplateController = ({ templateId }) => {
       if (!store || !store.isNew) {
         dispatch({
           type: "initializeNew",
-          payload: ActivityTemplate.newTemplate("dev2")
+          payload: ActivityTemplate.newTemplate(user?.sub)
         })
       }
     }
@@ -44,8 +50,8 @@ export const ActivityTemplateController = ({ templateId }) => {
 
   const handleSave = templateId === "new"
     ? template => {
-        console.log('template', template)
         insertTemplateM.mutate(template)
+        handleSaveNewTemplate(template)
       }
     : template => updateTemplateM.mutate(template)
 

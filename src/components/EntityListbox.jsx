@@ -1,6 +1,5 @@
 import { map } from "ramda"
 
-
 // Change the ItemButtons className prop to a style prop? Eg EntityListbox expects an ItemButtons component which
 // will provide a className prop - that prop may be a function, which will be provided the "selected" argument
 
@@ -40,7 +39,7 @@ export const EntityListbox = ({ entities = [], selected, setSelected, ItemButton
               {ItemButtons && 
                 <ItemButtons 
                   id={ent.id} 
-                  className={`${selected === ent.id ? "visible" : "invisible"}`} />}
+                  className={`${selected === ent.id || "hidden"}`} />}
             </li>)
           (entities)}
     </ol>

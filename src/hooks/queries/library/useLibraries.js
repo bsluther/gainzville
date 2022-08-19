@@ -2,12 +2,12 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useQueries, useQuery, useQueryClient } from "react-query"
 import { fetchWithError } from "../../../utility/fns"
 
-export const useLibraries = (ids = [], options) => {
+const useLibraries = (ids = [], options) => {
   const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
   return useQuery(
-    ["library", { ids }],
+    ["libraries", { ids }],
     () =>
       getAccessTokenSilently()
       .then(tkn =>
@@ -32,11 +32,11 @@ export const useLibraries = (ids = [], options) => {
   )
 }
 
-export const useLibrariesOld = (ids = [], options) => {
+const useLibrariesOld = (ids = [], options) => {
   const { getAccessTokenSilently } = useAuth0()
 
   return useQueries(ids.map(id => ({
-    queryKey: ["library", id],
+    queryKey: ["libraries", id],
     queryFn: () =>
       getAccessTokenSilently()
       .then(

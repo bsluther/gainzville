@@ -4,7 +4,9 @@ import { ActivityInstanceController, NewActivityInstanceController } from "../..
 import { LibraryBrowser } from "../../components/library/LibraryBrowser"
 import { useInsertActivityInstance } from "../../hooks/queries/activity/instance/useInsertActivityInstance"
 import { Route, Routes, useNavigate } from "react-router-dom"
-
+import { TemplateSearch } from "./TemplateSearch"
+import { ActivityTemplateController } from "../../components/activity/ActivityTemplateController"
+import { TemplateCreate } from "./TemplateCreate"
 
 
 export const Record = () => {
@@ -26,36 +28,40 @@ export const Record = () => {
         />
       </div>
       <div className="h-full w-1/2 flex justify-center items-start p-4">
-      <Routes>
-        <Route
-          path="instance-new"
-          element={
-            <NewActivityInstanceController
-                templateId={target}
-                handleSaveNewInstance={instance => {
-                  navigate("instance-edit")
-                  setTarget(instance.id)
-                  insertInstanceM.mutate(instance)
-                }}
-              />
-          }
-        />
-        <Route
-          path="instance-edit"
-          element={
-            <ActivityInstanceController instanceId={target} />
-          }
-        />
-        <Route
-          path="template-search"
-          element={<div>Search!</div>}
-        />
-        <Route
-          path="template-create"
-          element={<div>Create template</div>}
-        />
-      </Routes>
-        
+        <Routes>
+          <Route
+            path="instance-new"
+            element={
+              <NewActivityInstanceController
+                  templateId={target}
+                  handleSaveNewInstance={instance => {
+                    navigate("instance-edit")
+                    setTarget(instance.id)
+                    insertInstanceM.mutate(instance)
+                  }}
+                />
+            }
+          />
+          <Route
+            path="instance-edit"
+            element={
+              <ActivityInstanceController instanceId={target} />
+            }
+          />
+          <Route
+            path="template-search"
+            element={<TemplateSearch />}
+          />
+          <Route
+            path="template-create"
+            element={<TemplateCreate />}
+          />
+          <Route
+            path="template-edit"
+            element={<ActivityTemplateController templateId={target} />}
+          />
+        </Routes>
+          
       </div>
       <div className="h-full w-1/4">
         <ActivityInstanceBrowser

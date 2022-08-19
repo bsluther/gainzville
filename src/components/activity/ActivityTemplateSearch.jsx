@@ -1,9 +1,13 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { debounce } from "../../utility/fns";
-import SearchSVG from "../../svg/SearchSVG";
+import { SearchSvg } from "../../svg/SearchSVG";
 
-export const ActivityTemplateSearch = ({ title, handleSelect = x => x }) => {
+export const ActivityTemplateSearch = ({
+  title = "Search",
+  handleSelect = x => x,
+  ResultButtons = () => <></>
+}) => {
   const [inputState, setInputState] = useState("");
   const [searchState, setSearchState] = useState("");
   const resultsQ = useQuery(
@@ -19,8 +23,8 @@ export const ActivityTemplateSearch = ({ title, handleSelect = x => x }) => {
     }, []);
 
   return (
-    <div className="bg-neutral-800 border-2 border-neutral-800 rounded-md w-50 px-4 py-2 space-y-2">
-      {title && <span className="text-neutral-400 justify-self-center font-semibold">{title}</span>}
+    <div className="bg-neutral-800 border-2 border-neutral-800 rounded-md w-50 px-4 py-2 space-y-2 flex flex-col">
+      <span className="text-neutral-400 font-semibold self-center">{title}</span>
       <div className="relative w-full">
         <input
           className={`
@@ -30,16 +34,22 @@ export const ActivityTemplateSearch = ({ title, handleSelect = x => x }) => {
           `}
           value={inputState}
           onChange={handleInput} />
-        <SearchSVG className="absolute w-5 h-5 top-1 right-2" />
+        <SearchSvg className="absolute w-5 h-5 top-1 right-2" />
       </div>
       <ul className="min-h-[1.5rem] h-max px-1">
         {resultsQ.isSuccess &&
           resultsQ.data.length > 0
-          ? resultsQ.data.map(tmpl => <li
-            className="text-neutral-400 hover:text-neutral-300 cursor-pointer"
-            key={tmpl.id}
-            onClick={() => handleSelect(tmpl.id)}
-          >{tmpl.name}</li>
+          ? resultsQ.data.map(tmpl => 
+              <div
+                className="flex items-center space-x-1"
+                key={tmpl.id}
+              >
+                <li
+                  className="grow text-neutral-300 hover:text-neutral-300 cursor-pointer"
+                  onClick={() => handleSelect(tmpl.id)}
+                >{tmpl.name}</li>
+                {<ResultButtons id={tmpl.id} template={tmpl} />}
+              </div>
           )
           : <li className="text-neutral-400">no results...</li>}
       </ul>
