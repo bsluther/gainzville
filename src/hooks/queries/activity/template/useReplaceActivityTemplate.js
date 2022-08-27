@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query"
 import { fetchWithError } from "../../../../utility/fns"
 
 
-export const useUpdateActivityTemplate = options => {
+export const useReplaceActivityTemplate = options => {
   const queryClient = useQueryClient()
   const { getAccessTokenSilently, isAuthenticated } = useAuth0()
 

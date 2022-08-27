@@ -7,9 +7,9 @@ import { EntityListbox } from "../EntityListbox"
 import { Link, useNavigate } from "react-router-dom"
 import { WithTooltip } from "../WithTooltip"
 import { useUserLibraries } from "../../hooks/queries/library/useUserLibraries"
-import { XSVG } from "../../svg/XSVG"
+import { XSvg } from "../../svg/XSvg"
 import { PencilAltSvg } from "../../svg/PencilAltSvg"
-import { useUpdateLibrary } from "../../hooks/queries/library/useUpdateLibrary"
+import { useReplaceLibrary } from "../../hooks/queries/library/useReplaceLibrary"
 import { removeElement } from "../../data/Library"
 import { Loading } from "../Loading"
 // AKA ActivityTemplateBrowser...
@@ -28,7 +28,7 @@ const Button = props =>
 export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
   const [selectedLibrary, setSelectedLibrary] = useState("all")
   const librariesQ = useUserLibraries()
-  const updateLibraryM = useUpdateLibrary() 
+  const updateLibraryM = useReplaceLibrary() 
   const navigate = useNavigate()
 
   const templateIds = pipe(
@@ -50,34 +50,36 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
     { enabled: librariesQ.isSuccess }
   )
 
+  const TemplateButtons = ({ id, className }) => {
+    return (
+      <div className="flex space-x-1">
+        <WithTooltip tip="Edit template">
+          <PencilAltSvg
+            onClick={e => {
+              e.stopPropagation()
+              navigate("template-edit")
+            }}
+            className={`w-4 h-4 ${className}`}
+          />
+        </WithTooltip>
 
-  const TemplateButtons = ({ id, className }) =>
-    <div className="flex space-x-1">
-      <WithTooltip tip="Edit template">
-        <PencilAltSvg
-          onClick={e => {
-            e.stopPropagation()
-            navigate("template-edit")
-          }}
-          className={`w-4 h-4 ${className}`}
-        />
-      </WithTooltip>
-
-      {updateLibraryM.isLoading && updateLibraryM.variables?.id === id
-        ? <Loading className={` ${className} w-4 h-4`} />
-        : <WithTooltip tip="Remove from library">
-            <XSVG
-              className={`w-4 h-4 ${selectedLibrary === "all" && "hidden"} ${className}`}
-              onClick={e => {
-                e.stopPropagation()
-                const currentLibrary = find(propEq("id")(selectedLibrary))
-                                           (librariesQ?.data)
-          
-                updateLibraryM.mutate(removeElement(id)(currentLibrary))
-              }}
-            />
-          </WithTooltip>}
-    </div>
+        {updateLibraryM.isLoading && updateLibraryM.variables?.id === selectedLibrary
+          ? <Loading className={` ${className} w-4 h-4`} />
+          : <WithTooltip tip="Remove from library">
+              <XSvg
+                className={`w-4 h-4 ${selectedLibrary === "all" && "hidden"} ${className}`}
+                onClick={e => {
+                  e.stopPropagation()
+                  const currentLibrary = find(propEq("id")(selectedLibrary))
+                                            (librariesQ?.data)
+            
+                  updateLibraryM.mutate(removeElement(id)(currentLibrary))
+                }}
+              />
+            </WithTooltip>}
+      </div>
+    )
+  }
 
   return (
     <div

@@ -9,6 +9,7 @@ const hasChangedLens = ["hasChanged"]
 const isNewLens = ["isNew"]
 
 const reducer = (state, action) => {
+  console.log("action", action)
   switch (action.type) {
     case "initialize":
       return pipe(
@@ -40,6 +41,13 @@ const reducer = (state, action) => {
         L.modify(concat(templateLens)
                        (["fields"]))
                 (remove(action.payload.index)(1))
+      )(state)
+
+    case "updateField":
+      return pipe(
+        L.set(concat(templateLens)
+                    (["fields", action.payload.index]))
+             (action.payload.templateId)
       )(state)
     
     default:

@@ -4,7 +4,7 @@ import { useUserTypeTemplates } from "../../hooks/type/useUserTypeTemplates"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { FacetTemplateContext } from "../../state/facetTemplateReducer"
 import { MinusCircleSVG } from "../../svg/MinusCircleSVG"
-import { XCircleSVG } from "../../svg/XCircleSVG"
+import { XCircleSvg } from "../../svg/XCircleSvg"
 import { TypeInstanceDemo } from "../type/TypeInstance"
 
 
@@ -43,7 +43,7 @@ const FieldIcon = ({ name, handleRemoveField }) => {
 const AddFieldIcon = props => {
 
   return (
-    <XCircleSVG
+    <XCircleSvg
       {...props}
       className="w-6 h-6 rotate-45 cursor-pointer"
     />

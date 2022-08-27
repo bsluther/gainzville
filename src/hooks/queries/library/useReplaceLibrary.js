@@ -1,8 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useMutation, useQueryClient } from "react-query"
 import { fetchWithError } from "../../../utility/fns"
+import * as L from "partial.lenses"
+import { propEq } from "ramda"
 
-export const useUpdateLibrary = options => {
+export const useReplaceLibrary = options => {
   const { getAccessTokenSilently, user } = useAuth0()
   const queryClient = useQueryClient()
 
@@ -27,7 +29,7 @@ export const useUpdateLibrary = options => {
           cleanup = options.onMutate(library) 
         }
 
-        const prev = queryClient.getQueryData(
+        const prevLib = queryClient.getQueryData(
           ["libraries", library.id]
         )
 
@@ -35,22 +37,42 @@ export const useUpdateLibrary = options => {
           ["libraries", library.id],
           library
         )
+        
+        const prevUserLibs = queryClient.getQueryData(
+          ["libraries", { user: user?.sub }]
+        )
+
+        queryClient.setQueryData(
+          ["libraries", { user: user?.sub }],
+          prev => {
+            const result = L.set(
+              [L.find(propEq("id")(library.id))],
+              library,
+              prev
+            )
+            return result
+          }
+        )
 
         return () => {
           cleanup()
-          console.log("rtest!")
-          setQueryData(
+          queryClient.setQueryData(
             ["libraries", library.id],
-           prev)
+            prevLib
+          )
+          queryClient.setQueryData(
+            ["libraries", { user: user?.sub }],
+            prevUserLibs
+          )
         }
       },
-      onSuccess: () => {
+      onSuccess: (...args) => {
         if (typeof options?.onSuccess === "function") {
-          options?.onSuccess()
+          options?.onSuccess(...args)
         }
         queryClient.invalidateQueries(["users", user?.sub, "libraries"])
       },
-      onError: (x, y, rollback) => {
+      onError: (error, variables, rollback) => {
         rollback()
       }
     }

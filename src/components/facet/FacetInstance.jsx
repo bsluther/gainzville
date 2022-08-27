@@ -2,43 +2,13 @@ import { useState, useCallback, useRef, useContext } from "react"
 import { useFacetTemplate } from "../../hooks/facet/useFacetTemplate"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { CogSVGWithRef } from "../../svg/CogSVG"
-import { snakeToSpace } from "../../utility/fns"
 import { TypeInstance } from "../type/TypeInstance"
-import { InstanceContext } from "../../state/activityInstanceReducer"
 
-
-const OptionsMenu = ({ closeMenu, optionsIconRef, handleRemoveFacet }) => {
-  const menuRef = useRef()
-
-  useOutsideClick([menuRef, optionsIconRef], closeMenu)
-
-  return (
-    <ul
-      ref={menuRef}
-      className="
-        text-sm cursor-pointer
-        w-max h-max
-        px-1 space-y-0.5 py-0.5
-        border-2 border-neutral-800
-        bg-neutral-400
-      "
-    >
-      <li
-        onClick={handleRemoveFacet}
-      >Remove Facet</li>
-      <li>Hide Facet</li>
-      <li>Set as Default Value</li>
-      <li>Make Bilateral</li>
-    </ul>
-  )
-}
-
-
-export function FacetInstance({ Context, facetTemplateId, address }) {
+export const FacetInstance = ({ Context, facetTemplateId, address }) => {
   const facetTemplateQuery = useFacetTemplate(facetTemplateId, { 
     enabled: !!facetTemplateId
   })
-  const [, dispatch] = useContext(InstanceContext)
+  const [, dispatch] = useContext(Context)
 
   const handleRemoveFacet = () =>
     dispatch({
@@ -110,5 +80,34 @@ export function FacetInstance({ Context, facetTemplateId, address }) {
         )}
       </div>
     </div>
+  )
+}
+
+
+
+const OptionsMenu = ({ closeMenu, optionsIconRef, handleRemoveFacet }) => {
+  const menuRef = useRef()
+
+  useOutsideClick([menuRef, optionsIconRef], closeMenu)
+
+  return (
+    <ul
+      ref={menuRef}
+      className="
+        text-sm cursor-pointer
+        w-max h-max
+        px-1 space-y-0.5 py-0.5
+        border-2 border-neutral-800
+        bg-neutral-400
+      "
+    >
+      <li
+        className="hover:text-yellow-200"
+        onClick={handleRemoveFacet}
+      >Remove Facet</li>
+      <li className="hover:text-yellow-200">Hide Facet</li>
+      <li className="hover:text-yellow-200">Set as Default Value</li>
+      <li className="hover:text-yellow-200">Make Bilateral</li>
+    </ul>
   )
 }

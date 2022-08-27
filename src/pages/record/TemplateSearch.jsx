@@ -3,7 +3,7 @@ import { ActivityTemplateSearch } from "../../components/activity/ActivityTempla
 import { WithTooltip } from "../../components/WithTooltip"
 import { BookmarkSvg } from "../../svg/BookmarkSvg"
 import { RecordSvg } from "../../svg/RecordSvg"
-import { BookmarkDialog } from "./BookmarkDialog"
+import { BookmarkDialog } from "../../components/BookmarkDialog"
 
 
 export const TemplateSearch = () => {
@@ -34,7 +34,7 @@ export const TemplateSearch = () => {
       />
       {bookmarking && 
         <div
-          className="absolute left-1/2 bottom-1/2 -translate-x-1/2 translate-y-1/2"
+          className="absolute left-1/2 top-1/4 -translate-x-1/2 translate-y-1/2NOT"
         >
           
           <BookmarkDialog

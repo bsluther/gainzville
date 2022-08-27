@@ -6,7 +6,8 @@ export const useUserLibraries = options => {
   const { getAccessTokenSilently, user, isAuthenticated } = useAuth0()
 
   return useQuery(
-    ["users", user?.sub, "libraries"],
+    // ["users", user?.sub, "libraries"],
+    ["libraries", { user: user?.sub }],
     () =>
       getAccessTokenSilently()
       .then(tkn =>
@@ -15,4 +16,10 @@ export const useUserLibraries = options => {
         })),
     { enabled: isAuthenticated, ...options }
   )
+}
+
+export const useUserLibraries2 = options => {
+  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0()
+   
+  return useQueries
 }

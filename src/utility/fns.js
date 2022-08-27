@@ -1,7 +1,10 @@
 import { slice } from 'ramda'
 import { v4 as uuid } from 'uuid'
 
-export const chWidth = str => `${str?.length > 2 ? str.length + 1 : 3}ch`
+export const chWidth = (str, padding = 0) =>
+  `${str?.length > 2
+      ? str.length + 1 + padding
+      : 3 + padding}ch`
 
 export const debounce = (callback, wait) => {
   let timeoutId = null;
@@ -55,7 +58,8 @@ export const typeofId = str => {
   return lookupIdType(slice(0)(-37)(str))
 }
 
-
-const testId = makeId("test")
-// console.log(testId)
-// console.log(typeofId(testId))
+export const callIfFn = a => (...args) => {
+  if (typeof a === "function") {
+    return a(args)
+  }
+}

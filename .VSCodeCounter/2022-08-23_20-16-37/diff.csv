@@ -1,0 +1,28 @@
+"filename", "language", "JavaScript React", "JavaScript", "comment", "blank", "total"
+"/Users/bsluther/development/gainzville/src/components/BookmarkDialog.jsx", "JavaScript React", 171, 0, 0, 12, 183
+"/Users/bsluther/development/gainzville/src/components/EntityListbox.jsx", "JavaScript React", 0, 0, 0, -1, -1
+"/Users/bsluther/development/gainzville/src/components/Loading.jsx", "JavaScript React", 23, 0, 0, 5, 28
+"/Users/bsluther/development/gainzville/src/components/activity/ActivityTemplateController.jsx", "JavaScript React", 5, 0, 0, 1, 6
+"/Users/bsluther/development/gainzville/src/components/activity/ActivityTemplatePresenter.jsx", "JavaScript React", 1, 0, 0, 0, 1
+"/Users/bsluther/development/gainzville/src/components/library/LibraryBrowser.jsx", "JavaScript React", 35, 0, 0, 3, 38
+"/Users/bsluther/development/gainzville/src/data/Library.js", "JavaScript", 0, 22, 0, 2, 24
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/instance/useActorActivityInstances.js", "JavaScript", 0, 0, -5, -1, -6
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/template/useActivityTemplate.js", "JavaScript", 0, 1, 0, 1, 2
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/template/useInsertActivityTemplate.js", "JavaScript", 0, 27, 0, 2, 29
+"/Users/bsluther/development/gainzville/src/hooks/queries/activity/template/useUpdateActivityTemplate.js", "JavaScript", 0, 43, 0, 6, 49
+"/Users/bsluther/development/gainzville/src/hooks/queries/library/useDeleteLibrary.js", "JavaScript", 0, 11, 0, 2, 13
+"/Users/bsluther/development/gainzville/src/hooks/queries/library/useInsertLibrary.js", "JavaScript", 0, 39, 0, 5, 44
+"/Users/bsluther/development/gainzville/src/hooks/queries/library/useLibraries.js", "JavaScript", 0, 0, 1, 2, 3
+"/Users/bsluther/development/gainzville/src/hooks/queries/library/useUpdateLibrary.js", "JavaScript", 0, 34, 0, 3, 37
+"/Users/bsluther/development/gainzville/src/hooks/queries/library/useUserLibraries.js", "JavaScript", 0, 0, 1, 0, 1
+"/Users/bsluther/development/gainzville/src/hooks/queries/user/useUpdateUser.js", "JavaScript", 0, 23, 0, 2, 25
+"/Users/bsluther/development/gainzville/src/main.jsx", "JavaScript React", 1, 0, -1, 0, 0
+"/Users/bsluther/development/gainzville/src/pages/record/Record.jsx", "JavaScript React", 6, 0, 0, 0, 6
+"/Users/bsluther/development/gainzville/src/pages/record/TemplateCreate.jsx", "JavaScript React", 29, 0, 0, 2, 31
+"/Users/bsluther/development/gainzville/src/pages/record/TemplateSearch.jsx", "JavaScript React", -40, 0, 0, -1, -41
+"/Users/bsluther/development/gainzville/src/svg/MinusSvg.jsx", "JavaScript React", 15, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/svg/PencilAltSvg.jsx", "JavaScript React", 15, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/svg/XSVG.jsx", "JavaScript React", -15, 0, 0, 0, -15
+"/Users/bsluther/development/gainzville/src/svg/XSvg.jsx", "JavaScript React", 15, 0, 0, 0, 15
+"/Users/bsluther/development/gainzville/src/utility/fns.js", "JavaScript", 0, 22, -5, 0, 17
+"Total", "-", 261, 222, -9, 45, 519

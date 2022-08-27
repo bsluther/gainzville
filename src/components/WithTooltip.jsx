@@ -13,7 +13,7 @@ export const WithTooltip = ({ children, tip }) => {
       {hovered &&
         <div
           className="
-            absolute bottom-full left-1/2 -translate-x-1/2 -translate-y-1
+            absolute bottom-full left-1/2 -translate-x-1/2 -translate-y-1/2
             bg-neutral-800 text-neutral-200 text-sm text-center rounded-sm
             w-max px-1
           "

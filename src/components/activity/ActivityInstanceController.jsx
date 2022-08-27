@@ -3,7 +3,7 @@ import { prop } from "ramda"
 import { useEffect, useLayoutEffect } from "react"
 import { useActivityInstance } from "../../hooks/queries/activity/instance/useActivityInstance"
 import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
-import { useUpdateActivityInstance } from "../../hooks/activity/useUpdateActivityInstance"
+import { useUpdateActivityInstance } from "../../hooks/queries/activity/instance/useUpdateActivityInstance"
 import { getInstance, useActivityInstanceReducer } from "../../state/activityInstanceReducer"
 import { InstanceContext } from "../../state/activityInstanceReducer"
 import { makeId } from "../../utility/fns"
@@ -17,13 +17,14 @@ export const ActivityInstanceController = ({ instanceId }) => {
     { enabled: !!instanceQ.data }
   )
   const updateM = useUpdateActivityInstance()
+
   const [store, dispatch] = useActivityInstanceReducer()
 
   const handleSave = instance => updateM.mutate(instance)
 
   useLayoutEffect(() => {
     if (instanceQ.isSuccess) {
-      if (!store) {
+      if (!store?.instance) {
         dispatch({
           type: "initialize",
           payload: instanceQ.data
@@ -54,17 +55,13 @@ export const ActivityInstanceController = ({ instanceId }) => {
 const initializeActivityInstance = (templateId, actor) => {
   const id = makeId("act-i")
   return ({
-    instance: {
       _id: id,
       id,
       createdAt: DateTime.now().toISO(),
       actor,
       template: templateId,
       facets: {}
-    },
-    hasChanged: true,
-    isNew: true
-  })
+    })
 }
 
 
@@ -102,9 +99,7 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
           Context={InstanceContext}
           template={templateQ.data}
           handleSaveChanges={instance => {
-            dispatch({
-              type: "clearData"
-            })
+            dispatch({ type: "clearData" })
             handleSaveNewInstance(instance)
           }}
         />}

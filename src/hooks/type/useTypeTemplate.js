@@ -17,14 +17,14 @@ export const useTypeTemplateV2 = (id, options) => {
   return useQuery(
     ["type", "template", id],
     () => {
-      if (isPrimitiveId) {
+      if (isPrimitiveId(id)) {
         const template = getPrimitiveTypeTemplate(id)
         return template
           ? Promise.resolve(template)
           : Promise.reject("Error looking up primitive type template.")
       }
 
-      return () => fetchWithError(`/api/type/template/${id}`)
+      return fetchWithError(`/api/type/template/${id}`)
     },
     options
   )

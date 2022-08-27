@@ -1,11 +1,11 @@
 import { useState } from "react"
-import { useUserFacetTemplates } from "../../hooks/facet/useUserFacetTemplates"
+import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
 import { EntityListbox } from "../EntityListbox"
 import { FacetTemplateController } from "./FacetTemplateController"
 
 
 export const FacetTemplateBrowser = () => {
-  const templatesQ = useUserFacetTemplates("dev2")
+  const templatesQ = useFacetTemplates()
   const templates = templatesQ.data ?? []
   const [selectedTemplate, setSelectedTemplate] = useState()
 

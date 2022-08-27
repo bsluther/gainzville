@@ -1,0 +1,66 @@
+Date : 2022-08-23 20:16:37
+Directory : /Users/bsluther/development/gainzville/src
+Total : 26 files,  483 codes, -9 comments, 45 blanks, all 519 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| JavaScript React |         14 |        261 |         -1 |         21 |        281 |
+| JavaScript       |         12 |        222 |         -8 |         24 |        238 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                    | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                       |         26 |        483 |         -9 |         45 |        519 |
+| components                                                                                              |          6 |        235 |          0 |         20 |        255 |
+| components/activity                                                                                     |          2 |          6 |          0 |          1 |          7 |
+| components/library                                                                                      |          1 |         35 |          0 |          3 |         38 |
+| data                                                                                                    |          1 |         22 |          0 |          2 |         24 |
+| hooks                                                                                                   |         10 |        178 |         -3 |         22 |        197 |
+| hooks/queries                                                                                           |         10 |        178 |         -3 |         22 |        197 |
+| hooks/queries/activity                                                                                  |          4 |         71 |         -5 |          8 |         74 |
+| hooks/queries/activity/instance                                                                         |          1 |          0 |         -5 |         -1 |         -6 |
+| hooks/queries/activity/template                                                                         |          3 |         71 |          0 |          9 |         80 |
+| hooks/queries/library                                                                                   |          5 |         84 |          2 |         12 |         98 |
+| hooks/queries/user                                                                                      |          1 |         23 |          0 |          2 |         25 |
+| pages                                                                                                   |          3 |         -5 |          0 |          1 |         -4 |
+| pages/record                                                                                            |          3 |         -5 |          0 |          1 |         -4 |
+| svg                                                                                                     |          4 |         30 |          0 |          0 |         30 |
+| utility                                                                                                 |          1 |         22 |         -5 |          0 |         17 |
++---------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                                                | language         | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| /Users/bsluther/development/gainzville/src/components/BookmarkDialog.jsx                                | JavaScript React |        171 |          0 |         12 |        183 |
+| /Users/bsluther/development/gainzville/src/components/EntityListbox.jsx                                 | JavaScript React |          0 |          0 |         -1 |         -1 |
+| /Users/bsluther/development/gainzville/src/components/Loading.jsx                                       | JavaScript React |         23 |          0 |          5 |         28 |
+| /Users/bsluther/development/gainzville/src/components/activity/ActivityTemplateController.jsx           | JavaScript React |          5 |          0 |          1 |          6 |
+| /Users/bsluther/development/gainzville/src/components/activity/ActivityTemplatePresenter.jsx            | JavaScript React |          1 |          0 |          0 |          1 |
+| /Users/bsluther/development/gainzville/src/components/library/LibraryBrowser.jsx                        | JavaScript React |         35 |          0 |          3 |         38 |
+| /Users/bsluther/development/gainzville/src/data/Library.js                                              | JavaScript       |         22 |          0 |          2 |         24 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/activity/instance/useActorActivityInstances.js | JavaScript       |          0 |         -5 |         -1 |         -6 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/activity/template/useActivityTemplate.js       | JavaScript       |          1 |          0 |          1 |          2 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/activity/template/useInsertActivityTemplate.js | JavaScript       |         27 |          0 |          2 |         29 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/activity/template/useUpdateActivityTemplate.js | JavaScript       |         43 |          0 |          6 |         49 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/library/useDeleteLibrary.js                    | JavaScript       |         11 |          0 |          2 |         13 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/library/useInsertLibrary.js                    | JavaScript       |         39 |          0 |          5 |         44 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/library/useLibraries.js                        | JavaScript       |          0 |          1 |          2 |          3 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/library/useUpdateLibrary.js                    | JavaScript       |         34 |          0 |          3 |         37 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/library/useUserLibraries.js                    | JavaScript       |          0 |          1 |          0 |          1 |
+| /Users/bsluther/development/gainzville/src/hooks/queries/user/useUpdateUser.js                          | JavaScript       |         23 |          0 |          2 |         25 |
+| /Users/bsluther/development/gainzville/src/main.jsx                                                     | JavaScript React |          1 |         -1 |          0 |          0 |
+| /Users/bsluther/development/gainzville/src/pages/record/Record.jsx                                      | JavaScript React |          6 |          0 |          0 |          6 |
+| /Users/bsluther/development/gainzville/src/pages/record/TemplateCreate.jsx                              | JavaScript React |         29 |          0 |          2 |         31 |
+| /Users/bsluther/development/gainzville/src/pages/record/TemplateSearch.jsx                              | JavaScript React |        -40 |          0 |         -1 |        -41 |
+| /Users/bsluther/development/gainzville/src/svg/MinusSvg.jsx                                             | JavaScript React |         15 |          0 |          0 |         15 |
+| /Users/bsluther/development/gainzville/src/svg/PencilAltSvg.jsx                                         | JavaScript React |         15 |          0 |          0 |         15 |
+| /Users/bsluther/development/gainzville/src/svg/XSVG.jsx                                                 | JavaScript React |        -15 |          0 |          0 |        -15 |
+| /Users/bsluther/development/gainzville/src/svg/XSvg.jsx                                                 | JavaScript React |         15 |          0 |          0 |         15 |
+| /Users/bsluther/development/gainzville/src/utility/fns.js                                               | JavaScript       |         22 |         -5 |          0 |         17 |
+| Total                                                                                                   |                  |        483 |         -9 |         45 |        519 |
++---------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+

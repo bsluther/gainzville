@@ -28,11 +28,11 @@ const initializerHash = {
 
 
 
-export const initializeTypeInstance = template =>
-  isPrimitive(template)
+export const initializeTypeInstance = template => {
+  return isPrimitive(template)
     ? initializerHash[template.id](template)
     : initializerHash[template.typeConstructor](template)
-
+}
 export const primitiveHash = {
   "typ-t-p-boolean": BooleanTemplate,
   "typ-t-p-datetime": DatetimeTemplate,

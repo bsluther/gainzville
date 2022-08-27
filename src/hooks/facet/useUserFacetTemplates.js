@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "react-query"
 
-export const useUserFacetTemplates = userId => {
+const useUserFacetTemplates = userId => {
   const queryClient = useQueryClient();
   return useQuery(
     ["user", "facet", "template", userId],

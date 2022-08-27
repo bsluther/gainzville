@@ -22,7 +22,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "initialize":
       return pipe(
-        setInstance(action.payload.instance),
+        setInstance(action.payload),
         setAsUnchanged
       )(state);
 

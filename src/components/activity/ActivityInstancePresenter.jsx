@@ -1,18 +1,20 @@
-import { useCallback, useContext, useRef, useMemo, useState } from "react";
-import { keys, map, pipe, prop } from "ramda";
-import { FacetInstance } from "../facet/FacetInstance";
-import { snakeToSpace } from "../../utility/fns";
-import { getInstance } from "../../state/activityInstanceReducer";
-import { DotsVerticalSVGWithRef } from "../../svg/DotsVerticalSVG";
-import { useUserFacetTemplates } from "../../hooks/facet/useUserFacetTemplates";
-import { ChevronUpSVG } from "../../svg/ChevronUpSVG";
-import { useTypeTemplates } from "../../hooks/type/useTypeTemplates";
-import { useOutsideClick } from "../../hooks/useOutsideClick";
+import { useCallback, useContext, useRef, useMemo, useState } from "react"
+import { keys, map, pipe, prop } from "ramda"
+import { snakeToSpace } from "../../utility/fns"
+import { useOutsideClick } from "../../hooks/useOutsideClick"
+import { DotsVerticalSvg } from "../../svg/DotsVerticalSvg"
+import { ChevronUpSVG } from "../../svg/ChevronUpSVG"
+import { FacetInstance } from "../facet/FacetInstance"
+import { FacetEditor } from "../facet/FacetEditor"
+import { getInstance } from "../../state/activityInstanceReducer"
+import { useTypeTemplates } from "../../hooks/type/useTypeTemplates"
+import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
 
 export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges }) => {
   const [optionsOpen, setOptionsOpen] = useState(false)
   const optionsIconRef = useRef()
   const [store, dispatch] = useContext(Context)
+  const [creatingFacet, setCreatingFacet] = useState(false)
 
   const handleAddFacet = facetTemplate => typeTemplates => dispatch({
     type: "addFacet",
@@ -51,7 +53,7 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
           >
             {template.name}
           </span>
-          <DotsVerticalSVGWithRef
+          <DotsVerticalSvg
             ref={optionsIconRef}
             className="w-6 h-6 text-neutral-300 hover:text-yellow-300 cursor-pointer"
             onClick={() => setOptionsOpen(prev => !prev)}
@@ -61,6 +63,7 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
               closeMenu={closeMenu}
               optionsIconRef={optionsIconRef}
               handleAddFacet={handleAddFacet}
+              setCreatingFacet={setCreatingFacet}
             />
           }
         </div>
@@ -80,6 +83,7 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
                 address={{ facet: id }}
               />)
             (facetIds)}
+        <FacetEditor templateId="new" />
         <span className="h-2"/>
         <button
           className={`
@@ -100,8 +104,8 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
 
 
 
-const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu }) => {
-  const facetTemplatesQ = useUserFacetTemplates("dev2")
+const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu, setCreatingFacet }) => {
+  const facetTemplatesQ = useFacetTemplates()
   const [submenu, setSubmenu] = useState(null)
   const menuRef = useRef()
 
@@ -137,6 +141,14 @@ const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu }) => {
             ml-4 mr-2
           "
         >
+          <li 
+            className="cursor-pointer hover:text-yellow-300 border-b border-neutral-800 pl-2"
+            onClick={() => {
+              setCreatingFacet(true)
+              setSubmenu(null)
+              closeMenu()
+            }}
+          >+ new facet</li>
           {facetTemplates.map(template =>
             <FacetLi key={template.id} facetTemplate={template} handleAddFacet={handleAddFacet} />)}
         </ol>

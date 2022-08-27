@@ -1,4 +1,4 @@
-export const XSVG = props =>
+export const XSvg = props =>
   <svg 
     {...props} 
     fill="none" 

@@ -4,11 +4,13 @@ import { FacetTemplateContext, useFacetTemplateReducer } from "../../state/facet
 import * as FacetTemplate from "../../data/FacetTemplate"
 import { FacetTemplatePresenter } from "./FacetTemplatePresenter"
 import { useInsertFacetTemplate } from "../../hooks/facet/useInsertFacetTemplate"
+import { useAuth0 } from "@auth0/auth0-react"
 
-export const FacetTemplateController = ({ templateId }) => {
+export const FacetTemplateController = ({ templateId, Presenter = FacetTemplatePresenter }) => {
+  const { user } = useAuth0()
   const templateQ = useFacetTemplate(templateId, { enabled: templateId !== "new"})
   const [store, dispatch] = useFacetTemplateReducer()
-  const insertM = useInsertFacetTemplate("dev2")
+  const insertM = useInsertFacetTemplate(user?.sub)
 
   useEffect(() => {
     if (templateQ.isSuccess) {
@@ -30,7 +32,7 @@ export const FacetTemplateController = ({ templateId }) => {
       if (!store || !store.isNew) {
         dispatch({
           type: "initializeNew",
-          payload: FacetTemplate.newTemplate("dev2")
+          payload: FacetTemplate.newTemplate(user?.sub)
         })
       }
     }
@@ -40,8 +42,9 @@ export const FacetTemplateController = ({ templateId }) => {
   return (
     <FacetTemplateContext.Provider value={[store, dispatch]}>
       {store &&
-        <FacetTemplatePresenter
+        <Presenter
           handleSave={template => insertM.mutate(template)}
+          Context={FacetTemplateContext}
         />}
     </FacetTemplateContext.Provider>
   )

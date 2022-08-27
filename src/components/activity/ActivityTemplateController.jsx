@@ -3,7 +3,7 @@ import { useActivityTemplateReducer, ActivityTemplateContext } from "../../state
 import * as ActivityTemplate from "../../data/ActivityTemplate"
 import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
 import { useInsertActivityTemplate } from "../../hooks/queries/activity/template/useInsertActivityTemplate"
-import { useUpdateActivityTemplate } from "../../hooks/queries/activity/template/useUpdateActivityTemplate"
+import { useReplaceActivityTemplate } from "../../hooks/queries/activity/template/useReplaceActivityTemplate"
 
 import { ActivityTemplatePresenter } from "./ActivityTemplatePresenter"
 import { typeofId } from "../../utility/fns"
@@ -17,7 +17,7 @@ export const ActivityTemplateController = ({ templateId, handleSaveNewTemplate }
   })
   const [store, dispatch] = useActivityTemplateReducer()
   const insertTemplateM = useInsertActivityTemplate()
-  const updateTemplateM = useUpdateActivityTemplate()
+  const updateTemplateM = useReplaceActivityTemplate()
   const { user } = useAuth0()
 
   useEffect(() => {

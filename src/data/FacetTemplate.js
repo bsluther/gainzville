@@ -5,7 +5,7 @@ export const newTemplate = userId => {
   return ({
     _id: id,
     id,
-    name: "",
+    name: "New facet",
     createdBy: userId,
     fields: []
   })

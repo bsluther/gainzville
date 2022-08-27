@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ActivityTemplateController } from "../../components/activity/ActivityTemplateController"
-import { BookmarkDialog } from "./BookmarkDialog"
+import { BookmarkDialog } from "./../../components/BookmarkDialog"
 
 export const TemplateCreate = () => {
   const navigate = useNavigate()

@@ -28,7 +28,7 @@ function FloatInstance({ Context, address }) {
       className="
         h-7
         border-2 border-neutral-800 rounded-sm
-        bg-neutral-300 focus:bg-neutral-400
+        bg-neutral-300 focus:bg-neutral-200
         text-center outline-none" 
       value={float ?? ""} 
       onChange={onChange} />
