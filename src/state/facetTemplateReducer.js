@@ -9,7 +9,7 @@ const hasChangedLens = ["hasChanged"]
 const isNewLens = ["isNew"]
 
 const reducer = (state, action) => {
-  console.log("action", action)
+  // console.log("Action", action)
   switch (action.type) {
     case "initialize":
       return pipe(

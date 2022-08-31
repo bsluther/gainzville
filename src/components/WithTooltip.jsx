@@ -15,7 +15,7 @@ export const WithTooltip = ({ children, tip }) => {
           className="
             absolute bottom-full left-1/2 -translate-x-1/2 -translate-y-1/2
             bg-neutral-800 text-neutral-200 text-sm text-center rounded-sm
-            w-max px-1
+            w-max px-1 z-50
           "
         >{tip}</div>}
     </div>

@@ -1,15 +1,6 @@
 import { NavLink } from "react-router-dom"
 import { AuthenticationButton } from "../auth/AuthenticationButton"
 
-const NavItem0 = props =>
-  <NavLink
-    className={({ isActive }) =>
-      `border border-neutral-800 rounded-md px-2 py-1 text-neutral-300 bg-neutral-750
-      ${isActive ? "border-yellow-200" : ""}`}
-    {...props}
-  >
-    {props.children}
-  </NavLink>
 
 const NavItem = props =>
   <NavLink
@@ -43,21 +34,11 @@ export const NavBar = () => {
             to="record"
           >Record
           </NavItem>
+
           <NavItem
-            to="activity-instance"
-          >Activity Instances</NavItem>
-          <NavItem
-            to="library"
-          >Libraries</NavItem>
-          {/* <NavItem
-            to="activity-template"
-          >Activity Templates</NavItem> */}
-          {/* <NavItem
-            to="facet-template"
-          >Facet Templates</NavItem> */}
-          <NavItem
-            to="user-profile"
-          >User Profile</NavItem>      
+            to="about"
+          >About</NavItem>
+   
           <div className="pl-8">
             <AuthenticationButton />
           </div>

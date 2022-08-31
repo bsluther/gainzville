@@ -1,21 +1,21 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { useQuery, useQueryClient } from "react-query"
-import { primitives } from "../../../data/typeTemplate/TypeTemplate"
 import { fetchWithError } from "../../../utility/fns"
 
-export const useTypeTemplates = options => {
+export const useTypeTemplates = (paramsObj, options) => {
   const { getAccessTokenSilently, user, isAuthenticated } = useAuth0()
   const queryClient = useQueryClient()
 
+  const searchParams = new URLSearchParams({ user: user?.sub, ...paramsObj })
+
   return useQuery(
-    ["type", "templates", { user: user?.sub }],
+    ["type", "templates", { user: user?.sub, ...paramsObj }],
     () =>
       getAccessTokenSilently()
       .then(tkn => 
-        fetchWithError(`/v2end/type/templates?user=${user?.sub}`, {
+        fetchWithError(`/v2end/type/templates?${searchParams.toString()}`, {
           headers: { Authorization: `Bearer ${tkn}`}
-        }))
-      .then(data => primitives.concat(data)),
+        })),
     {
       ...options,
       enabled: isAuthenticated,

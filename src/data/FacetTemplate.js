@@ -1,4 +1,5 @@
 import { makeId } from "../utility/fns"
+import { DateTime } from "luxon"
 
 export const newTemplate = userId => {
   const id = makeId("fct-t")
@@ -7,6 +8,7 @@ export const newTemplate = userId => {
     id,
     name: "New facet",
     createdBy: userId,
+    createdAt: DateTime.now().toISO(),
     fields: []
   })
 }

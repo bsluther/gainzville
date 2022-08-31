@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { getBoolean, setBoolean } from "../../data/typeInstance/BooleanInstance"
+import { getBoolean, setBoolean } from "../../../data/typeInstance/BooleanInstance"
 
 export const BooleanInstance = ({ Context, typeTemplate, address }) => {
   const [store, dispatch] = useContext(Context)

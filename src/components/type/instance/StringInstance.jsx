@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { getString, setString } from "../../data/typeInstance/StringInstance"
+import { getString, setString } from "../../../data/typeInstance/StringInstance"
 
 export const StringInstance = ({ Context, typeTemplate, address }) => {
   const [store, dispatch] = useContext(Context)

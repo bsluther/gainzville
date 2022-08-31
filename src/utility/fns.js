@@ -58,6 +58,20 @@ export const typeofId = str => {
   return lookupIdType(slice(0)(-37)(str))
 }
 
+const typeQueryKeyTable = {
+  ActivityTemplate: ["activity", "templates"],
+  ActivityInstance: ["activity", "instances"],
+  FacetTemplate: ["facet", "templates"],
+  Library: ["libraries"],
+  TypeConstructor: ["type", "constructors"],
+  TypeTemplate: ["type", "templates"],
+  "TypeTemplate/Primitive": ["type", "templates"]
+}
+
+export const lookupTypeQueryKey = type =>
+  typeQueryKeyTable[type]
+
+
 export const callIfFn = a => (...args) => {
   if (typeof a === "function") {
     return a(args)

@@ -1,14 +1,15 @@
 import { useState, useCallback, useRef, useContext } from "react"
-import { useFacetTemplate } from "../../hooks/facet/useFacetTemplate"
+import { useEntity } from "../../hooks/queries/entity/useEntity"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { CogSVGWithRef } from "../../svg/CogSVG"
-import { TypeInstance } from "../type/TypeInstance"
+import { TypeInstance } from "../type/instance/TypeInstance"
 
 export const FacetInstance = ({ Context, facetTemplateId, address }) => {
-  const facetTemplateQuery = useFacetTemplate(facetTemplateId, { 
+  const facetTemplateQuery = useEntity(facetTemplateId, { 
     enabled: !!facetTemplateId
   })
   const [, dispatch] = useContext(Context)
+
 
   const handleRemoveFacet = () =>
     dispatch({

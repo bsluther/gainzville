@@ -5,7 +5,7 @@ import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { FacetTemplateContext } from "../../state/facetTemplateReducer"
 import { MinusCircleSVG } from "../../svg/MinusCircleSVG"
 import { XCircleSvg } from "../../svg/XCircleSvg"
-import { TypeInstanceDemo } from "../type/TypeInstance"
+import { TypeInstanceDemo } from "../type/instance/TypeInstance"
 
 
 

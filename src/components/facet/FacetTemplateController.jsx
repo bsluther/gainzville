@@ -1,16 +1,18 @@
 import { useEffect } from "react"
-import { useFacetTemplate } from "../../hooks/facet/useFacetTemplate"
 import { FacetTemplateContext, useFacetTemplateReducer } from "../../state/facetTemplateReducer"
 import * as FacetTemplate from "../../data/FacetTemplate"
 import { FacetTemplatePresenter } from "./FacetTemplatePresenter"
-import { useInsertFacetTemplate } from "../../hooks/facet/useInsertFacetTemplate"
 import { useAuth0 } from "@auth0/auth0-react"
+import { useInsertFacetTemplate } from "../../hooks/facet/useInsertFacetTemplate"
+import { useEntity } from "../../hooks/queries/entity/useEntity"
+import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
 
-export const FacetTemplateController = ({ templateId, Presenter = FacetTemplatePresenter }) => {
+export const FacetTemplateController = ({ templateId, Presenter = FacetTemplatePresenter, handleSave, ...props }) => {
   const { user } = useAuth0()
-  const templateQ = useFacetTemplate(templateId, { enabled: templateId !== "new"})
+  const templateQ = useEntity(templateId, { enabled: templateId !== "new"})
   const [store, dispatch] = useFacetTemplateReducer()
   const insertM = useInsertFacetTemplate(user?.sub)
+  const insertM_ = useInsertEntity()
 
   useEffect(() => {
     if (templateQ.isSuccess) {
@@ -43,8 +45,12 @@ export const FacetTemplateController = ({ templateId, Presenter = FacetTemplateP
     <FacetTemplateContext.Provider value={[store, dispatch]}>
       {store &&
         <Presenter
-          handleSave={template => insertM.mutate(template)}
+          handleSave={(facetTemplate, typeTemplates) => {
+            insertM_.mutate(facetTemplate)
+            handleSave(facetTemplate, typeTemplates)
+          }}
           Context={FacetTemplateContext}
+          {...props}
         />}
     </FacetTemplateContext.Provider>
   )

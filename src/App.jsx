@@ -32,32 +32,6 @@ function App() {
             path="record/*"
             element={<Record />}
           />
-
-          <Route
-            path="library"
-            element={<LibraryBrowser />}
-          />
-        
-          <Route
-            path="activity-instance"
-            element={<ActivityInstanceBrowser user="dev2" />}
-          />
-        
-        
-          <Route
-            path="activity-template"
-            element={<ActivityTemplateBrowser />}
-          />
-        
-          <Route
-            path="facet-template"
-            element={<FacetTemplateBrowser />}
-          />
-        
-          <Route
-            path="user-profile"
-            element={<ProtectedRoute component={UserProfile} />}
-          />
         
           <Route
             path="*"

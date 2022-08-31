@@ -4,7 +4,6 @@ import * as ActivityTemplate from "../../data/ActivityTemplate"
 import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
 import { useInsertActivityTemplate } from "../../hooks/queries/activity/template/useInsertActivityTemplate"
 import { useReplaceActivityTemplate } from "../../hooks/queries/activity/template/useReplaceActivityTemplate"
-
 import { ActivityTemplatePresenter } from "./ActivityTemplatePresenter"
 import { typeofId } from "../../utility/fns"
 import { useAuth0 } from "@auth0/auth0-react"

@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import { toString, fromString } from "../../data/typeInstance/SetInstance"
-import { getElements } from "../../data/typeTemplate/SetTemplate"
+import { toString, fromString } from "../../../data/typeInstance/SetInstance"
+import { getElements } from "../../../data/typeTemplate/SetTemplate"
 
 // Let's think hard about what dependencies this component has on other modules. What could change out from under it?
 

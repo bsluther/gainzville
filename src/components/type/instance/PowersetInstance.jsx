@@ -1,6 +1,6 @@
 import { useContext } from "react"
-import { appendElement, isElement, removeElement } from "../../data/typeInstance/PowersetInstance"
-import { snakeToSpace } from "../../utility/fns"
+import { appendElement, isElement, removeElement } from "../../../data/typeInstance/PowersetInstance"
+import { snakeToSpace } from "../../../utility/fns"
 
 export const PowersetInstance = ({ Context, typeTemplate, address }) => {
   const [store, dispatch] = useContext(Context)

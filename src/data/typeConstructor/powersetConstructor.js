@@ -5,17 +5,17 @@ export const setConstructor = {
   _id: "typ-c-set",
   id: "typ-c-set",
   type: "TypeConstructor",
-  name: "set"
+  name: "powerset"
 }
 
-export const makeSet = ({ name, elements, createdBy }) => {
+export const makePowerset = ({ name, elements, createdBy }) => {
   const id = makeId("typ-t")
 
   return ({
     _id: id,
     id,
     type: "TypeTemplate",
-    typeConstructor: "typ-c-set",
+    typeConstructor: "typ-c-powerset",
     createdBy,
     elements: reduce((acc, str) =>
                       acc.includes(str)  

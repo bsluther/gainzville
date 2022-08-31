@@ -1,7 +1,7 @@
 import { useContext } from "react"
-import regex from "../../utility/regex"
-import { chWidth } from "../../utility/fns"
-import { toString, fromString } from "../../data/typeInstance/FloatInstance"
+import regex from "../../../utility/regex"
+import { chWidth } from "../../../utility/fns"
+import { toString, fromString } from "../../../data/typeInstance/FloatInstance"
 
 
 
@@ -26,7 +26,7 @@ function FloatInstance({ Context, address }) {
     <input
       style={{ width: chWidth(float) }}
       className="
-        h-7
+        h-[1.75em]
         border-2 border-neutral-800 rounded-sm
         bg-neutral-300 focus:bg-neutral-200
         text-center outline-none" 

@@ -7,8 +7,9 @@ import { ChevronUpSVG } from "../../svg/ChevronUpSVG"
 import { FacetInstance } from "../facet/FacetInstance"
 import { FacetEditor } from "../facet/FacetEditor"
 import { getInstance } from "../../state/activityInstanceReducer"
-import { useTypeTemplates } from "../../hooks/type/useTypeTemplates"
+
 import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
+import { useTypeTemplates } from "../../hooks/queries/type/useTypeTemplates"
 
 export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges }) => {
   const [optionsOpen, setOptionsOpen] = useState(false)
@@ -16,7 +17,7 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
   const [store, dispatch] = useContext(Context)
   const [creatingFacet, setCreatingFacet] = useState(false)
 
-  const handleAddFacet = facetTemplate => typeTemplates => dispatch({
+  const handleAddFacet = (facetTemplate, typeTemplates) => dispatch({
     type: "addFacet",
     payload: {
       facetTemplate,
@@ -37,6 +38,7 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
         rounded-md bg-neutral-500
         w-max
         flex flex-col
+        min-w-[20rem]
       "
     >
       <div
@@ -83,7 +85,12 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
                 address={{ facet: id }}
               />)
             (facetIds)}
-        <FacetEditor templateId="new" />
+        {creatingFacet && 
+          <FacetEditor 
+            templateId="new" 
+            closeEditor={() => setCreatingFacet(false)}
+            handleSave={handleAddFacet}
+          />}
         <span className="h-2"/>
         <button
           className={`
@@ -160,14 +167,16 @@ const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu, setCreatingFac
 
 
 const FacetLi = ({ facetTemplate, handleAddFacet }) => {
-  const typeTemplatesQ = useTypeTemplates(facetTemplate.fields)
+  const typeTemplatesQ = useTypeTemplates({ ids: facetTemplate.fields })
 
-  if (!typeTemplatesQ.reduce((acc, x) => acc && x.isSuccess, true)) { return <li>...</li>}
+  if (!typeTemplatesQ.isSuccess) {
+    return <li>...</li>
+  }
 
   return (
     <li 
       className="cursor-pointer hover:text-yellow-300 capitalize border-b border-neutral-800 pl-2"
-      onClick={() => handleAddFacet(facetTemplate)(typeTemplatesQ.map(query => query.data))}
+      onClick={() => handleAddFacet(facetTemplate, typeTemplatesQ.data)}
     >{snakeToSpace(facetTemplate.name)}</li>
   )
 }

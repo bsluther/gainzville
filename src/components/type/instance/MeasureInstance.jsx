@@ -1,7 +1,7 @@
 import { useContext } from "react"
-import { chWidth } from "../../utility/fns"
-import regex from "../../utility/regex"
-import { getActiveUnits, getQuantity, setQuantity } from "../../data/typeInstance/MeasureInstance"
+import { chWidth } from "../../../utility/fns"
+import regex from "../../../utility/regex"
+import { getActiveUnits, getQuantity, setQuantity } from "../../../data/typeInstance/MeasureInstance"
 
 const variantHash = {
   mass: {
@@ -58,7 +58,7 @@ const UnitQuantity = ({ unit, quantity, onChange }) =>
     <input
       style={{ width: chWidth(quantity) }}
       className="
-        h-7
+        h-[1.75em]
         border-2 border-neutral-800 rounded-l-sm
         bg-neutral-300 focus:bg-neutral-400
         text-center outline-none"
