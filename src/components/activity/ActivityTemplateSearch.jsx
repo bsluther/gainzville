@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "react-query";
 import { debounce } from "../../utility/fns";
-import { SearchSvg } from "../../svg/SearchSVG";
+import { SearchSvg } from "../../svg/SearchSvg";
 
 export const ActivityTemplateSearch = ({
   title = "Search",
