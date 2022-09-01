@@ -16,6 +16,8 @@ export const Auth0ProviderWithHistory = ({ children }) => {
     navigate(appState?.returnTo || window.location.pathname)
   }
 
+  console.log('redirectUri', window.location.origin)
+
   return (
     <Auth0Provider
       domain={domain}
