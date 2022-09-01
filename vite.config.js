@@ -7,14 +7,12 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: import.meta.env.VITE_SERVER_URL,
-        // target: 'http://localhost:7777',
+        target: 'http://localhost:7777',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, '')
       },
       '/v2end': {
-        target: import.meta.env.VITE_SERVER_URL,
-        // target: 'http://localhost:7777',
+        target: 'http://localhost:7777',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/v2end/, '/api')
       }
