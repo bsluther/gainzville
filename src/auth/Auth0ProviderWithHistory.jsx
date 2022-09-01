@@ -3,8 +3,11 @@ import { Auth0Provider } from "@auth0/auth0-react"
 
 export const Auth0ProviderWithHistory = ({ children }) => {
   const domain = import.meta.env.VITE_AUTH0_DOMAIN
+  console.log(domain, 'domain')
   const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
+  console.log(clientId, 'clientId')
   const audience = import.meta.env.VITE_AUTH0_AUDIENCE
+  console.log(audience, 'audience')
 
   const navigate = useNavigate()
 
