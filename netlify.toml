@@ -1,9 +1,9 @@
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/v2end"
+  to = "https://gainzville-server.herokuapp.com/api"
   status = 200
 
 [[redirects]]
-  from = "/v2end"
-  to = "https://gainzville-server.herokuapp.com/api"
+  from = "/*"
+  to = "/index.html"
   status = 200
