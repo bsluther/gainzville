@@ -1,3 +1,4 @@
 [[redirects]]
 from = "/v2end"
 to = "https://gainzville-server.herokuapp.com/api"
+status = 200
