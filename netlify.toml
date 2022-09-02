@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/v2end/*"
-  to = "https://gainzville-server.herokuapp.com/api/:splat"
+  to = "http://gainzville-server.herokuapp.com/api/:splat"
   status = 200
 
 [[redirects]]
