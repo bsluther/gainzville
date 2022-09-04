@@ -13,6 +13,7 @@ import { WithTooltip } from "../components/WithTooltip"
 import { Loading } from "./Loading"
 import { XCircleSvg } from "../svg/XCircleSvg"
 import { XSvg } from "../svg/XSvg"
+import { CheckSvg } from "../svg/CheckSvg"
 
 export const BookmarkDialog = ({ template, stopBookmarking }) => {
   const navigate = useNavigate()
@@ -86,6 +87,7 @@ export const BookmarkDialog = ({ template, stopBookmarking }) => {
         {creatingLibrary
           ? <NewLibrary
               endCreating={() => setCreatingLibrary(false)}
+              templateName={template.name}
             />
           : <li
               key="new"
@@ -104,7 +106,7 @@ export const BookmarkDialog = ({ template, stopBookmarking }) => {
             const foundLib = find(propEq("id")(selectedLibrary))(librariesQ.data)
             updateLibraryM.mutate(
               appendElement(template.id)(foundLib),
-              { onSuccess: () => navigate(-1) }
+              { onSuccess: () => stopBookmarking() }
             )
           }
           }
@@ -159,7 +161,7 @@ const Renaming = ({ library, endRenaming }) => {
   )
 }
 
-const NewLibrary = ({ endCreating }) => {
+const NewLibrary = ({ endCreating, templateName }) => {
   const insertLibraryM = useInsertLibrary()
   const { user } = useAuth0()
   const [name, setName] = useState("New library")
@@ -168,6 +170,11 @@ const NewLibrary = ({ endCreating }) => {
     <div 
       className="flex space-x-2 px-2 items-center"
     >
+      <WithTooltip tip={`Save "${templateName}" to "${name}"`}>
+        <div className="w-max h-max border-2 border-dashed rounded-xl border-neutral-800 hover:border-green-600 cursor-pointer">
+          <CheckSvg className="w-4 h-4 hover:text-green-600" />
+        </div>
+      </WithTooltip>
       <input
         autoFocus
         onFocus={e => e.target.select()}
@@ -183,9 +190,9 @@ const NewLibrary = ({ endCreating }) => {
           }
         }}
       />
-      <WithTooltip tip="Discard">
+      <WithTooltip tip={`Discard "${name}"`}>
         <XCircleSvg
-          tabindex="0"
+          tabIndex="0"
           id="xCircle"
           className="w-4 h-4 cursor-pointer hover:text-red-500" 
           onClick={e => {

@@ -36,7 +36,6 @@ export const ActivityTemplateController = ({ templateId, handleSaveNewTemplate }
     }
 
     if (templateId === "new") {
-      console.log("STORE", store)
       if (!store || !store.isNew) {
         dispatch({
           type: "initializeNew",

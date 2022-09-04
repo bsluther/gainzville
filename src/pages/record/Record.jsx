@@ -7,10 +7,10 @@ import { Route, Routes, useNavigate } from "react-router-dom"
 import { TemplateSearch } from "./TemplateSearch"
 import { ActivityTemplateController } from "../../components/activity/ActivityTemplateController"
 import { TemplateCreate } from "./TemplateCreate"
+import { InstanceNew } from "./InstanceNew"
 
 
 export const Record = () => {
-  const insertInstanceM = useInsertActivityInstance()
   const navigate = useNavigate()
   const [target, setTarget] = useState()
 
@@ -22,7 +22,7 @@ export const Record = () => {
         <LibraryBrowser
           selectedTemplate={target}
           setSelectedTemplate={id => {
-            navigate("instance-new")
+            navigate(`instance-new?templateId=${id}`)
             setTarget(id)
           }}
         />
@@ -32,14 +32,7 @@ export const Record = () => {
           <Route
             path="instance-new"
             element={
-              <NewActivityInstanceController
-                  templateId={target}
-                  handleSaveNewInstance={instance => {
-                    navigate("instance-edit")
-                    setTarget(instance.id)
-                    insertInstanceM.mutate(instance)
-                  }}
-                />
+              <InstanceNew target={target} setTarget={setTarget} />
             }
           />
           <Route
@@ -54,7 +47,7 @@ export const Record = () => {
           />
           <Route
             path="template-create"
-            element={<TemplateCreate />}
+            element={<TemplateCreate handleSaveNewTemplate={template => setTarget(template.id)} />}
           />
           <Route
             path="template-edit"

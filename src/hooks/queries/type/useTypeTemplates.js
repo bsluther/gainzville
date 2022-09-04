@@ -10,11 +10,12 @@ export const useTypeTemplates = (paramsObj, options) => {
 
   return useQuery(
     ["type", "templates", { user: user?.sub, ...paramsObj }],
-    () =>
+    ({ signal }) =>
       getAccessTokenSilently()
       .then(tkn => 
         fetchWithError(`/v2end/type/templates?${searchParams.toString()}`, {
-          headers: { Authorization: `Bearer ${tkn}`}
+          headers: { Authorization: `Bearer ${tkn}`},
+          signal
         })),
     {
       ...options,

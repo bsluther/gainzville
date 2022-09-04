@@ -4,10 +4,12 @@ import { WithTooltip } from "../../components/WithTooltip"
 import { BookmarkSvg } from "../../svg/BookmarkSvg"
 import { RecordSvg } from "../../svg/RecordSvg"
 import { BookmarkDialog } from "../../components/BookmarkDialog"
+import { createSearchParams, useNavigate, useParams } from "react-router-dom"
 
 
 export const TemplateSearch = () => {
   const [bookmarking, setBookmarking] = useState(false)
+  const navigate = useNavigate()
 
   const ResultButtons = ({ id, template }) =>
     <>
@@ -20,7 +22,14 @@ export const TemplateSearch = () => {
       <WithTooltip tip="Record instance">
         <RecordSvg
           className="w-4 h-4 text-neutral-300 cursor-pointer hover:text-yellow-300"
-          onClick={() => console.log(`Recording ${id}`)}
+          onClick={() => 
+            navigate({
+              pathname: `../instance-new`,
+              search: createSearchParams({
+                templateId: id
+              }).toString()
+            })
+          }
         />
       </WithTooltip>
     </>

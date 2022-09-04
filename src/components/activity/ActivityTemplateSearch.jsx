@@ -1,26 +1,23 @@
-import { useMemo, useState } from "react";
-import { useQuery } from "react-query";
-import { debounce } from "../../utility/fns";
-import { SearchSvg } from "../../svg/SearchSvg";
+import { useMemo, useState } from "react"
+import { debounce } from "../../utility/fns"
+import { SearchSvg } from "../../svg/SearchSvg"
+import { useActivityTemplates } from "../../hooks/queries/activity/template/useActivityTemplates"
 
 export const ActivityTemplateSearch = ({
   title = "Search",
   handleSelect = x => x,
   ResultButtons = () => <></>
 }) => {
-  const [inputState, setInputState] = useState("");
-  const [searchState, setSearchState] = useState("");
-  const resultsQ = useQuery(
-    ['search', 'activity', 'template', searchState],
-    ({ signal, queryKey }) => fetch(`/api/search/activity/template/${queryKey[3]}`, { signal }).then(res => res.json()),
-    { enabled: !!searchState }
-  );
+  const [inputState, setInputState] = useState("")
+  const [searchState, setSearchState] = useState("")
+
+  const resultsQ = useActivityTemplates({ name: searchState }, { enabled: !!searchState })
 
   const handleInput = useMemo(
     () => e => {
-      setInputState(e.target.value);
-      debounce(e => setSearchState(e.target.value), 500)(e);
-    }, []);
+      setInputState(e.target.value)
+      debounce(e => setSearchState(e.target.value), 500)(e)
+    }, [])
 
   return (
     <div className="bg-neutral-800 border-2 border-neutral-800 rounded-md w-50 px-4 py-2 space-y-2 flex flex-col">
@@ -30,7 +27,7 @@ export const ActivityTemplateSearch = ({
           className={`
             bg-neutral-400
             outline-none border-2 border-neutral-800 rounded-md
-            pl-2 pr-8
+            pl-2 pr-8 w-full
           `}
           value={inputState}
           onChange={handleInput} />
@@ -54,5 +51,5 @@ export const ActivityTemplateSearch = ({
           : <li className="text-neutral-400">no results...</li>}
       </ul>
     </div>
-  );
-};
+  )
+}
