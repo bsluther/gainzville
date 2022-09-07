@@ -7,11 +7,10 @@ import { getISO, setISO } from "../../../data/typeInstance/DatetimeInstance"
 export const DatetimeInstance = ({ Context, typeTemplate, address }) => {
   const [store, dispatch] = useContext(Context)
   const instance = Context.getField(address)(store)
-  // const instance = getField(address)(store)
 
-  const datetime = instance ? getISO(instance) : ""
+  const iso = instance ? getISO(instance) : ""
 
-  if (!datetime) { return <span>...</span>}
+  if (!iso) { return <span>...</span>}
   
   return (
     <input
@@ -20,14 +19,17 @@ export const DatetimeInstance = ({ Context, typeTemplate, address }) => {
         border-2 border-neutral-800 rounded-sm outline-none
         px-1"
       type="datetime-local"
-      value={DateTime.fromISO(datetime).toISO({ includeOffset: false, suppressSeconds: true }) }
+      value={DateTime.fromISO(iso).toISO({ includeOffset: false, suppressSeconds: true, suppressMilliseconds: true }) }
       onChange={e => {
         if (e.target.value) {
           dispatch({
             type: "input",
             payload: {
               address,
-              value: setISO(DateTime.fromISO(e.target.value).toISO())(instance)
+              value: setISO(DateTime
+                            .fromISO(e.target.value)
+                            .toISO({ suppressSeconds: true, suppressMilliseconds: true }))
+                           (instance)
             }
           })
         }

@@ -2,7 +2,6 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { find, map, propEq } from "ramda"
 import { useState } from "react"
 import { useQueryClient } from "react-query"
-import { useNavigate } from "react-router-dom"
 import { appendElement, constructLibrary, setLibraryName } from "../data/Library"
 import { useInsertLibrary } from "../hooks/queries/library/useInsertLibrary"
 import { useReplaceLibrary } from "../hooks/queries/library/useReplaceLibrary"
@@ -16,7 +15,6 @@ import { XSvg } from "../svg/XSvg"
 import { CheckSvg } from "../svg/CheckSvg"
 
 export const BookmarkDialog = ({ template, stopBookmarking }) => {
-  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const librariesQ = useUserLibraries()
   const updateLibraryM = useReplaceLibrary({
@@ -87,7 +85,8 @@ export const BookmarkDialog = ({ template, stopBookmarking }) => {
         {creatingLibrary
           ? <NewLibrary
               endCreating={() => setCreatingLibrary(false)}
-              templateName={template.name}
+              template={template}
+              stopBookmarking={stopBookmarking}
             />
           : <li
               key="new"
@@ -139,7 +138,6 @@ const Renaming = ({ library, endRenaming }) => {
     }
   })
 
-
   return (
     <div className="flex space-x-2 w-full">
       <div className="grow">
@@ -161,19 +159,30 @@ const Renaming = ({ library, endRenaming }) => {
   )
 }
 
-const NewLibrary = ({ endCreating, templateName }) => {
+const NewLibrary = ({ endCreating, stopBookmarking, template }) => {
   const insertLibraryM = useInsertLibrary()
   const { user } = useAuth0()
   const [name, setName] = useState("New library")
 
   return (
     <div 
-      className="flex space-x-2 px-2 items-center"
+      className="flex space-x-2 px-2 items-center w-full"
     >
-      <WithTooltip tip={`Save "${templateName}" to "${name}"`}>
-        <div className="w-max h-max border-2 border-dashed rounded-xl border-neutral-800 hover:border-green-600 cursor-pointer">
-          <CheckSvg className="w-4 h-4 hover:text-green-600" />
-        </div>
+      <WithTooltip tip={`Save "${template.name}" to "${name}"`}>
+          <CheckSvg 
+            className="w-4 h-4 hover:text-green-600 cursor-pointer" 
+            onClick={() => {
+              endCreating()
+              insertLibraryM.mutate(
+                appendElement(template.id)
+                             (constructLibrary(user?.sub)
+                             (name)),
+                {
+                  onSuccess: () => stopBookmarking()
+                }
+              )
+            }}
+          />
       </WithTooltip>
       <input
         autoFocus
@@ -182,20 +191,14 @@ const NewLibrary = ({ endCreating, templateName }) => {
         className={`rounded-md outline-none text-center px-2`}
         value={name}
         onChange={e => setName(e.target.value)}
-        onBlur={e => {
-          if (e.relatedTarget?.id !== "xCircle") {
-            endCreating()
-            const newLib = constructLibrary(user?.sub)(name)
-            insertLibraryM.mutate(newLib)
-          }
-        }}
       />
-      <WithTooltip tip={`Discard "${name}"`}>
-        <XCircleSvg
+      <span className="grow" />
+      <WithTooltip tip={"Cancel"}>
+        <XSvg
           tabIndex="0"
           id="xCircle"
           className="w-4 h-4 cursor-pointer hover:text-red-500" 
-          onClick={e => {
+          onClick={() => {
             endCreating()
           }}
         />

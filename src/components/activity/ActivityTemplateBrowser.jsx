@@ -6,7 +6,7 @@ import { useDeleteActivityTemplate } from "../../hooks/activity/useDeleteActivit
 import { TrashSVG } from "../../svg/TrashSVG"
 
 
-export const ActivityTemplateBrowser = () => {
+const ActivityTemplateBrowser = () => {
   const templatesQ = useActivityTemplates()
   const templates = templatesQ.data ?? []
   const [selectedTemplate, setSelectedTemplate] = useState()

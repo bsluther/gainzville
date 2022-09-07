@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useLayoutEffect } from "react";
+import { useRef, useState } from "react";
 
 export const WithTooltip = ({ children, tip }) => {
-  const [hovered, setHovered] = useState(false);
+  const [hovered, setHovered] = useState(false)
+  const wrapperRef = useRef()
+
+  // if (wrapperRef.current) {
+  //   const { x, y, width } = wrapperRef.current.getBoundingClientRect()
+  //   const center = x + (width / 2)
+  // }
 
   return (
     <div
       className="w-max h-max relative"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      ref={wrapperRef}
     >
       {children}
+
       {hovered &&
         <div
           className="

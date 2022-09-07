@@ -11,5 +11,5 @@ export const DatetimeTemplate = {
 export const initializeDatetimeInstance = () => ({
   type: "TypeInstance",
   template: "typ-t-p-datetime",
-  value: DateTime.now().toISO()
+  value: DateTime.now().startOf("minute").toISO({ suppressSeconds: true, suppressMilliseconds: true })
 })

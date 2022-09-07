@@ -1,13 +1,7 @@
 import { Routes, Route } from "react-router-dom"
 import { v4 as uuid } from "uuid"
-import { ActivityInstanceBrowser } from "./components/activity/ActivityInstanceBrowser"
-import { ActivityTemplateBrowser } from "./components/activity/ActivityTemplateBrowser"
-import { FacetTemplateBrowser } from "./components/facet/FacetTemplateBrowser"
 import { NavBar } from "./components/nav/NavBar"
-import { ProtectedRoute } from "./components/auth/ProtectedRoute"
-import { UserProfile } from "./components/user/UserProfile"
 import { Welcome } from "./components/Welcome"
-import { LibraryBrowser } from "./components/library/LibraryBrowser"
 import { Record } from "./pages/record/Record"
 
 console.log(uuid())

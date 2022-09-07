@@ -13,9 +13,8 @@ export const InstanceNew = ({ target, setTarget }) => {
     <NewActivityInstanceController
       templateId={searchParams.get('templateId')}
       handleSaveNewInstance={instance => {
-        navigate("instance-edit")
         setTarget(instance.id)
-        insertInstanceM.mutate(instance)
+        insertInstanceM.mutate(instance, { onSuccess: () => navigate("../instance-edit") })
       }}
     />
   )

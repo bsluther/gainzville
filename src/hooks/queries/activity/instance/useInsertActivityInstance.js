@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "react-query"
 import { fetchWithError } from "../../../../utility/fns"
 import { useAuth0 } from "@auth0/auth0-react"
 
-export const useInsertActivityInstance = () => {
+export const useInsertActivityInstance = options => {
   const queryClient = useQueryClient()
   const { getAccessTokenSilently } = useAuth0()
 
@@ -20,6 +20,7 @@ export const useInsertActivityInstance = () => {
              }))
     },
     {
+      ...options,
       onMutate: instance => {
         queryClient.setQueryData(
           ["activity", "instances", instance.id],

@@ -12,6 +12,7 @@ import { PencilAltSvg } from "../../svg/PencilAltSvg"
 import { useReplaceLibrary } from "../../hooks/queries/library/useReplaceLibrary"
 import { removeElement } from "../../data/Library"
 import { Loading } from "../Loading"
+import { useAuth0 } from "@auth0/auth0-react"
 // AKA ActivityTemplateBrowser...
 
 const unwrapSuccesses = queries =>
@@ -24,6 +25,8 @@ const Button = props =>
   <button
     className="w-max h-max bg-neutral-300 text-neutral-800 px-2 py-1 rounded-md"
     {...props}>{props.children}</button>
+
+// const useLibraryTemplates
 
 export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
   const [selectedLibrary, setSelectedLibrary] = useState("all")
@@ -44,6 +47,7 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
                                    (selectedLibrary))
                             (libs)))
   )(librariesQ)
+  console.log('templateIds', templateIds)
 
   const templatesQ = useActivityTemplatesById(
     templateIds,
@@ -86,12 +90,12 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
       className="
         w-full h-full
         bg-neutral-800
-        flex flex-col pb-4 px-4
+        flex flex-col pb-4 px-4 space-y-2
       "
     >
       <div className="
         w-full h-max
-        flex items-center space-x-4 pb-4">
+        flex items-center space-x-4">
 
         <select
           className="
@@ -110,6 +114,26 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
         </select>
       </div>
 
+      {/* <div className="flex space-x-2 px-2 justify-center items-center">
+        <WithTooltip tip="Only view activities you created">
+          <input className="text-neutral-500" type="checkbox" />
+        </WithTooltip>
+        <span className="text-neutral-300">created by me</span>
+      </div>
+
+      <div className="flex space-x-2 px-2 justify-center items-center">
+        <WithTooltip tip="View activities by tag">
+          <input className="text-neutral-500" type="checkbox" />
+        </WithTooltip>
+        <span className="text-neutral-300">filter by tag</span>
+        <select
+          className="bg-neutral-300"
+        >
+          <option>climbing</option>
+          <option>achilles</option>
+        </select>
+      </div> */}
+
       <div className="h-full">
         <EntityListbox
           entities={unwrapSuccesses(templatesQ)}
@@ -118,7 +142,7 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
           ItemButtons={TemplateButtons}
         />
       </div>
-      <div className="flex items-center justify-center space-x-2 pt-4">
+      <div className="flex items-center justify-center space-x-2 pt-2">
         <WithTooltip tip="Find Activities">
           <Link to="template-search">
             <Button>
