@@ -17,9 +17,3 @@ export const useUserLibraries = options => {
     { enabled: isAuthenticated, ...options }
   )
 }
-
-export const useUserLibraries2 = options => {
-  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0()
-   
-  return useQueries
-}

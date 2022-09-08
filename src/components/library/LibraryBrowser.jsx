@@ -25,8 +25,6 @@ const Button = props =>
     className="w-max h-max bg-neutral-300 text-neutral-800 px-2 py-1 rounded-md"
     {...props}>{props.children}</button>
 
-// const useLibraryTemplates
-
 export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
   const [selectedLibrary, setSelectedLibrary] = useState("all")
   const librariesQ = useUserLibraries()
@@ -46,7 +44,6 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
                                    (selectedLibrary))
                             (libs)))
   )(librariesQ)
-  console.log('templateIds', templateIds)
 
   const templatesQ = useActivityTemplatesById(
     templateIds,

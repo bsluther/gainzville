@@ -6,7 +6,7 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { Auth0ProviderWithHistory } from './auth/Auth0ProviderWithHistory'
+import { Auth0ProviderWithHistory } from './components/auth/Auth0ProviderWithHistory'
 
 const queryClient = new QueryClient();
 

@@ -1,4 +1,3 @@
-import { useLayoutEffect } from "react";
 import { useRef, useState } from "react";
 
 export const WithTooltip = ({ children, tip }) => {
