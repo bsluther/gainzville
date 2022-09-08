@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { useQuery, useQueryClient } from "react-query"
 import { fetchWithError } from "../../../utility/fns"
 
-export const useTypeTemplates = (paramsObj, options) => {
+export const useTypeTemplates = (paramsObj = {}, options) => {
   const { getAccessTokenSilently, user, isAuthenticated } = useAuth0()
   const queryClient = useQueryClient()
 

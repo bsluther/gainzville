@@ -1,6 +1,6 @@
 import { find, prop, propEq } from "ramda"
 import { useState, useContext, useRef } from "react"
-import { useUserTypeTemplates } from "../../hooks/type/useUserTypeTemplates"
+import { useTypeTemplates } from "../../hooks/queries/type/useTypeTemplates"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { FacetTemplateContext } from "../../state/facetTemplateReducer"
 import { MinusCircleSVG } from "../../svg/MinusCircleSVG"
@@ -52,9 +52,9 @@ const AddFieldIcon = props => {
 
 export const FacetTemplatePresenter = ({ handleSave = x => x }) => {
   const [store, dispatch] = useContext(FacetTemplateContext)
-  const typeTemplatesQ = useUserTypeTemplates("dev2")
+  const typeTemplatesQ = useTypeTemplates()
   const [addFieldOpen, setAddFieldOpen] = useState(false)
-  console.log('store', store)
+
   return (
     <div
       className="
@@ -171,15 +171,6 @@ export const FacetTemplatePresenter = ({ handleSave = x => x }) => {
               />)}
         </div>
       </div>
-
-      {/* <div>
-        <ul>
-          {typeTemplatesQ.data?.map(tmpl =>
-            <li key={tmpl.id}>
-              <TypeInstanceDemo typeTemplate={tmpl} />
-            </li>)}
-        </ul>
-      </div> */}
 
       <button
         className="w-max bg-neutral-800 rounded-md px-2 text-neutral-400"

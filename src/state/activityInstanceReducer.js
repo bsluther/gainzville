@@ -17,8 +17,8 @@ export const modifyInstance = L.modify(["instance"])
 
 
 const reducer = (state, action) => {
-  console.log("Action: ", action)
-  console.log("State: ", state)
+  // console.log("Action: ", action)
+  // console.log("State: ", state)
   switch (action.type) {
     case "initialize":
       return pipe(

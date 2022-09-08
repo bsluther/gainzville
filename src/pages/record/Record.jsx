@@ -7,6 +7,7 @@ import { TemplateSearch } from "./TemplateSearch"
 import { ActivityTemplateController } from "../../components/activity/ActivityTemplateController"
 import { TemplateCreate } from "./TemplateCreate"
 import { InstanceNew } from "./InstanceNew"
+import { FacetTemplateController } from "../../components/facet/FacetTemplateController"
 
 
 export const Record = () => {
@@ -51,6 +52,11 @@ export const Record = () => {
           <Route
             path="template-edit"
             element={<ActivityTemplateController templateId={target} />}
+          />
+          <Route
+            path="facet-template-test"
+            element={
+              <FacetTemplateController templateId="fct-t-8e97ca24-50dc-4e18-ae69-731e6d2570d6" />}
           />
         </Routes>
           
