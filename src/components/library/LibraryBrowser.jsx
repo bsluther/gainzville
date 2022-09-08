@@ -12,7 +12,6 @@ import { PencilAltSvg } from "../../svg/PencilAltSvg"
 import { useReplaceLibrary } from "../../hooks/queries/library/useReplaceLibrary"
 import { removeElement } from "../../data/Library"
 import { Loading } from "../Loading"
-import { useAuth0 } from "@auth0/auth0-react"
 // AKA ActivityTemplateBrowser...
 
 const unwrapSuccesses = queries =>
