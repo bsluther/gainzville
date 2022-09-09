@@ -13,7 +13,9 @@ export const NavBar = () => {
 
         <span className="text-neutral-300 grow text-center">Gainzville</span>
         <GainzvilleIcon 
-          style={{ animation: 'spin 1000ms cubic-bezier(.5, .3, .9, -1) infinite'}}
+          style={{ animation: 'spin 1000ms cubic-bezier(.5, .2, .8, -5) infinite'}}
+          // style={{ animation: 'spin 1000ms cubic-bezier(.5, .3, .9, -5) infinite'}}
+          // style={{ animation: 'spin 1000ms cubic-bezier(.5, .3, .9, -1) infinite'}}
           className="w-6 h-6 fill-yellow-300 animate-spinNOT" 
         />
         {/* <span className="text-neutral-300 grow text-center text-lg">ville</span> */}
