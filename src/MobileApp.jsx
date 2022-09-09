@@ -1,11 +1,13 @@
-import { NavBar } from "./mobile/NavBar"
+import { NavBar } from "./mobile/components/NavBar"
+import { Timeline } from "./mobile/pages/Timeline"
 
 export const MobileApp = () => {
   return (
     <section
-      className="w-screen h-screen flex flex-col items-center font-customMono"
+      className="w-full h-full flex flex-col items-center font-customMono"
     >
       <NavBar />
+      <Timeline />
     </section>
   )
 }
