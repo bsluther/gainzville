@@ -4,23 +4,35 @@ import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { UserSvg } from "../../svg/UserSvg"
 
 const LoggedInButton = () => {
+  const { user, logout } = useAuth0()
   const [menuOpen, setMenuOpen] = useState(false)
   const ref = useRef()
 
   useOutsideClick([ref], () => setMenuOpen(false))
   return (
     <div className="w-max h-max relative" ref={ref}>
-      <UserSvg className="w-6 h-6 text-neutral-300" onClick={() => setMenuOpen(prev => !prev)} />
+      <UserSvg className="w-6 h-6 text-neutral-400" onClick={() => setMenuOpen(prev => !prev)} />
       {menuOpen &&
-        <div className="absolute top-full right-0 w-10 h-10 bg-neutral-300">hi</div>
+        <div className="absolute top-full translate-y-1 right-0 w-max h-max bg-neutral-300 px-1 py-2 flex flex-col items-end space-y-1 rounded-sm">
+          <span>{user.nickname}</span>
+          <button className="font-bold uppercase" onClick={() => logout()}>Logout</button>
+        </div>
       }
     </div>
   )
 }
 
 const LoggedOutButton = () => {
+  const { loginWithRedirect } = useAuth0()
+
   return (
-    <button>Login</button>
+    <div className="flex space-x-1">
+      <button 
+        className="text-neutral-400 text-sm border border-neutral-400 rounded-md px-2 py-0"
+        onClick={() => loginWithRedirect()}
+      >Login</button>
+      {/* <button className="text-neutral-800 bg-neutral-400 text-sm border border-neutral-400 rounded-md px-2 py-0 font-semibold">Login</button> */}
+    </div>
   )
 }
 
