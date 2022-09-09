@@ -6,7 +6,7 @@ import { Record } from "./pages/record/Record"
 
 console.log(uuid())
 
-function App() {
+function DesktopApp() {
 
   return (
     <section className="h-screen w-screen flex flex-col font-customMono">
@@ -39,4 +39,4 @@ function App() {
   )
 }
 
-export default App
+export default DesktopApp

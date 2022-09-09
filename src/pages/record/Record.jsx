@@ -8,6 +8,7 @@ import { ActivityTemplateController } from "../../components/activity/ActivityTe
 import { TemplateCreate } from "./TemplateCreate"
 import { InstanceNew } from "./InstanceNew"
 import { FacetTemplateController } from "../../components/facet/FacetTemplateController"
+import { ActivityTemplateBrowser } from "../../components/activity/ActivityTemplateBrowser"
 
 
 export const Record = () => {
@@ -19,6 +20,7 @@ export const Record = () => {
       className="w-full h-full flex"
     >
       <div className="h-full w-1/4">
+        {/* <ActivityTemplateBrowser /> */}
         <LibraryBrowser
           selectedTemplate={target}
           setSelectedTemplate={id => {
