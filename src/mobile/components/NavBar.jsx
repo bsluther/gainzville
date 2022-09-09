@@ -14,10 +14,13 @@ export const NavBar = () => {
 
         <span className="text-neutral-300 grow text-center relative">
           Gainzville
-        <GainzvilleIcon 
-          className="absolute top-[2px] left-full w-6 h-6 fill-yellow-300" 
-        />
+        {/* <GainzvilleIcon 
+          className="absolute top-[1px] left-full w-6 h-6 fill-yellow-300" 
+        /> */}
         </span>
+        <GainzvilleIcon 
+          className="w-6 h-6 fill-yellow-300" 
+        />
 
       </div>
       <AuthButton className="absolute right-2 top-2" />
