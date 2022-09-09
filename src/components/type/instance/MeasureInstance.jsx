@@ -60,7 +60,7 @@ const UnitQuantity = ({ unit, quantity, onChange }) =>
       className="
         h-[1.75em]
         border-2 border-neutral-800 rounded-l-sm
-        bg-neutral-300 focus:bg-neutral-400
+        bg-neutral-300
         text-center outline-none"
       value={quantity ?? ""} 
       onChange={onChange}
