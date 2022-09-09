@@ -7,7 +7,7 @@ export const useTypeTemplates = (paramsObj = {}, options) => {
   const queryClient = useQueryClient()
 
   const searchParams = new URLSearchParams({ user: user?.sub, ...paramsObj })
-
+  console.log({ user: user?.sub, ...paramsObj })
   return useQuery(
     ["type", "templates", { user: user?.sub, ...paramsObj }],
     ({ signal }) =>

@@ -180,7 +180,7 @@ const Field = ({ setEditingField, setFieldFocus, isEditing, children, typeTempla
   const dialogRef = useRef()
   const buttonRef = useRef()
 
-  useOutsideClick([dialogRef, buttonRef], () => setEditingField(null))
+  useOutsideClick([dialogRef, buttonRef], () => setEditingField(false))
 
   return (
     <div 

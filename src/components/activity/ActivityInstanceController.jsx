@@ -9,10 +9,8 @@ import { InstanceContext } from "../../state/activityInstanceReducer"
 import { makeId } from "../../utility/fns"
 import { ActivityInstancePresenter } from "./ActivityInstancePresenter"
 import { DateTime } from "luxon"
-import { useNavigate } from "react-router-dom"
 
 export const ActivityInstanceController = ({ instanceId }) => {
-  console.log('instanceId', instanceId)
   const instanceQ = useActivityInstance(instanceId)
   const templateQ = useActivityTemplate(
     instanceQ.data?.template,
