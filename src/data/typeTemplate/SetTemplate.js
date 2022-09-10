@@ -8,3 +8,9 @@ export const initializeSetInstance = template => ({
   template: template.id,
   value: head(getElements(template)) ?? ""
 })
+
+export const setInstanceOf = template => value => ({
+  type: "TypeInstance",
+  template: template.id,
+  value
+})

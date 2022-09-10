@@ -2,6 +2,7 @@ import { useContext } from "react"
 import regex from "../../../utility/regex"
 import { chWidth } from "../../../utility/fns"
 import { toString, fromString } from "../../../data/typeInstance/FloatInstance"
+import { floatInstanceOf } from "../../../data/typeTemplate/FloatTemplate"
 
 
 
@@ -16,8 +17,9 @@ function FloatInstance({ Context, address }) {
       ? dispatch({ 
           type: 'input', 
           payload: { 
-            address, 
-            value: fromString(e.target.value)(float) 
+            address,
+            value: floatInstanceOf(e.target.value)
+            // value: fromString(e.target.value)(float) 
           }
         })
       : null

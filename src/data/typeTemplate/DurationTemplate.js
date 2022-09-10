@@ -1,3 +1,5 @@
+import { Duration } from 'luxon'
+
 export const DurationTemplate = {
   id: "typ-t-p-measure-duration",
   type: "TypeTemplate",
@@ -15,3 +17,6 @@ export const initializeDurationInstance = () => ({
     second: "0"
   }
 })
+
+export const durationToString = instance => template =>
+  Duration.fromObject(instance.value).toHuman({ unitDisplay: 'short', listStyle: 'narrow' })

@@ -11,3 +11,12 @@ export const initializeFloatInstance = () => ({
   template: "typ-t-p-float",
   value: "0"
 })
+
+export const floatInstanceOf = value => ({
+  type: "TypeInstance",
+  template: "typ-t-p-float",
+  value: value
+})
+
+export const floatToString = instance => template =>
+  `${instance.value}`

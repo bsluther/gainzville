@@ -13,3 +13,6 @@ export const initializeDatetimeInstance = () => ({
   template: "typ-t-p-datetime",
   value: DateTime.now().startOf("minute").toISO({ suppressSeconds: true, suppressMilliseconds: true })
 })
+
+export const datetimeToString = instance => template =>
+  DateTime.fromISO(instance.value).toFormat("M/d")

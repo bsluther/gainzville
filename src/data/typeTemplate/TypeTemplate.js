@@ -1,7 +1,7 @@
-import { initializeBooleanInstance, BooleanTemplate } from "./BooleanTemplate"
-import { DatetimeTemplate, initializeDatetimeInstance } from "./DatetimeTemplate"
-import { DurationTemplate, initializeDurationInstance } from "./DurationTemplate"
-import { FloatTemplate, initializeFloatInstance } from "./FloatTemplate"
+import { initializeBooleanInstance, BooleanTemplate, booleanToString } from "./BooleanTemplate"
+import { DatetimeTemplate, datetimeToString, initializeDatetimeInstance } from "./DatetimeTemplate"
+import { DurationTemplate, durationToString, initializeDurationInstance } from "./DurationTemplate"
+import { FloatTemplate, floatToString, initializeFloatInstance } from "./FloatTemplate"
 import { initializeMassInstance, MassTemplate } from "./MassTemplate"
 import { initializeLengthInstance, LengthTemplate } from "./LengthTemplate"
 import { initializePowersetInstance } from "./PowersetTemplate"
@@ -55,3 +55,25 @@ export const primitives = [
 
 export const getPrimitiveTypeTemplate = templateId =>
   primitiveHash[templateId]
+
+export const toStringTable = {
+  "typ-t-p-boolean": booleanToString,
+  "typ-t-p-datetime": datetimeToString,
+  "typ-t-p-measure-duration": durationToString,
+  "typ-t-p-float": floatToString
+}
+
+export const typeToString = typeInstance => typeTemplate => {
+
+  const typeConstructor = isPrimitive(typeTemplate)
+    ? typeTemplate.id
+    : typeTemplate.constructor
+  const toString = toStringTable[typeConstructor]
+
+  console.log('instance', typeInstance)
+  console.log('template', typeTemplate)
+
+  return toString
+    ? toString(typeInstance)(typeTemplate)
+    : ""
+}

@@ -11,3 +11,6 @@ export const initializeBooleanInstance = () => ({
   template: "typ-t-p-boolean",
   value: false
 })
+
+export const booleanToString = instance => template =>
+  instance.value ? template.name : `not ${template.name}`

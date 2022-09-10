@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { toString, fromString } from "../../../data/typeInstance/SetInstance"
-import { getElements } from "../../../data/typeTemplate/SetTemplate"
+import { getElements, setInstanceOf } from "../../../data/typeTemplate/SetTemplate"
 
 // Let's think hard about what dependencies this component has on other modules. What could change out from under it?
 
@@ -54,8 +54,9 @@ export const SetInstance = ({ Context, address, typeTemplate }) => {
         dispatch({ 
           type: "input", 
           payload: {
-            address, 
-            value: fromString(e.target.value)(member) 
+            address,
+            value: setInstanceOf(typeTemplate)(e.target.value)
+            // value: fromString(e.target.value)(typeInstance) 
           }
         })}
     >
