@@ -1,5 +1,5 @@
 import { NavBar } from "./mobile/components/NavBar"
-import { Timeline } from "./mobile/pages/Timeline"
+import { TimelinePage } from "./mobile/pages/TimelinePage"
 
 export const MobileApp = () => {
   return (
@@ -7,7 +7,7 @@ export const MobileApp = () => {
       className="w-full h-full flex flex-col items-center font-customMono"
     >
       <NavBar />
-      <Timeline />
+      <TimelinePage />
     </section>
   )
 }

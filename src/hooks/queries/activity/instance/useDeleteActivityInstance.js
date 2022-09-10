@@ -24,7 +24,7 @@ export const useDeleteActivityInstance = () => {
             { exact: true }
           )
           queryClient.setQueryData(
-            ["activity", "instances", "actor", user.sub],
+            ["activity", "instances", { actor: user.sub }],
             prev => prev ? prev.filter(inst => inst.id !== instanceId) : []
           )
 
@@ -35,7 +35,7 @@ export const useDeleteActivityInstance = () => {
             )
 
             queryClient.setQueryData(
-              ["activity", "instances", "actor", user.sub],
+              ["activity", "instances", { actor: user.sub }],
               prev => prev ? prev.concat(deletingInstance) : []
             )
           }

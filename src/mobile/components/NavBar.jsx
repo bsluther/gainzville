@@ -1,5 +1,4 @@
-import { GainzvilleIcon, GainzvilleIcon_ } from "../../svg/GainzvilleIcon"
-import { GvSpinner } from "../../svg/GvSpinner"
+import { GainzvilleIcon } from "../../svg/GainzvilleIcon"
 import { MenuSvg } from "../../svg/MenuSvg"
 import { AuthButton } from "../auth/AuthButton"
 
@@ -12,15 +11,24 @@ export const NavBar = () => {
       <MenuSvg className="w-6 h-6 text-neutral-400 absolute left-2 top-2" />
       <div className="flex">
 
-        <span className="text-neutral-300 grow text-center relative">
+        <div className="flex">
+          <span className="text-neutral-300 grow text-center font-semibold">
+            Gain
+          </span>
+          <GainzvilleIcon 
+            className="w-6 h-6 fill-neutral-300 -rotate-[38deg] -ml-[4px] -mr-[8px] translate-y-[3px] -skew-x-12 skew-y-12" 
+          />
+          <span className="text-neutral-300 grow text-center font-semibold">
+            ville
+          </span>
+        </div>
+
+        {/* <span className="text-neutral-300 grow text-center relative">
           Gainzville
-        {/* <GainzvilleIcon 
-          className="absolute top-[1px] left-full w-6 h-6 fill-yellow-300" 
-        /> */}
         </span>
         <GainzvilleIcon 
           className="w-6 h-6 fill-yellow-300" 
-        />
+        /> */}
 
       </div>
       <AuthButton className="absolute right-2 top-2" />

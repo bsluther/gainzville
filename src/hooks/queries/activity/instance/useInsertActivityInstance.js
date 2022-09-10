@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react"
 
 export const useInsertActivityInstance = options => {
   const queryClient = useQueryClient()
-  const { getAccessTokenSilently } = useAuth0()
+  const { getAccessTokenSilently, user } = useAuth0()
 
   return useMutation(
     instance => {
@@ -29,14 +29,14 @@ export const useInsertActivityInstance = options => {
         )
 
         queryClient.setQueryData(
-          ["activity", "instances", "actor", instance.actor],
+          ["activity", "instances", { actor: user.sub }],
           prev => prev ? prev.concat(instance) : [instance],
           { staleTime: 1000 }
         )
 
         return () => {
           queryClient.setQueryData(
-            ["activity", "instances", "actor", instance.actor],
+            ["activity", "instances", { actor: user.sub }],
             prev => prev.filter(inst => inst !== instance.id)
           )
           queryClient.removeQueries(["activity", "instances", instance.id], { exact: true })

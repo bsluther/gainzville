@@ -37,7 +37,7 @@ export const useUpdateActivityInstance = () => {
           )
       },
       onSettled: () =>
-        queryClient.invalidateQueries(["activity", "instances", "actor", user?.sub])
+        queryClient.invalidateQueries(["activity", "instances", { actor: user.sub }])
     }
   )
 }

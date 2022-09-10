@@ -1,13 +1,14 @@
 import { assoc, filter, find, prop, propEq } from "ramda"
 import { DateTime } from "luxon"
 import { useDeleteActivityInstance } from "../../hooks/queries/activity/instance/useDeleteActivityInstance"
-import { useActorActivityInstances } from "../../hooks/queries/activity/instance/useActorActivityInstances"
 import { useActivityTemplatesById } from "../../hooks/queries/activity/template/useActivityTemplatesById"
 import { EntityListbox } from "../EntityListbox"
 import { TrashSVG } from "../../svg/TrashSVG"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useMemo } from "react"
+import { useActivityInstances } from "../../hooks/queries/activity/instance/useActivityInstances"
+import { useAuth0 } from "@auth0/auth0-react"
 
 
 const findTemplate = templateId => templates =>
@@ -30,7 +31,11 @@ const successes = queries =>
 
 
 export const ActivityInstanceBrowser = ({ selectedInstance, setSelectedInstance }) => {
-  const instancesQ = useActorActivityInstances()
+  const { user, isAuthenticated } = useAuth0()
+  const instancesQ = useActivityInstances(
+    { actor: user?.sub },
+    { enabled: isAuthenticated}
+  )
   const templateQs = useActivityTemplatesById(
     instancesQ.data?.map(inst => inst.template),
     { enabled: instancesQ.isSuccess }
