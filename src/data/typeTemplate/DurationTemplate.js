@@ -19,4 +19,6 @@ export const initializeDurationInstance = () => ({
 })
 
 export const durationToString = instance => template =>
-  Duration.fromObject(instance.value).toHuman({ unitDisplay: 'short', listStyle: 'narrow' })
+  Duration
+  .fromObject(instance.value)
+  .toFormat("m:ss")

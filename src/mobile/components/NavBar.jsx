@@ -12,13 +12,13 @@ export const NavBar = () => {
       <div className="flex">
 
         <div className="flex">
-          <span className="text-neutral-300 grow text-center font-semibold -translate-y-[1px]">
+          <span className="text-neutral-300 grow text-center font-semibold NO-translate-y-[1px]">
             Gain
           </span>
           <GainzvilleIcon 
             className="w-6 h-6 fill-neutral-300 -rotate-[38deg] -ml-[4px] -mr-[8px] translate-y-[3px] -skew-x-12 skew-y-12" 
           />
-          <span className="text-neutral-300 grow text-center font-semibold translate-y-[1px]">
+          <span className="text-neutral-300 grow text-center font-semibold NOtranslate-y-[1px]">
             ville
           </span>
         </div>

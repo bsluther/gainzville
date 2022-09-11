@@ -12,9 +12,11 @@ export const TimelinePage = () => {
     { enabled: isAuthenticated }
   )
 
+
+
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <div className="w-4/5 py-8">
+      <div className="w-11/12 py-8">
         <NewInstanceBlob />
       </div>
       <div className="w-11/12">
