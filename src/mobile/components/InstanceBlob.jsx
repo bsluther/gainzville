@@ -1,7 +1,10 @@
+import { useRef } from "react"
 import { useContext, useLayoutEffect, useMemo, useState } from "react"
 import { TypeInstanceDemo } from "../../components/type/instance/TypeInstance"
 import { facetToString } from "../../data/Facet"
 import { typeToString } from "../../data/typeTemplate/TypeTemplate"
+import { useActivityInstance } from "../../hooks/queries/activity/instance/useActivityInstance"
+import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
 import { useFacetTemplate } from "../../hooks/queries/facet/useFacetTemplate"
 import { useTypeTemplate } from "../../hooks/queries/type/useTypeTemplate"
 import { useTypeTemplates } from "../../hooks/queries/type/useTypeTemplates"
@@ -32,31 +35,43 @@ const calcColor = letter => {
 
 
 
+export const InstanceBlob = ({ instanceId, handleSaveChanges }) => {
+  const instanceQ = useActivityInstance(instanceId)
+  const templateQ = useActivityTemplate(instanceQ.data?.template, { enabled: instanceQ.isSuccess })
 
+  const ref = useRef()
+  
+  const instance = instanceQ.data ?? {}
+  const template = templateQ.data ?? {}
 
-export const InstanceBlob = ({ Context, template, handleSaveChanges }) => {
-  const [store, dispatch] = useContext(Context)
-  const instance = getInstance(store)
-
-  const typeInstances = Object.values(instance.facets).flatMap(fct => fct.fields)
-
+  if (!templateQ.isSuccess) return <GvSpinner className="w-6 h-6 fill-yellow-300" />
 
   return (
-    <div
-      style={{ backgroundColor: calcColor(template.name.slice(0, 1)) }}
-      className={`w-max h-max px-2 py-2 rounded-xl text-sm flex space-x-2 items-center`}
-      onClick={() => console.log(instance)}
-    >
-      <span className="px-2">
-        {template.name}
-      </span>
-      {Object
-      .entries(instance.facets)
-      .map(([facetId, facetInstance]) => {
-        return <FacetValue key={facetId} facetId={facetId} facetInstance={facetInstance} />
-      })}
-      {/* {typeInstances.map(inst => <TypeValue key={inst.id} instance={inst} />)} */}
+    <div className="flex w-max h-max" ref={ref}>
+      <div
+        // style={{ backgroundColor: calcColor(template.name.slice(0, 1)) }}
+        className={`w-max h-max px-2 py-2 rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}
+        onClick={() => console.log(instance)}
+      >
+        <span className="px-2">
+          {template.name}
+        </span>
+        {Object.entries(instance.facets)
+          .map(([facetId, facetInstance]) => {
+            return <FacetValue key={facetId} facetId={facetId} facetInstance={facetInstance} />
+          })}
+      </div>
+      <Tab color={calcColor(template.name.slice(0, 1))} height={ref.current?.clientHeight} />
     </div>
+  )
+}
+
+const Tab = ({ color, height }) => {
+  return (
+    <div 
+      style={{ backgroundColor: color, height }}
+      className="w-6 rounded-r-xl opacity-70"
+    ></div>
   )
 }
 
@@ -74,25 +89,10 @@ const FacetValue = ({ facetId, facetInstance }) => {
   }), [facetInstance, facetTemplateQ.data, typeTemplatesQ.data])
   
   
-  if (!facetTemplateQ.isSuccess) return <GvSpinner className="w-6 h-6 fill-yellow-300" />
+  if (!facetTemplateQ.isSuccess) return <></>
+  // if (!facetTemplateQ.isSuccess) return <GvSpinner className="w-6 h-6 fill-yellow-300" />
   
   
   return <span className="lowercase text-xs">{string}</span>
 }
 
-
-
-
-
-
-
-
-const TypeValue = ({ label, templateId, instance }) => {
-  const templateQ = useTypeTemplate(instance.template)
-
-  if (!templateQ.isSuccess) return <GvSpinner />
-  console.log(typeToString(instance)(templateQ.data))
-  return <span>{typeToString(instance)(templateQ.data)}</span>
-  return <TypeInstanceDemo typeTemplate={templateQ.data}/>
-
-}

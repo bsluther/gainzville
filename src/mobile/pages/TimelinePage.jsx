@@ -72,10 +72,8 @@ const Timeline = ({ instances = [] }) => {
     insertMarker(Duration.fromObject({ day: 7 }))
                 ("a week ago"),
     insertMarker(Duration.fromObject({ month: 1 }))
-                ("a month ago"),
+                ("a month ago")
   )(sortedInstances)
-
-  console.log(withMarkers)
 
   return (
     <ol className="w-full h-full flex flex-col space-y-1">
@@ -89,11 +87,11 @@ const Timeline = ({ instances = [] }) => {
                 {el}
               </span>
             </div>
-          : <ActivityInstanceController
-              key={el.id}
-              Presenter={InstanceBlob}
+          : <InstanceBlob 
+              key={el.id} 
               instanceId={el.id}
             />)}
+
     </ol>
   )
 }
