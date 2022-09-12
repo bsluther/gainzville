@@ -1,5 +1,7 @@
 import { useRef } from "react"
 import { useContext, useLayoutEffect, useMemo, useState } from "react"
+import { ActivityInstanceController } from "../../components/activity/ActivityInstanceController"
+import { FacetInstance } from "../../components/facet/FacetInstance"
 import { TypeInstanceDemo } from "../../components/type/instance/TypeInstance"
 import { facetToString } from "../../data/Facet"
 import { typeToString } from "../../data/typeTemplate/TypeTemplate"
@@ -38,8 +40,8 @@ const calcColor = letter => {
 export const InstanceBlob = ({ instanceId, handleSaveChanges }) => {
   const instanceQ = useActivityInstance(instanceId)
   const templateQ = useActivityTemplate(instanceQ.data?.template, { enabled: instanceQ.isSuccess })
-
   const ref = useRef()
+  const [isEditing, setIsEditing] = useState(false)
   
   const instance = instanceQ.data ?? {}
   const template = templateQ.data ?? {}
@@ -51,15 +53,24 @@ export const InstanceBlob = ({ instanceId, handleSaveChanges }) => {
       <div
         // style={{ backgroundColor: calcColor(template.name.slice(0, 1)) }}
         className={`w-max h-max px-2 py-2 rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}
-        onClick={() => console.log(instance)}
+        onClick={() => setIsEditing(true)}
       >
-        <span className="px-2">
-          {template.name}
-        </span>
-        {Object.entries(instance.facets)
-          .map(([facetId, facetInstance]) => {
-            return <FacetValue key={facetId} facetId={facetId} facetInstance={facetInstance} />
-          })}
+        {isEditing
+          ? <ActivityInstanceController 
+              Presenter={InstanceBlobEditorPresenter}
+              instanceId={instance.id}
+            />
+          : <>
+              <span className="px-2">
+                {template.name}
+              </span>
+              {Object.entries(instance.facets)
+                .map(([facetId, facetInstance]) => {
+                  return <FacetValue key={facetId} facetId={facetId} facetInstance={facetInstance} />
+                })}
+            </>}
+
+
       </div>
       <Tab color={calcColor(template.name.slice(0, 1))} height={ref.current?.clientHeight} />
     </div>
@@ -72,6 +83,33 @@ const Tab = ({ color, height }) => {
       style={{ backgroundColor: color, height }}
       className="w-6 rounded-r-xl opacity-70"
     ></div>
+  )
+}
+
+const InstanceBlobEditorController = ({ instanceId }) => {
+
+  return (
+    <ActivityInstanceController 
+      Presenter={InstanceBlobEditorPresenter}
+      instanceId={instanceId}
+    />
+  )
+}
+
+const InstanceBlobEditorPresenter = ({ Context, template, handleSaveChanges }) => {
+  const [store, dispatch] = useContext(Context)
+
+  return (
+    <div>
+      <span>{template.name}</span>
+      {Object.keys(store.instance.facets).map(fctId =>
+        <FacetInstance 
+          key={fctId} 
+          Context={Context} 
+          facetTemplateId={fctId} 
+          address={{ facet: fctId }} 
+        />)}
+    </div>
   )
 }
 

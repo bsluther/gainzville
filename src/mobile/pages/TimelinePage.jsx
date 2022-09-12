@@ -5,6 +5,7 @@ import { ActivityInstanceController } from "../../components/activity/ActivityIn
 import { useActivityInstances } from "../../hooks/queries/activity/instance/useActivityInstances"
 import { InstanceBlob } from "../components/InstanceBlob"
 import { NewInstanceBlob } from "../components/NewInstanceBlob"
+import { GvSpinner } from "../../svg/GvSpinner"
 
 export const TimelinePage = () => {
   const { user, isAuthenticated } = useAuth0()
