@@ -1,3 +1,4 @@
+import { identity } from "ramda"
 import { useRef } from "react"
 import { useContext, useLayoutEffect, useMemo, useState } from "react"
 import { ActivityInstanceController } from "../../components/activity/ActivityInstanceController"
@@ -37,31 +38,30 @@ const calcColor = letter => {
 
 
 
-export const InstanceBlob = ({ instanceId, handleSaveChanges }) => {
+export const InstanceBlob = ({ instanceId }) => {
   const instanceQ = useActivityInstance(instanceId)
   const templateQ = useActivityTemplate(instanceQ.data?.template, { enabled: instanceQ.isSuccess })
   const ref = useRef()
   const [isEditing, setIsEditing] = useState(false)
-  
+
   const instance = instanceQ.data ?? {}
   const template = templateQ.data ?? {}
 
   if (!templateQ.isSuccess) return <GvSpinner className="w-6 h-6 fill-yellow-300" />
 
   return (
-    <div className="flex w-max h-max" ref={ref}>
+    <div className="flex w-full h-max" ref={ref}>
       <div
-        // style={{ backgroundColor: calcColor(template.name.slice(0, 1)) }}
-        className={`w-max h-max px-2 py-2 rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}
-        onClick={() => setIsEditing(true)}
+        className={`max-w-full h-max px-2 py-2 rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}
       >
         {isEditing
           ? <ActivityInstanceController 
               Presenter={InstanceBlobEditorPresenter}
               instanceId={instance.id}
+              endEditing={() => setIsEditing(false)}
             />
           : <>
-              <span className="px-2">
+              <span className="px-2" onClick={() => setIsEditing(true)}>
                 {template.name}
               </span>
               {Object.entries(instance.facets)
@@ -80,28 +80,20 @@ export const InstanceBlob = ({ instanceId, handleSaveChanges }) => {
 const Tab = ({ color, height }) => {
   return (
     <div 
-      style={{ backgroundColor: color, height }}
-      className="w-6 rounded-r-xl opacity-70"
+      style={{ backgroundColor: color }}
+      className="w-6 min-w-[1.5rem] rounded-r-xl opacity-70"
     ></div>
   )
 }
 
-const InstanceBlobEditorController = ({ instanceId }) => {
-
-  return (
-    <ActivityInstanceController 
-      Presenter={InstanceBlobEditorPresenter}
-      instanceId={instanceId}
-    />
-  )
-}
-
-const InstanceBlobEditorPresenter = ({ Context, template, handleSaveChanges }) => {
+const InstanceBlobEditorPresenter = ({ Context, template, handleSaveChanges, endEditing  }) => {
   const [store, dispatch] = useContext(Context)
 
   return (
-    <div>
-      <span>{template.name}</span>
+    <div 
+      className="w-full overflow-x-scroll text-xs flex flex-col space-y-2"
+    >
+      <span className="text-sm" onClick={() => endEditing()}>{template.name}</span>
       {Object.keys(store.instance.facets).map(fctId =>
         <FacetInstance 
           key={fctId} 

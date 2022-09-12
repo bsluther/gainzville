@@ -10,7 +10,7 @@ import { makeId } from "../../utility/fns"
 import { ActivityInstancePresenter } from "./ActivityInstancePresenter"
 import { DateTime } from "luxon"
 
-export const ActivityInstanceController = ({ instanceId, Presenter = ActivityInstancePresenter }) => {
+export const ActivityInstanceController = ({ instanceId, Presenter = ActivityInstancePresenter, ...props }) => {
   const instanceQ = useActivityInstance(instanceId)
   const templateQ = useActivityTemplate(
     instanceQ.data?.template,
@@ -47,6 +47,7 @@ export const ActivityInstanceController = ({ instanceId, Presenter = ActivityIns
           Context={InstanceContext}
           template={templateQ.data}
           handleSaveChanges={handleSave}
+          {...props}
         />}
     </InstanceContext.Provider>
   )
