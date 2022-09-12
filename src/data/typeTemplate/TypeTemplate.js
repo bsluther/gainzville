@@ -70,9 +70,6 @@ export const typeToString = typeInstance => typeTemplate => {
     : typeTemplate.constructor
   const toString = toStringTable[typeConstructor]
 
-  console.log('instance', typeInstance)
-  console.log('template', typeTemplate)
-
   return toString
     ? toString(typeInstance)(typeTemplate)
     : ""

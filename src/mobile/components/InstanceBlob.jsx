@@ -1,5 +1,4 @@
-import { zip } from "ramda"
-import { useContext, useEffect, useLayoutEffect, useMemo, useState } from "react"
+import { useContext, useLayoutEffect, useMemo, useState } from "react"
 import { TypeInstanceDemo } from "../../components/type/instance/TypeInstance"
 import { facetToString } from "../../data/Facet"
 import { typeToString } from "../../data/typeTemplate/TypeTemplate"

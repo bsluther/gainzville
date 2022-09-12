@@ -4,7 +4,7 @@ import { TimelinePage } from "./mobile/pages/TimelinePage"
 export const MobileApp = () => {
   return (
     <section
-      className="w-full h-full flex flex-col items-center font-customMono"
+      className="w-screen h-full flex flex-col items-center font-customMono"
     >
       <NavBar />
       <TimelinePage />
