@@ -48,19 +48,22 @@ export const InstanceBlob = ({ instanceId }) => {
 
   if (!templateQ.isSuccess) return <GvSpinner className="w-6 h-6 fill-yellow-300" />
 
+  const color = calcColor(template.name.slice(0, 1))
+
   return (
     <div className="flex w-full h-max">
       <div
-        className={`h-max overflow-scroll no-scrollbar px-2 py-2 rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}
+        className={`h-max overflow-scroll no-scrollbar rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}
       >
         {isEditing
           ? <ActivityInstanceController 
               Presenter={InstanceBlobEditor}
               instanceId={instance.id}
               endEditing={() => setIsEditing(false)}
+              color={color}
             />
           : <>
-              <span className="px-2 whitespace-nowrap" onClick={() => setIsEditing(true)}>
+              <span className="px-2 py-2 whitespace-nowrap" onClick={() => setIsEditing(true)}>
                 {template.name}
               </span>
               {Object.entries(instance.facets)
@@ -71,7 +74,7 @@ export const InstanceBlob = ({ instanceId }) => {
 
 
       </div>
-      <Tab color={calcColor(template.name.slice(0, 1))} />
+      <Tab color={color} />
     </div>
   )
 }
@@ -79,27 +82,38 @@ export const InstanceBlob = ({ instanceId }) => {
 const Tab = ({ color }) => {
   return (
     <div 
-      style={{ backgroundColor: color }}
       className="w-6 min-w-[1.5rem] basis-auto rounded-r-xl opacity-70"
+      style={{ backgroundColor: color }}
     ></div>
   )
 }
 
-const InstanceBlobEditor = ({ Context, template, handleSaveChanges, endEditing  }) => {
+const InstanceBlobEditor = ({ Context, template, handleSaveChanges, endEditing, color }) => {
   const [store, dispatch] = useContext(Context)
 
   return (
     <div 
-      className="grow overflow-x-scroll no-scrollbar text-xs flex flex-col space-y-2"
+      className="grow"
     >
-      <span className="text-sm" onClick={() => endEditing()}>{template.name}</span>
-      {Object.keys(store.instance.facets).map(fctId =>
-        <FacetInstance 
-          key={fctId} 
-          Context={Context} 
-          facetTemplateId={fctId} 
-          address={{ facet: fctId }} 
-        />)}
+      <div 
+        className="w-full px-2 pt-2 pb-1 border-b border-neutral-800"
+        onClick={() => endEditing()}
+      >
+        <span 
+          className="text-md" 
+        >
+          {template.name}
+        </span>
+      </div>
+      <div className="overflow-x-scroll no-scrollbar text-sm flex flex-col px-2 py-2 space-y-2">
+        {Object.keys(store.instance.facets).map(fctId =>
+          <FacetInstance 
+            key={fctId} 
+            Context={Context} 
+            facetTemplateId={fctId} 
+            address={{ facet: fctId }} 
+          />)}
+      </div>
     </div>
   )
 }
