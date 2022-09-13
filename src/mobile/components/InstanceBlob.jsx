@@ -96,7 +96,7 @@ const InstanceBlobEditor = ({ Context, template, handleSaveChanges, endEditing, 
       className="grow"
     >
       <div 
-        className="w-full px-2 pt-2 pb-1 border-b border-neutral-800"
+        className="w-full px-2 pt-2 pb-1 bg-neutral-400"
         onClick={() => endEditing()}
       >
         <span 
@@ -105,7 +105,7 @@ const InstanceBlobEditor = ({ Context, template, handleSaveChanges, endEditing, 
           {template.name}
         </span>
       </div>
-      <div className="overflow-x-scroll no-scrollbar text-sm flex flex-col px-2 py-2 space-y-2">
+      <div className="bg-neutral-400 overflow-x-scroll no-scrollbar text-sm flex flex-col px-2 py-2 space-y-2">
         {Object.keys(store.instance.facets).map(fctId =>
           <FacetInstance 
             key={fctId} 
@@ -132,7 +132,7 @@ const FacetValue = ({ facetId, facetInstance }) => {
   }), [facetInstance, facetTemplateQ.data, typeTemplatesQ.data])
   
   
-  if (!facetTemplateQ.isSuccess) return <></>
+  if (!facetTemplateQ.isSuccess) return null
   // if (!facetTemplateQ.isSuccess) return <GvSpinner className="w-6 h-6 fill-yellow-300" />
   
   
