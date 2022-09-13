@@ -4,7 +4,7 @@ import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { CogSVGWithRef } from "../../svg/CogSVG"
 import { TypeInstance } from "../type/instance/TypeInstance"
 
-export const FacetInstance = ({ Context, facetTemplateId, address }) => {
+export const FacetInstance = ({ Context, facetTemplateId, address, ...props }) => {
   const facetTemplateQuery = useEntity(facetTemplateId, { 
     enabled: !!facetTemplateId
   })
@@ -26,10 +26,10 @@ export const FacetInstance = ({ Context, facetTemplateId, address }) => {
   }, [setOptionsOpen])
 
   return (
-    <div className="relative w-max">
+    <div className="relative w-max" {...props}>
       <div 
         className={`
-          border-2 border-neutral-800 rounded-lg
+          border-2 ${props.borderColor ? props.borderColor : "border-neutral-800"} rounded-lg
           bg-neutral-400
           pl-2 pr-2 py-1
           w-max

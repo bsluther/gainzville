@@ -4,6 +4,7 @@ import { useContext, useLayoutEffect, useMemo, useState } from "react"
 import { ActivityInstanceController } from "../../components/activity/ActivityInstanceController"
 import { FacetInstance } from "../../components/facet/FacetInstance"
 import { TypeInstanceDemo } from "../../components/type/instance/TypeInstance"
+import { WithTooltip } from "../../components/WithTooltip"
 import { facetToString } from "../../data/Facet"
 import { typeToString } from "../../data/typeTemplate/TypeTemplate"
 import { useActivityInstance } from "../../hooks/queries/activity/instance/useActivityInstance"
@@ -14,6 +15,8 @@ import { useTypeTemplates } from "../../hooks/queries/type/useTypeTemplates"
 import { getInstance } from "../../state/activityInstanceReducer"
 import { DotsVerticalSvg } from "../../svg/DotsVerticalSvg"
 import { GvSpinner } from "../../svg/GvSpinner"
+import { PlusSvg } from "../../svg/PlusSvg"
+import { TrashSVG } from "../../svg/TrashSVG"
 
 
 const aToG = /[A-G]/i
@@ -39,11 +42,11 @@ const calcColor = letter => {
 
 
 
+
 export const InstanceBlob = ({ instanceId }) => {
   const instanceQ = useActivityInstance(instanceId)
   const templateQ = useActivityTemplate(instanceQ.data?.template, { enabled: instanceQ.isSuccess })
   const [isEditing, setIsEditing] = useState(false)
-  const [renderWithMenuOpen, setRenderWithMenuOpen] = useState(false)
 
   const instance = instanceQ.data ?? {}
   const template = templateQ.data ?? {}
@@ -58,14 +61,13 @@ export const InstanceBlob = ({ instanceId }) => {
       instanceId={instance.id}
       endEditing={() => setIsEditing(false)}
       color={color}
-      renderWithMenuOpen={renderWithMenuOpen}
     />
   )
 
   return (
     <div className="flex w-full h-max">
       <div
-        className={`h-max overflow-scroll no-scrollbar rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}
+        className={`h-max overflow-scroll no-scrollbar rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400 border-y-2 border-l-2 border-neutral-800`}
       >
         <span className="px-2 py-2 whitespace-nowrap" onClick={() => setIsEditing(true)}>
           {template.name}
@@ -77,45 +79,35 @@ export const InstanceBlob = ({ instanceId }) => {
       </div>
       <Tab 
         color={color} 
-        handleOpenMenu={() => {
-          setRenderWithMenuOpen(true)
-          setIsEditing(true)
-        }} />
+      />
     </div>
   )
 }
 
-const Tab = ({ color, handleOpenMenu, renderWithMenuOpen }) => {
-  const [menuOpen, setMenuOpen] = useState(renderWithMenuOpen)
-  console.log('tab renderwith', renderWithMenuOpen)
+const Tab = ({ color }) => {
+
   return (
     <div 
-      className={`${menuOpen ? "w-max" : "w-6 min-w-[1.5rem] justify-center"} basis-auto rounded-r-xl opacity-70 flex items-center`}
+      className={`w-4 rounded-r-xl opacity-70 flex items-center border-y-2 border-r-2 border-neutral-800`}
       style={{ backgroundColor: color }}
-      onClick={() => {
-        setMenuOpen(true)
-        handleOpenMenu()
-      }}
     >
-      {menuOpen &&
-        <div className="flex flex-col pl-1">
-          <span className="text-neutral-100 text-sm w-max">add facet</span>
-        </div>
-      }
-      <DotsVerticalSvg className="w-5 h-5 text-neutral-300" />
+      {/* <DotsVerticalSvg style={{ color }} className="w-5 h-5 text-neutral-300NO brightness-150" /> */}
     </div>
   )
 }
 
-export const InstanceBlobEditor = ({ Context, template, handleSaveChanges, endEditing, renderWithMenuOpen }) => {
+
+
+export const InstanceBlobEditor = ({ Context, template, handleSaveChanges, endEditing }) => {
   const [store, dispatch] = useContext(Context)
+  const [focus, setFocus] = useState("activity")
 
   const color = calcColor(template.name.slice(0, 1))
 
   if (!store) return <GvSpinner />
   return (
     <div className="flex w-full h-max">
-      <div className={`h-max overflow-scroll no-scrollbar rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}>
+      <div className={`h-max overflow-scroll no-scrollbar rounded-l-xl text-sm flex space-x-2 pr-2 items-center bg-neutral-400 border-y-2 border-l-2 ${focus === "activity" ? "border-neutral-200" : "border-neutral-800"}`}>
         <div className="grow">
           <div 
             className="w-full px-2 pt-2 pb-1 bg-neutral-400"
@@ -129,7 +121,9 @@ export const InstanceBlobEditor = ({ Context, template, handleSaveChanges, endEd
                 key={fctId} 
                 Context={Context} 
                 facetTemplateId={fctId} 
-                address={{ facet: fctId }} 
+                address={{ facet: fctId }}
+                onClick={() => setFocus(fctId)}
+                borderColor={focus === fctId ? "border-neutral-200" : null}
               />)}
             {store.hasChanged &&
               <button 
@@ -139,11 +133,30 @@ export const InstanceBlobEditor = ({ Context, template, handleSaveChanges, endEd
                   endEditing()
                 }}
               >Save Changes</button>}
+            <div className="flex justify-center">
+              <PlusSvg className="w-6 h-6" />
+              <TrashSVG className="w-6 h-6" />
+            </div>
           </div>
         </div>
-
     </div>
-      <Tab color={color} handleOpenMenu={x => x} renderWithMenuOpen={renderWithMenuOpen} />
+      <EditorTab color={color} border={focus === "activity" ? "border-neutral-200" : "border-neutral-800"} />
+    </div>
+  )
+}
+
+const EditorTab = ({ color, border }) => {
+
+  return (
+    <div 
+      className={`w-max p-1 rounded-r-xl opacity-70NO flex flex-col items-center justify-center space-y-2 border-y-2 border-r-2 border-opacity-100 ${border}`}
+      style={{ backgroundColor: color }}
+    >
+      <WithTooltip tip="add facet">
+        <PlusSvg className="w-6 h-6" />
+      </WithTooltip>
+      <TrashSVG className="w-6 h-6" />
+      {/* <DotsVerticalSvg style={{ color }} className="w-5 h-5 text-neutral-300NO brightness-150" /> */}
     </div>
   )
 }
@@ -155,6 +168,7 @@ const FacetValue = ({ facetId, facetInstance }) => {
     { ids: facetTemplateQ.data?.fields }, 
     { enabled: facetTemplateQ.isSuccess }
   )
+  // this is a setting where it might be faster/better to useQueries so that each type template is cached and available
   const string = useMemo(() => facetToString({
     facetInstance,
     facetTemplate: facetTemplateQ.data,
