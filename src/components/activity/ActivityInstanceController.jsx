@@ -66,7 +66,7 @@ const initializeActivityInstance = (templateId, actor) => {
 }
 
 
-export const NewActivityInstanceController = ({ templateId, handleSaveNewInstance }) => {
+export const NewActivityInstanceController = ({ templateId, handleSaveNewInstance, Presenter = ActivityInstancePresenter }) => {
   const templateQ = useActivityTemplate(templateId)
   const { user } = useAuth0()
 
@@ -94,7 +94,7 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
   return (
     <InstanceContext.Provider value={[store, dispatch]}>
       {templateQ.isSuccess && 
-        <ActivityInstancePresenter
+        <Presenter
           Context={InstanceContext}
           template={templateQ.data}
           handleSaveChanges={instance => {

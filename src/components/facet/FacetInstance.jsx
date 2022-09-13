@@ -62,6 +62,7 @@ export const FacetInstance = ({ Context, facetTemplateId, address }) => {
                   w-6 h-6
                   absolute -top-3 -right-3
                   cursor-pointer
+                  z-50
                 "
                 onClick={e => {
                   setOptionsOpen(prev => !prev)

@@ -1,11 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { add, findIndex, insert, pipe, prop, sort } from "ramda"
 import { DateTime, Duration } from 'luxon'
-import { ActivityInstanceController } from "../../components/activity/ActivityInstanceController"
+import { ActivityInstanceController, NewActivityInstanceController } from "../../components/activity/ActivityInstanceController"
 import { useActivityInstances } from "../../hooks/queries/activity/instance/useActivityInstances"
-import { InstanceBlob } from "../components/InstanceBlob"
+import { InstanceBlob, InstanceBlobEditor } from "../components/InstanceBlob"
 import { NewInstanceBlob } from "../components/NewInstanceBlob"
 import { GvSpinner } from "../../svg/GvSpinner"
+import { useState } from "react"
 
 export const TimelinePage = () => {
   const { user, isAuthenticated } = useAuth0()
@@ -13,15 +14,20 @@ export const TimelinePage = () => {
     { actor: user?.sub }, 
     { enabled: isAuthenticated }
   )
-
-
+  const [creating, setCreating] = useState(false)
 
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="w-11/12 py-8">
-        <NewInstanceBlob />
+        <NewInstanceBlob handleStartCreating={templateId => setCreating(templateId)} />
       </div>
       <div className="w-11/12">
+        {creating && 
+          <NewActivityInstanceController
+            Presenter={InstanceBlobEditor}
+            templateId={creating}
+            handleSaveNewInstance={() => setCreating(false)}
+          />}
         <Timeline instances={instancesQ.data ?? []} />
       </div>
     </div>
@@ -77,7 +83,7 @@ const Timeline = ({ instances = [] }) => {
   )(sortedInstances)
 
   return (
-    <ol className="w-full h-full flex flex-col space-y-1">
+    <ol className="w-full h-full flex flex-col space-y-2">
       {withMarkers.map(el =>
         typeof el === "string"
           ? <div key={el} className="flex w-full items-center space-x-1 text-black">

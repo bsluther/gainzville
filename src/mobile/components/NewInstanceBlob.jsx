@@ -6,17 +6,21 @@ import { AdjustmentsSvg } from "../../svg/AdjustmentsSvg"
 import { SearchSvg } from "../../svg/SearchSvg"
 import { debounce } from "../../utility/fns"
 
-const Results = ({ templates = [] }) => {
+const Results = ({ templates = [], handleSelect }) => {
   return (
     <div className="bg-neutral-750 text-neutral-300 rounded-b-xl py-2">
       <ol className="flex flex-col px-2">
-        {templates.map(tmpl => <span key={tmpl.id}>{tmpl.name}</span>)}
+        {templates.map(tmpl => 
+          <span 
+            key={tmpl.id}
+            onClick={() => handleSelect(tmpl.id)}
+          >{tmpl.name}</span>)}
       </ol>
     </div>
   )
 }
 
-export const NewInstanceBlob = () => {
+export const NewInstanceBlob = ({ handleStartCreating }) => {
   const ref = useRef()
   const [mode, setMode] = useState("inactive")
   const [inputState, setInputState] = useState("")
@@ -51,7 +55,7 @@ export const NewInstanceBlob = () => {
         </div>
       </div>
       {areResults > 0 &&
-        <Results templates={resultsQ.data} />
+        <Results templates={resultsQ.data} handleSelect={templateId => handleStartCreating(templateId)} />
       }
     </div>
   )

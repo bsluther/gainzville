@@ -12,5 +12,7 @@ export const initializeBooleanInstance = () => ({
   value: false
 })
 
-export const booleanToString = instance => template =>
-  instance.value ? template.name : `not ${template.name}`
+export const booleanToString = instance => template => {
+  console.log('instance', instance)
+  return instance.value ? template.name : `not ${template.name}`
+}

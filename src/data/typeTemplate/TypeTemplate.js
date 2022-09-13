@@ -66,12 +66,11 @@ export const toStringTable = {
 }
 
 export const typeToString = typeInstance => typeTemplate => {
-
   const typeConstructor = isPrimitive(typeTemplate)
     ? typeTemplate.id
     : typeTemplate.typeConstructor
   const toString = toStringTable[typeConstructor]
-  console.log(typeConstructor)
+
   return toString
     ? toString(typeInstance)(typeTemplate)
     : ""
