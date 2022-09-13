@@ -1,3 +1,5 @@
+import { join, map, pipe } from "ramda"
+
 export const MassTemplate = {
   id: "typ-t-p-measure-mass",
   type: "TypeTemplate",
@@ -13,3 +15,10 @@ export const initializeMassInstance = () => ({
     lb: "0"
   }
 })
+
+export const massToString = instance => template =>
+  pipe(
+    Object.entries,
+    map(([unit, magnitude]) => `${magnitude} ${unit}`),
+    join(" ")
+  )(instance.value)

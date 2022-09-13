@@ -41,7 +41,6 @@ const calcColor = letter => {
 export const InstanceBlob = ({ instanceId }) => {
   const instanceQ = useActivityInstance(instanceId)
   const templateQ = useActivityTemplate(instanceQ.data?.template, { enabled: instanceQ.isSuccess })
-  const ref = useRef()
   const [isEditing, setIsEditing] = useState(false)
 
   const instance = instanceQ.data ?? {}
@@ -50,18 +49,18 @@ export const InstanceBlob = ({ instanceId }) => {
   if (!templateQ.isSuccess) return <GvSpinner className="w-6 h-6 fill-yellow-300" />
 
   return (
-    <div className="flex w-full h-max" ref={ref}>
+    <div className="flex w-full h-max">
       <div
-        className={`max-w-full h-max px-2 py-2 rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}
+        className={`h-max overflow-scroll no-scrollbar px-2 py-2 rounded-l-xl text-sm flex space-x-2 items-center bg-neutral-400`}
       >
         {isEditing
           ? <ActivityInstanceController 
-              Presenter={InstanceBlobEditorPresenter}
+              Presenter={InstanceBlobEditor}
               instanceId={instance.id}
               endEditing={() => setIsEditing(false)}
             />
           : <>
-              <span className="px-2" onClick={() => setIsEditing(true)}>
+              <span className="px-2 whitespace-nowrap" onClick={() => setIsEditing(true)}>
                 {template.name}
               </span>
               {Object.entries(instance.facets)
@@ -72,26 +71,26 @@ export const InstanceBlob = ({ instanceId }) => {
 
 
       </div>
-      <Tab color={calcColor(template.name.slice(0, 1))} height={ref.current?.clientHeight} />
+      <Tab color={calcColor(template.name.slice(0, 1))} />
     </div>
   )
 }
 
-const Tab = ({ color, height }) => {
+const Tab = ({ color }) => {
   return (
     <div 
       style={{ backgroundColor: color }}
-      className="w-6 min-w-[1.5rem] rounded-r-xl opacity-70"
+      className="w-6 min-w-[1.5rem] basis-auto rounded-r-xl opacity-70"
     ></div>
   )
 }
 
-const InstanceBlobEditorPresenter = ({ Context, template, handleSaveChanges, endEditing  }) => {
+const InstanceBlobEditor = ({ Context, template, handleSaveChanges, endEditing  }) => {
   const [store, dispatch] = useContext(Context)
 
   return (
     <div 
-      className="w-full overflow-x-scroll text-xs flex flex-col space-y-2"
+      className="grow overflow-x-scroll no-scrollbar text-xs flex flex-col space-y-2"
     >
       <span className="text-sm" onClick={() => endEditing()}>{template.name}</span>
       {Object.keys(store.instance.facets).map(fctId =>
@@ -123,6 +122,6 @@ const FacetValue = ({ facetId, facetInstance }) => {
   // if (!facetTemplateQ.isSuccess) return <GvSpinner className="w-6 h-6 fill-yellow-300" />
   
   
-  return <span className="lowercase text-xs">{string}</span>
+  return <span className="lowercase text-xs whitespace-nowrap">{string}</span>
 }
 

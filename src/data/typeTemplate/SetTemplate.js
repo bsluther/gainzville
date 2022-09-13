@@ -14,3 +14,6 @@ export const setInstanceOf = template => value => ({
   template: template.id,
   value
 })
+
+export const setToString = instance => template =>
+  instance.value

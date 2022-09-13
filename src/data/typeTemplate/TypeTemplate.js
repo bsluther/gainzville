@@ -2,10 +2,10 @@ import { initializeBooleanInstance, BooleanTemplate, booleanToString } from "./B
 import { DatetimeTemplate, datetimeToString, initializeDatetimeInstance } from "./DatetimeTemplate"
 import { DurationTemplate, durationToString, initializeDurationInstance } from "./DurationTemplate"
 import { FloatTemplate, floatToString, initializeFloatInstance } from "./FloatTemplate"
-import { initializeMassInstance, MassTemplate } from "./MassTemplate"
+import { initializeMassInstance, MassTemplate, massToString } from "./MassTemplate"
 import { initializeLengthInstance, LengthTemplate } from "./LengthTemplate"
 import { initializePowersetInstance } from "./PowersetTemplate"
-import { initializeSetInstance } from "./SetTemplate"
+import { initializeSetInstance, setToString } from "./SetTemplate"
 import { initializeStringInstance, StringTemplate } from "./StringTemplate"
 
 
@@ -60,16 +60,18 @@ export const toStringTable = {
   "typ-t-p-boolean": booleanToString,
   "typ-t-p-datetime": datetimeToString,
   "typ-t-p-measure-duration": durationToString,
-  "typ-t-p-float": floatToString
+  "typ-t-p-float": floatToString,
+  "typ-c-set": setToString,
+  "typ-t-p-measure-mass": massToString
 }
 
 export const typeToString = typeInstance => typeTemplate => {
 
   const typeConstructor = isPrimitive(typeTemplate)
     ? typeTemplate.id
-    : typeTemplate.constructor
+    : typeTemplate.typeConstructor
   const toString = toStringTable[typeConstructor]
-
+  console.log(typeConstructor)
   return toString
     ? toString(typeInstance)(typeTemplate)
     : ""
