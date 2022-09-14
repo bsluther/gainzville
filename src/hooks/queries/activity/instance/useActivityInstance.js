@@ -14,7 +14,8 @@ export const useActivityInstance = id => {
         })
       ),
     {
-      enabled: !!id
+      enabled: !!id,
+      staleTime: 5 * 60 * 1000
     }
   )
 }

@@ -1,4 +1,4 @@
-import { slice } from 'ramda'
+import { append, ifElse, prop, reduce, slice } from 'ramda'
 import { v4 as uuid } from 'uuid'
 
 export const chWidth = (str, padding = 0) =>
@@ -49,12 +49,16 @@ const idTypeTable = {
   "typ-t-p": "TypeTemplate/Primitive"
 }
 
-const lookupIdType = prefix =>
-  idTypeTable[prefix] ?? undefined
+const lookupIdType = prefix => idTypeTable[prefix] ?? undefined
 
 export const typeofId = str => {
-  if (!str || typeof str !== "string") return undefined
-  if (str.length <= 37) return undefined
+  if (!str || typeof str !== "string") {
+    return undefined
+  }
+  if (str.length <= 37) {
+    // This is a little hacked in rn, handling the type template primitive case
+    return lookupIdType(str.slice(0, 7))
+  }
   return lookupIdType(slice(0)(-37)(str))
 }
 
@@ -68,12 +72,14 @@ const typeQueryKeyTable = {
   "TypeTemplate/Primitive": ["type", "templates"]
 }
 
-export const lookupTypeQueryKey = type =>
-  typeQueryKeyTable[type]
-
+export const lookupTypeQueryKey = type => typeQueryKeyTable[type]
 
 export const callIfFn = a => (...args) => {
   if (typeof a === "function") {
     return a(args)
   }
 }
+
+
+export const allSucceeded = reduce((acc, qry) => acc && qry.isSuccess)
+                                  (true)

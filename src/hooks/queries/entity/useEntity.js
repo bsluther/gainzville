@@ -6,7 +6,8 @@ import { fetchWithError, lookupTypeQueryKey, typeofId } from "../../../utility/f
 export const useEntity = (id, options) => {
   const { getAccessTokenSilently } = useAuth0()
   const entityType = typeofId(id)
-  const queryKey = append(id)(lookupTypeQueryKey(entityType) ?? [])
+  const queryKey = append(id)
+                         (lookupTypeQueryKey(entityType) ?? [])
   const url = `/v2end/${queryKey.join("/")}`
 
   return useQuery(

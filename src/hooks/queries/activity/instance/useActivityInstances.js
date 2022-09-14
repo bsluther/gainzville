@@ -1,9 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { useQuery } from "react-query"
-import { fetchWithError } from "../../../../utility/fns"
+import { useQuery, useQueryClient } from "react-query"
+import { callIfFn, fetchWithError } from "../../../../utility/fns"
+import { DateTime } from "luxon"
 
 
 export const useActivityInstances = (queryObj, options) => {
+  const queryClient = useQueryClient()
   const { getAccessTokenSilently } = useAuth0()
 
   const paramString = new URLSearchParams(queryObj).toString()
@@ -16,6 +18,18 @@ export const useActivityInstances = (queryObj, options) => {
         fetchWithError(`/v2end/activity/instances?${paramString}`, {
           headers: { Authorization: `Bearer ${tkn}` }
         })),
-    options
+    {
+      onSuccess: instances => {
+        callIfFn(options.onSuccess)(instances)
+        instances.forEach(inst => {
+          queryClient.setQueryData(
+            ["activity", "instances", inst.id],
+            inst,
+            { updatedAt: DateTime.now().toUnixInteger() }
+          )
+        })
+      },
+      ...options
+    }
   )
 }

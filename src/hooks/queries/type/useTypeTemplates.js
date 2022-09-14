@@ -6,10 +6,10 @@ export const useTypeTemplates = (paramsObj = {}, options) => {
   const { getAccessTokenSilently, user, isAuthenticated } = useAuth0()
   const queryClient = useQueryClient()
 
-  const searchParams = new URLSearchParams({ user: user?.sub, ...paramsObj })
+  const searchParams = new URLSearchParams(paramsObj)
 
   return useQuery(
-    ["type", "templates", { user: user?.sub, ...paramsObj }],
+    ["type", "templates", { ...paramsObj }],
     ({ signal }) =>
       getAccessTokenSilently()
       .then(tkn => 

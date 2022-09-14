@@ -7,6 +7,8 @@ import { InstanceBlob, InstanceBlobEditor } from "../components/InstanceBlob"
 import { NewInstanceBlob } from "../components/NewInstanceBlob"
 import { GvSpinner } from "../../svg/GvSpinner"
 import { useState } from "react"
+import { Bauble } from "../components/Bauble"
+import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
 
 export const TimelinePage = () => {
   const { user, isAuthenticated } = useAuth0()
@@ -15,6 +17,8 @@ export const TimelinePage = () => {
     { enabled: isAuthenticated }
   )
   const [creating, setCreating] = useState(false)
+  const prefetchedFacetsQ = useFacetTemplates()
+  // console.log(prefetchedFacetsQ)
 
   return (
     <div className="w-full h-full flex flex-col items-center">
@@ -94,9 +98,11 @@ const Timeline = ({ instances = [] }) => {
                 {el}
               </span>
             </div>
-          : <InstanceBlob 
+          // : <></>)}
+          : <Bauble
               key={el.id} 
               instanceId={el.id}
+              isOpen={false}
             />)}
 
     </ol>
