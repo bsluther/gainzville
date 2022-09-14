@@ -39,7 +39,7 @@ const BaubleClosed = ({ instanceId, openBauble }) => {
         flex w-max min-w-[8rem] p-2 space-x-2"
       >
       <span className="grow">{templateQ.data?.name}</span>
-      <span className="text-xs self-center">{facetStrings}</span>
+      <span className="text-xs self-center lowercase">{facetStrings}</span>
       <DotSvg className="w-3 h-3 text-blue-400" />
     </div>
   )
