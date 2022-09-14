@@ -3,10 +3,7 @@ import { useTypeTemplates } from "../type/useTypeTemplates"
 import { useFacetTemplatesById } from "./useFacetTemplates"
 import * as L from "partial.lenses"
 import { useEntities } from "../entity/useEntities"
-
-import { sequence, map, Nothing, Just, Maybe } from "sanctuary"
-import { StrMap } from "sanctuary-def"
-import { pipe, prop, values } from "ramda"
+import { map, pipe, prop, values } from "ramda"
 import { facetToString } from "../../../data/Facet"
 
 
