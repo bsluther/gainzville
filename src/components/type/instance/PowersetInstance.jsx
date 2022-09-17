@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { appendElement, isElement, removeElement } from "../../../data/typeInstance/PowersetInstance"
 import { snakeToSpace } from "../../../utility/fns"
 
-export const PowersetInstance = ({ Context, typeTemplate, address, fieldBgColor }) => {
+export const PowersetInstance = ({ Context, typeTemplate, address, fieldBgColor, fieldBorder }) => {
   const [store, dispatch] = useContext(Context)
   const typeInstance = Context.getField(address)(store)
   // const instance = getField(address)(store)
@@ -12,7 +12,7 @@ export const PowersetInstance = ({ Context, typeTemplate, address, fieldBgColor 
     <ol
       className={`
         w-24
-        border-2 border-neutral-800
+        ${fieldBorder ?? "border-2"} border-neutral-800
         ${fieldBgColor ?? "bg-neutral-300"}
       `}
     >

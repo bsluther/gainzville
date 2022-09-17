@@ -10,6 +10,7 @@ import { initializeTypeInstance, isPrimitiveId } from "../../../data/typeTemplat
 import { useTypeTemplate } from "../../../hooks/queries/type/useTypeTemplate"
 import { useEffect } from "react"
 import { useState } from "react"
+import { useEntity } from "../../../hooks/queries/entity/useEntity"
 
 
 const primitiveComponentLookup = {
@@ -29,9 +30,10 @@ const constructorComponentLookup = {
 
 const LoadingType = () => <div>...</div>
 
-export function TypeInstance({ Context, typeTemplateId, address, fieldBgColor }) {
+export function TypeInstance({ Context, typeTemplateId, address, fieldBgColor, fieldBorder }) {
   const isPrimitive = isPrimitiveId(typeTemplateId)
-  const typeTemplateQ = useTypeTemplate(typeTemplateId)
+  // const typeTemplateQ = useTypeTemplate(typeTemplateId)
+  const typeTemplateQ = useEntity(typeTemplateId)
 
   const Component = isPrimitive
     ? primitiveComponentLookup[typeTemplateId]
@@ -45,6 +47,7 @@ export function TypeInstance({ Context, typeTemplateId, address, fieldBgColor })
       typeTemplate={typeTemplateQ.data}
       address={address} 
       fieldBgColor={fieldBgColor}
+      fieldBorder={fieldBorder}
     />
   )
 }

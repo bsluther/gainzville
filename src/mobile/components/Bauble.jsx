@@ -24,11 +24,11 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble }) => {
   const [store] = useContext(Context)
   console.log(store.instance)
   return (
-    <div 
-      className="bg-neutral-400 rounded-xl w-full flex flex-col p-2NO space-y-2NO"
-      onClick={closeBauble}
-    >
-      <div className="flex p-2 bg-neutral-300 rounded-t-xl border-b border-neutral-800">
+    <div className="bg-neutral-400 rounded-xl w-full flex flex-col">
+      <div 
+        className="flex p-2 bg-neutral-300 rounded-t-xl border-b border-neutral-800"
+        onClick={closeBauble}
+      >
         <span className="whitespace-nowrap">{template.name}</span>
         <span className="grow" />
         <DotSvg className="w-3 h-3 text-blue-400" />
@@ -42,8 +42,11 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble }) => {
             key={fctId} 
             address={{ facet: fctId }}
             facetBgColor='bg-neutral-300'
-            // textColor='text-neutral-200'
-            fieldBgColor='bg-neutral-200'
+            // textColor="text-neutral-200"
+            fieldBgColor="bg-neutral-200"
+            hideOptions
+            facetBorder="border"
+            fieldBorder="border"
           />)}
       </div>
       

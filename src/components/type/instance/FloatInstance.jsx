@@ -6,7 +6,7 @@ import { floatInstanceOf } from "../../../data/typeTemplate/FloatTemplate"
 
 
 
-function FloatInstance({ Context, address, fieldBgColor }) {
+function FloatInstance({ Context, address, fieldBgColor, fieldBorder }) {
   const [store, dispatch] = useContext(Context)
   const typeInstance = Context.getField(address)(store)
 
@@ -29,7 +29,7 @@ function FloatInstance({ Context, address, fieldBgColor }) {
       style={{ width: chWidth(float) }}
       className={`
         h-[1.75em]
-        border-2 border-neutral-800 rounded-sm
+        ${fieldBorder ?? "border-2"} border-neutral-800 rounded-sm
         ${fieldBgColor ?? "bg-neutral-300"} focus:bg-neutral-200
         text-center outline-none`}
       value={float ?? ""} 

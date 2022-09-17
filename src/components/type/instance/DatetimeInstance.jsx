@@ -4,7 +4,7 @@ import { getISO, setISO } from "../../../data/typeInstance/DatetimeInstance"
 
 // opportunity to promap here
 
-export const DatetimeInstance = ({ Context, typeTemplate, fieldBgColor, address }) => {
+export const DatetimeInstance = ({ Context, typeTemplate, fieldBgColor, address, fieldBorder }) => {
   const [store, dispatch] = useContext(Context)
   const instance = Context.getField(address)(store)
 
@@ -16,7 +16,7 @@ export const DatetimeInstance = ({ Context, typeTemplate, fieldBgColor, address 
     <input
       className={`
         ${fieldBgColor ?? "bg-neutral-300"} 
-        border-2 border-neutral-800 rounded-sm outline-none
+        ${fieldBorder ?? "border-2"} border-neutral-800 rounded-sm outline-none
         px-1`}
       type="datetime-local"
       value={DateTime.fromISO(iso).toISO({ includeOffset: false, suppressSeconds: true, suppressMilliseconds: true }) }

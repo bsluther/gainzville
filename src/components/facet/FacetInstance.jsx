@@ -4,7 +4,9 @@ import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { CogSVGWithRef } from "../../svg/CogSVG"
 import { TypeInstance } from "../type/instance/TypeInstance"
 
-export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor, fieldBgColor, textColor, ...props }) => {
+
+
+export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor, fieldBgColor, textColor, hideOptions, facetBorder, fieldBorder, borderColor, ...props }) => {
   const facetTemplateQuery = useEntity(facetTemplateId, { 
     enabled: !!facetTemplateId
   })
@@ -29,7 +31,7 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
     <div className="relative w-max" {...props}>
       <div 
         className={`
-          border-2 ${props.borderColor ? props.borderColor : "border-neutral-800"} rounded-lg
+          ${facetBorder ?? "border-2"} ${borderColor ? borderColor : "border-neutral-800"} rounded-lg
           ${facetBgColor ?? 'bg-neutral-400'}
           ${textColor}
           pl-2 pr-2 py-1
@@ -55,9 +57,10 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
                 typeTemplateId={typeId} 
                 address={{ ...address, field: ix }}
                 fieldBgColor={fieldBgColor}
+                fieldBorder={fieldBorder}
               />)}
       
-            {(showOptionIcon || optionsOpen) && 
+            {((showOptionIcon && !hideOptions) || optionsOpen) && 
               <CogSVGWithRef
                 fill="rgb(163 163 163 / var(--tw-bg-opacity))"
                 className="
