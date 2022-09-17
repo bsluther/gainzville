@@ -19,7 +19,7 @@ import { getElements, setInstanceOf } from "../../../data/typeTemplate/SetTempla
 
 
 
-export const SetInstance = ({ Context, address, typeTemplate }) => {
+export const SetInstance = ({ Context, address, typeTemplate, fieldBgColor }) => {
   const [store, dispatch] = useContext(Context)
   const typeInstance = Context.getField(address)(store)
   /*
@@ -45,10 +45,10 @@ export const SetInstance = ({ Context, address, typeTemplate }) => {
 
   return (
     <select
-      className="
-        bg-neutral-300
+      className={`
+        ${fieldBgColor ?? "bg-neutral-300"}
         outline-none border-2 border-neutral-800 rounded-sm
-      "
+      `}
       value={member}
       onChange={e => 
         dispatch({ 

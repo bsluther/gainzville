@@ -23,46 +23,49 @@ const variantHash = {
   }
 }
 
-export function MassInstance({ Context, typeInstance, address }) {
+export function MassInstance({ Context, typeInstance, address, fieldBgColor }) {
   return (
     <MeasureInstance
       Context={Context}
       variant={'mass'} 
       typeInstance={typeInstance} 
-      address={address} 
+      address={address}
+      fieldBgColor={fieldBgColor}
     />
   )
 }
 
-export function LengthInstance({ Context, typeInstance, address }) {
+export function LengthInstance({ Context, typeInstance, address, fieldBgColor }) {
   return (
     <MeasureInstance
       Context={Context}
       variant={'length'} 
       typeInstance={typeInstance} 
       address={address} 
+      fieldBgColor={fieldBgColor}
     />
   )
 }
 
-export const DurationInstance = ({ Context, typeInstance, address}) =>
+export const DurationInstance = ({ Context, typeInstance, address, fieldBgColor }) =>
   <MeasureInstance
     Context={Context}
     variant={"duration"} 
     typeInstance={typeInstance} 
     address={address} 
+    fieldBgColor={fieldBgColor}
   />
 
-const UnitQuantity = ({ unit, quantity, onChange }) =>
+const UnitQuantity = ({ unit, quantity, onChange, fieldBgColor }) =>
   <div className="flex space-x-1 items-center">
     <input
       style={{ width: chWidth(quantity) }}
-      className="
+      className={`
         h-[1.75em]
         border-2 border-neutral-800 rounded-l-sm
-        bg-neutral-300
-        text-center outline-none"
-      value={quantity ?? ""} 
+        ${fieldBgColor ?? "bg-neutral-300"}
+        text-center outline-none`}
+      value={quantity ?? ""}
       onChange={onChange}
     />
     <div 
@@ -73,7 +76,7 @@ const UnitQuantity = ({ unit, quantity, onChange }) =>
     >{unit}</div>
   </div>
 
-export function MeasureInstance({ Context, address }) {
+export function MeasureInstance({ Context, address, fieldBgColor }) {
   const [store, dispatch] = useContext(Context)
   const typeInstance = Context.getField(address)(store)
 
@@ -85,7 +88,8 @@ export function MeasureInstance({ Context, address }) {
         <UnitQuantity
           key={unit}
           quantity={getQuantity(unit)(typeInstance)} 
-          unit={unit} 
+          unit={unit}
+          fieldBgColor={fieldBgColor}
           onChange={e =>
             regex.float.test(e.target.value)
             ? dispatch({

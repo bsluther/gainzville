@@ -29,7 +29,7 @@ const constructorComponentLookup = {
 
 const LoadingType = () => <div>...</div>
 
-export function TypeInstance({ Context, typeTemplateId, address }) {
+export function TypeInstance({ Context, typeTemplateId, address, fieldBgColor }) {
   const isPrimitive = isPrimitiveId(typeTemplateId)
   const typeTemplateQ = useTypeTemplate(typeTemplateId)
 
@@ -44,6 +44,7 @@ export function TypeInstance({ Context, typeTemplateId, address }) {
       Context={Context}
       typeTemplate={typeTemplateQ.data}
       address={address} 
+      fieldBgColor={fieldBgColor}
     />
   )
 }

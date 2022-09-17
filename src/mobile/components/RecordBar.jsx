@@ -3,29 +3,16 @@ import { useState } from "react"
 import { useActivityTemplates } from "../../hooks/queries/activity/template/useActivityTemplates"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { AdjustmentsSvg } from "../../svg/AdjustmentsSvg"
+import { DotSvg } from "../../svg/DotSvg"
 import { SearchSvg } from "../../svg/SearchSvg"
 import { debounce } from "../../utility/fns"
 
-const Results = ({ templates = [], handleSelect }) => {
-  return (
-    <div className="bg-neutral-750 text-neutral-300 rounded-b-xl py-2">
-      <ol className="flex flex-col px-2">
-        {templates.map(tmpl => 
-          <span 
-            key={tmpl.id}
-            onClick={() => handleSelect(tmpl.id)}
-          >{tmpl.name}</span>)}
-      </ol>
-    </div>
-  )
-}
-
-export const NewInstanceBlob = ({ handleStartCreating }) => {
+export const RecordBar = ({ handleStartCreating }) => {
   const ref = useRef()
   const [mode, setMode] = useState("inactive")
   const [inputState, setInputState] = useState("")
   const [searchState, setSearchState] = useState("")
-  const resultsQ = useActivityTemplates({ name: searchState}, { enabled: !!searchState })
+  const resultsQ = useActivityTemplates({ name: searchState }, { enabled: !!searchState })
 
 
   const handleInput = useCallback(e => {
@@ -62,10 +49,25 @@ export const NewInstanceBlob = ({ handleStartCreating }) => {
 
   return(
     <div 
-      className="w-full h-11 bg-neutral-800 text-neutral-200 rounded-xl py-2 flex items-center justify-center"
+      className="w-full h-11 bg-neutral-800 text-neutral-200 rounded-xl py-2 space-x-2 flex items-center justify-center"
       onClick={() => setMode("searching")}
     >
+      <DotSvg className="w-3 h-3 text-red-600" />
       <span className="font-semibold uppercaseNO capitalize">Record your activity</span>
+    </div>
+  )
+}
+
+const Results = ({ templates = [], handleSelect }) => {
+  return (
+    <div className="bg-neutral-750 text-neutral-300 rounded-b-xl py-2">
+      <ol className="flex flex-col px-2">
+        {templates.map(tmpl => 
+          <span 
+            key={tmpl.id}
+            onClick={() => handleSelect(tmpl.id)}
+          >{tmpl.name}</span>)}
+      </ol>
     </div>
   )
 }

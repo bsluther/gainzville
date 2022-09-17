@@ -4,6 +4,7 @@ import { useQuery } from "react-query"
 import { fetchWithError, lookupTypeQueryKey, typeofId } from "../../../utility/fns"
 
 export const useEntity = (id, options) => {
+  console.log('id', id)
   const { getAccessTokenSilently } = useAuth0()
   const entityType = typeofId(id)
   const queryKey = append(id)

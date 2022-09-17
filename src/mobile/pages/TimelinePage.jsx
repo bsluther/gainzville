@@ -4,7 +4,7 @@ import { DateTime, Duration } from 'luxon'
 import { ActivityInstanceController, NewActivityInstanceController } from "../../components/activity/ActivityInstanceController"
 import { useActivityInstances } from "../../hooks/queries/activity/instance/useActivityInstances"
 import { InstanceBlob, InstanceBlobEditor } from "../components/InstanceBlob"
-import { NewInstanceBlob } from "../components/NewInstanceBlob"
+import { RecordBar } from "../components/RecordBar"
 import { GvSpinner } from "../../svg/GvSpinner"
 import { useState } from "react"
 import { Bauble } from "../components/Bauble"
@@ -18,14 +18,14 @@ export const TimelinePage = () => {
   )
   const [creating, setCreating] = useState(false)
   const prefetchedFacetsQ = useFacetTemplates()
-  // console.log(prefetchedFacetsQ)
+  // this approach is suboptimal: component will re-render unnecessarily on changes to FacetTemplates
 
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="w-11/12 py-8">
-        <NewInstanceBlob handleStartCreating={templateId => setCreating(templateId)} />
+        <RecordBar handleStartCreating={templateId => setCreating(templateId)} />
       </div>
-      <div className="w-11/12">
+      <div className="w-11/12 overflow-y-scroll">
         {creating && 
           <NewActivityInstanceController
             Presenter={InstanceBlobEditor}

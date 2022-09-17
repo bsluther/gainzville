@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { getString, setString } from "../../../data/typeInstance/StringInstance"
 
-export const StringInstance = ({ Context, typeTemplate, address }) => {
+export const StringInstance = ({ Context, typeTemplate, address, fieldBgColor }) => {
   const [store, dispatch] = useContext(Context)
   const typeInstance = Context.getField(address)(store)
   const string = getString(typeInstance) ?? ""
@@ -11,7 +11,7 @@ export const StringInstance = ({ Context, typeTemplate, address }) => {
       className={`
         w-[25ch]
         h-24
-        bg-neutral-300
+        ${fieldBgColor ?? "bg-neutral-300"}
         border-2 border-neutral-800 rounded-sm outline-none
         px-1
       `}
