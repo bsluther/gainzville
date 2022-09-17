@@ -52,7 +52,9 @@ export const RecordBar = ({ handleStartCreating }) => {
       className="w-full h-11 bg-neutral-800 text-neutral-200 rounded-xl py-2 space-x-2 flex items-center justify-center"
       onClick={() => setMode("searching")}
     >
-      <DotSvg className="w-3 h-3 text-red-600" />
+      <div>
+        <DotSvg className="w-3 h-3 text-red-600" />
+      </div>
       <span className="font-semibold uppercaseNO capitalize">Record your activity</span>
     </div>
   )
