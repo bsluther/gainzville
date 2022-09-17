@@ -25,25 +25,25 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble }) => {
   console.log(store.instance)
   return (
     <div 
-      className="bg-neutral-300 rounded-xl w-full flex flex-col overflow-x-scroll p-2 space-y-2"
+      className="bg-neutral-400 rounded-xl w-full flex flex-col p-2NO space-y-2NO"
       onClick={closeBauble}
     >
-      <div className="flex">
+      <div className="flex p-2 bg-neutral-300 rounded-t-xl border-b border-neutral-800">
         <span className="whitespace-nowrap">{template.name}</span>
         <span className="grow" />
         <DotSvg className="w-3 h-3 text-blue-400" />
       </div>
 
-      <div className="text-sm space-y-1">
+      <div className="text-sm p-2 space-y-2 no-scrollbar overflow-x-scroll rounded-b-xl">
         {Object.keys(store.instance.facets).map(fctId => 
           <FacetInstance
             Context={Context} 
             facetTemplateId={fctId} 
             key={fctId} 
             address={{ facet: fctId }}
-            facetBgColor='bg-neutral-400'
+            facetBgColor='bg-neutral-300'
             // textColor='text-neutral-200'
-            fieldBgColor='bg-neutral-300'
+            fieldBgColor='bg-neutral-200'
           />)}
       </div>
       
