@@ -31,7 +31,8 @@ export const RecordBar = ({ handleStartCreating }) => {
           className="w-full bg-neutral-800 rounded-xl flex px-2 py-2 space-x-2 items-center justify-center"
         >
           <SearchSvg className="w-5 h-5 text-neutral-400" />
-          <input 
+          <input
+            autoFocus
             className="w-full outline-none bg-neutral-800 text-neutral-200 appearance-none" 
             value={inputState}
             onChange={handleInput}
@@ -42,7 +43,12 @@ export const RecordBar = ({ handleStartCreating }) => {
         </div>
       </div>
       {areResults > 0 &&
-        <Results templates={resultsQ.data} handleSelect={templateId => handleStartCreating(templateId)} />
+        <Results 
+          templates={resultsQ.data} 
+          handleSelect={templateId => {
+            handleStartCreating(templateId)
+          }} 
+        />
       }
     </div>
   )

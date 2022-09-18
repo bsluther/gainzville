@@ -4,7 +4,7 @@ import { useQueries, useQuery, useQueryClient } from "react-query"
 import { fetchWithError } from "../../../utility/fns"
 
 export const useFacetTemplates = (queryObj, options) => {
-  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0()
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   const queryClient = useQueryClient()
 
   const params = new URLSearchParams(queryObj)

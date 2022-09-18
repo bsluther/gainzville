@@ -10,6 +10,7 @@ InstanceContext.getField = getField
 
 const setAsChanged = L.set(["hasChanged"], true)
 const setAsUnchanged = L.set(["hasChanged"], false)
+const setAsUnpersisted = L.set(["isUnpersisted"], true)
 export const getInstance = L.get(["instance"])
 export const setInstance = L.set(["instance"])
 export const modifyInstance = L.modify(["instance"])
@@ -23,8 +24,14 @@ const reducer = (state, action) => {
     case "initialize":
       return pipe(
         setInstance(action.payload),
-        setAsUnchanged
+        setAsUnchanged,
       )(state);
+
+    case "initializeNew":
+      return pipe(
+        setInstance(action.payload),
+        setAsUnpersisted
+      )(state)
 
     case "clearData":
       return ({});

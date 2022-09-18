@@ -27,8 +27,9 @@ export const TimelinePage = () => {
       </div>
       <div className="w-11/12 overflow-y-scroll">
         {creating && 
-          <NewActivityInstanceController
-            Presenter={InstanceBlobEditor}
+          <Bauble
+            isOpen={true}
+            instanceId="new"
             templateId={creating}
             handleSaveNewInstance={() => setCreating(false)}
           />}

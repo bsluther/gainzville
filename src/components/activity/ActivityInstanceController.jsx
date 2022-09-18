@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { prop } from "ramda"
+import { identity, prop } from "ramda"
 import { useEffect, useLayoutEffect } from "react"
 import { useActivityInstance } from "../../hooks/queries/activity/instance/useActivityInstance"
 import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
@@ -66,7 +66,7 @@ const initializeActivityInstance = (templateId, actor) => {
 }
 
 
-export const NewActivityInstanceController = ({ templateId, handleSaveNewInstance, Presenter = ActivityInstancePresenter }) => {
+export const NewActivityInstanceController = ({ templateId, handleSaveNewInstance = identity, Presenter = ActivityInstancePresenter }) => {
   const templateQ = useActivityTemplate(templateId)
   const { user } = useAuth0()
 
@@ -74,7 +74,7 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
 
   useEffect(() => {
     dispatch({
-      type: "initialize",
+      type: "initializeNew",
       payload: initializeActivityInstance(templateId, user?.sub)
     })
   }, [user?.sub])
@@ -85,7 +85,7 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
   useEffect(() => {
     if (instanceTemplate !== templateId) {
       dispatch({
-        type: "initialize",
+        type: "initializeNew",
         payload: initializeActivityInstance(templateId, user?.sub)
       })
     }
@@ -93,7 +93,7 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
 
   return (
     <InstanceContext.Provider value={[store, dispatch]}>
-      {templateQ.isSuccess && 
+      {(templateQ.isSuccess && store) && 
         <Presenter
           Context={InstanceContext}
           template={templateQ.data}
