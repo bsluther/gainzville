@@ -42,7 +42,8 @@ export const FacetBar = ({ handleSelect = identity }) => {
         <Results 
           templates={resultsQ.data} 
           handleSelect={(...args) => {
-            handleSelect(args)
+            console.log(args)
+            handleSelect(...args)
           }} 
         />
       }
@@ -61,7 +62,9 @@ const Results = ({ templates = [], handleSelect }) => {
             key={tmpl.id}
             onClick={() => {
               const typeTemplateQs = tmpl.fields.map(id => typeTemplatesQ[id])
+              console.log('!', typeTemplatesQ, typeTemplateQs)
               if (allSucceeded(typeTemplateQs)) {
+                console.log('!!', typeTemplateQs.map(qry => qry.data))
                 handleSelect(tmpl, typeTemplateQs.map(qry => qry.data))
               }
             }}

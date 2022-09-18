@@ -60,7 +60,11 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble }) => {
           />)}
 
         {addingFacet 
-          ? <FacetBar handleSelect={(facetTemplate, typeTemplates) => dispatch({ type: "addFacet", payload: { facetTemplate, typeTemplates } })} />
+          ? <FacetBar 
+              handleSelect={(facetTemplate, typeTemplates) => {
+                console.log('!!!', facetTemplate, typeTemplates)
+                dispatch({ type: "addFacet", payload: { facetTemplate, typeTemplates } })
+              }} />
           : <PlusSvg className="w-6 h-6 border border-neutral-800 text-neutral-800 rounded-md" onClick={() => setAddingFacet(true)} />}
 
         {(store.isUnpersisted || store.hasChanged) && 
