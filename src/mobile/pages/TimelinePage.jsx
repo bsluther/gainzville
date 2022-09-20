@@ -26,7 +26,7 @@ export const TimelinePage = () => {
       <div className="w-11/12 py-8">
         <RecordBar handleStartCreating={templateId => setCreating(templateId)} />
       </div>
-      <div className="w-11/12 overflow-y-scroll">
+      <div className="w-11/12 overflow-y-scroll space-y-2">
         {creating && 
           <Bauble
             isOpen={true}
