@@ -22,11 +22,11 @@ export const TimelinePage = () => {
   // this approach is suboptimal: component will re-render unnecessarily on changes to FacetTemplates
 
   return (
-    <div className="w-full h-full flex flex-col items-center">
+    <div className="w-full h-full flex flex-col items-center z-0">
       <div className="w-11/12 py-8">
         <RecordBar handleStartCreating={templateId => setCreating(templateId)} />
       </div>
-      <div className="w-11/12 overflow-y-scroll space-y-2">
+      <div className="w-11/12 overflow-y-scroll space-y-2 z-0">
         {creating && 
           <Bauble
             isOpen={true}
