@@ -10,6 +10,8 @@ import { FacetBar } from "./FacetBar"
 import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
 import { useUpdateActivityInstance } from "../../hooks/queries/activity/instance/useUpdateActivityInstance"
 import { GvSpinner } from "../../svg/GvSpinner"
+import { TrashSVG } from "../../svg/TrashSVG"
+import { DotsVerticalSvg } from "../../svg/DotsVerticalSvg"
 
 
 export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, handleSaveNewInstance, insertMutation }) => {
@@ -43,12 +45,13 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
   return (
     <div className="bg-neutral-400 rounded-xl w-full flex flex-col">
       <div 
-        className="flex p-2 bg-neutral-300 rounded-t-xl border-b border-neutral-800"
+        className="flex pl-2 py-2 bg-neutral-300 rounded-t-xl border-b border-neutral-800"
         onClick={closeBauble}
       >
         <span className="whitespace-nowrap">{template.name}</span>
         <span className="grow" />
-        <DotSvg className="w-3 h-3 text-blue-400" />
+        {/* <DotSvg className="w-3 h-3 text-blue-400" /> */}
+        <DotsVerticalSvg className="w-6 h-6 text-blue-400" />
       </div>
 
       <div className="min-h-[3rem] text-sm p-2 space-y-2 no-scrollbar overflow-x-scroll rounded-b-xl">
@@ -66,26 +69,39 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
             fieldBorder="border"
           />)}
 
-        {addingFacet 
-          ? <FacetBar 
-              handleSelect={(facetTemplate, typeTemplates) => {
-                setAddingFacet(false)
-                dispatch({ type: "addFacet", payload: { facetTemplate, typeTemplates } })
-              }}
-              handleOutsideClick={() => setAddingFacet(false)}
-            />
-          : <PlusSvg className="w-6 h-6 border border-neutral-800 text-neutral-800 rounded-md" onClick={() => setAddingFacet(true)} />}
+        <div className="grow flex justify-end items-end space-x-2">
+          {addingFacet 
+            ? <FacetBar 
+                handleSelect={(facetTemplate, typeTemplates) => {
+                  setAddingFacet(false)
+                  dispatch({ type: "addFacet", payload: { facetTemplate, typeTemplates } })
+                }}
+                handleOutsideClick={() => setAddingFacet(false)}
+              />
+            : <PlusSvg className="w-6 h-6 border border-neutral-800 text-neutral-800 rounded-md" onClick={() => setAddingFacet(true)} />}
 
-        {(store.isUnpersisted || store.hasChanged || updateMutation?.isLoading || insertMutation?.isLoading) && 
-          <div className="grow flex justify-center items-center">
+          <div className="grow" />
+
+          {(store.isUnpersisted || store.hasChanged || updateMutation?.isLoading || insertMutation?.isLoading) && 
             <Button
               onClick={() => handleSaveChanges(store.instance)}
             >
               {updateMutation?.isLoading || insertMutation?.isLoading
                 ? <GvSpinner className="w-6 h-6 fill-yellow-300" />
-                : store.isUnpersisted ? "Save" : "Save Changes"}
-            </Button>
-          </div>}
+                // : store.isUnpersisted ? "Save" : "Save Changes"}
+                : "Save"}
+            </Button>}
+          
+          {/* <div className="grow" /> */}
+            
+          <Button>
+            <TrashSVG className="w-5 h-5 text-red-500" />
+          </Button> 
+          {/* <button className="px-2 py-1 text-neutral-300 bg-red-500 rounded-md border-2 border-neutral-800">
+            <TrashSVG className="w-5 h-5 text-neutral-800" />
+          </button> */}
+
+        </div>
 
       </div>
       
@@ -113,4 +129,4 @@ const BaubleClosed = ({ instanceId, openBauble }) => {
   )
 }
 
-export const Button = props => <button className="px-2 py-1 text-neutral-300 bg-neutral-800 rounded-md" {...props}>{props.children}</button>
+export const Button = props => <button className={`px-2 py-1 text-neutral-300 bg-neutral-800 rounded-md ${props.className}`} {...props}>{props.children}</button>

@@ -66,7 +66,7 @@ const Results = ({ templates = [], handleSelect }) => {
 
   return (
     <div className="bg-neutral-750 text-neutral-300 rounded-b-xl py-2 max-h-[10rem] overflow-scroll no-scrollbar">
-      <ol className="flex flex-col px-4 space-y-1">
+      <ol className="flex flex-col px-4 space-y-2">
         {templates.map(tmpl => 
           <span 
             key={tmpl.id}
