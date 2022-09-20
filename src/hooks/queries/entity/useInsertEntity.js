@@ -11,7 +11,7 @@ export const useInsertEntity = options => {
   return useMutation(
     entity => {
       const queryKey = lookupTypeQueryKey(typeofId(entity.id))
-      console.log('entity', entity)
+
       return getAccessTokenSilently()
              .then(tkn =>
                 fetchWithError(`/v2end/${join("/")(queryKey)}`, {

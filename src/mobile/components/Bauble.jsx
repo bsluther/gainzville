@@ -7,11 +7,11 @@ import { useContext } from "react"
 import { FacetInstance } from "../../components/facet/FacetInstance"
 import { PlusSvg } from "../../svg/PlusSvg"
 import { FacetBar } from "./FacetBar"
-import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
-import { useUpdateActivityInstance } from "../../hooks/queries/activity/instance/useUpdateActivityInstance"
 import { GvSpinner } from "../../svg/GvSpinner"
 import { TrashSVG } from "../../svg/TrashSVG"
 import { DotsVerticalSvg } from "../../svg/DotsVerticalSvg"
+import { useDeleteEntity } from "../../hooks/queries/entity/useDeleteEntity"
+import { useCallback } from "react"
 
 
 export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, handleSaveNewInstance, insertMutation }) => {
@@ -38,20 +38,20 @@ export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, 
 const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateMutation, insertMutation }) => {
   const [store, dispatch] = useContext(Context)
   const [addingFacet, setAddingFacet] = useState(false)
-  // const insertEntityM = useInsertEntity()
-  // const updateActInstM = useUpdateActivityInstance()
-  // console.log('mutation', updateMutation)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const deleteM = useDeleteEntity()
+
+  const handleDelete = useCallback(() => deleteM.mutate(store.instance.id), [store.instance.id])
 
   return (
     <div className="bg-neutral-400 rounded-xl w-full flex flex-col">
-      <div 
-        className="flex pl-2 py-2 bg-neutral-300 rounded-t-xl border-b border-neutral-800"
-        onClick={closeBauble}
-      >
-        <span className="whitespace-nowrap">{template.name}</span>
-        <span className="grow" />
-        {/* <DotSvg className="w-3 h-3 text-blue-400" /> */}
-        <DotsVerticalSvg className="w-6 h-6 text-blue-400" />
+      <div className="relative flex pl-2 py-2 bg-neutral-300 rounded-t-xl border-b border-neutral-800">
+        <div className="grow" onClick={closeBauble}>
+          <span className="whitespace-nowrap">{template.name}</span>
+        </div>
+        <DotsVerticalSvg className="ml-2 w-6 h-6 text-blue-400" strokeWidth="3" onClick={() => setMenuOpen(prev => !prev)} />
+        {menuOpen && 
+          <Menu handleDelete={handleDelete}/>}
       </div>
 
       <div className="min-h-[3rem] text-sm p-2 space-y-2 no-scrollbar overflow-x-scroll rounded-b-xl">
@@ -78,7 +78,9 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
                 }}
                 handleOutsideClick={() => setAddingFacet(false)}
               />
-            : <PlusSvg className="w-6 h-6 border border-neutral-800 text-neutral-800 rounded-md" onClick={() => setAddingFacet(true)} />}
+            : <div className="border border-black rounded-md w-max h-max p-0.5">
+                <PlusSvg className="w-6 h-6 text-neutral-800" onClick={() => setAddingFacet(true)} />
+              </div>}
 
           <div className="grow" />
 
@@ -94,9 +96,6 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
           
           {/* <div className="grow" /> */}
             
-          <Button>
-            <TrashSVG className="w-5 h-5 text-red-500" />
-          </Button> 
           {/* <button className="px-2 py-1 text-neutral-300 bg-red-500 rounded-md border-2 border-neutral-800">
             <TrashSVG className="w-5 h-5 text-neutral-800" />
           </button> */}
@@ -129,4 +128,18 @@ const BaubleClosed = ({ instanceId, openBauble }) => {
   )
 }
 
-export const Button = props => <button className={`px-2 py-1 text-neutral-300 bg-neutral-800 rounded-md ${props.className}`} {...props}>{props.children}</button>
+const Button = props => <button className={`px-2 py-1 text-neutral-300 bg-neutral-800 rounded-md ${props.className}`} {...props}>{props.children}</button>
+
+const Menu = ({ handleDelete }) => {
+
+  return (
+    <div
+      className="absolute right-0 top-full -translate-y-1
+      bg-neutral-800 text-neutral-200 rounded-sm border border-neutral-300
+        flex flex-col items-end p-2 space-y-2"
+    >
+      <span className="cursor-pointer" onClick={handleDelete}>Delete Record</span>
+      <span className="cursor-pointer">Set as Default</span>
+    </div>
+  )
+}
