@@ -14,11 +14,16 @@ export const RecordBar = ({ handleStartCreating }) => {
   const [searchState, setSearchState] = useState("")
   const resultsQ = useActivityTemplates({ name: searchState }, { enabled: !!searchState })
 
-
   const handleInput = useCallback(e => {
     setInputState(e.target.value)
     debounce(e => setSearchState(e.target.value), 500)(e)
   }, [])
+
+  const clearSearch = () => {
+    setMode("inactive")
+    setInputState("")
+    setSearchState("")
+  }
 
   const areResults = resultsQ.data?.length > 0
 
@@ -47,6 +52,7 @@ export const RecordBar = ({ handleStartCreating }) => {
           templates={resultsQ.data} 
           handleSelect={templateId => {
             handleStartCreating(templateId)
+            clearSearch()
           }} 
         />
       }

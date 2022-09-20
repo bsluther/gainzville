@@ -2,33 +2,41 @@ import { identity } from "ramda"
 import { useCallback, useRef, useState } from "react"
 import { useEntities } from "../../hooks/queries/entity/useEntities"
 import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
+import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { SearchSvg } from "../../svg/SearchSvg"
 import { allSucceeded, debounce } from "../../utility/fns"
 
 
-export const FacetBar = ({ handleSelect = identity }) => {
+export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identity }) => {
   const ref = useRef()
   const [inputState, setInputState] = useState("")
   const [searchState, setSearchState] = useState("")
   const resultsQ = useFacetTemplates({ name: searchState }, { enabled: !!searchState })
+  
+  const areResults = resultsQ.data?.length > 0
 
   const handleInput = useCallback(e => {
     setInputState(e.target.value)
     debounce(e => setSearchState(e.target.value), 500)(e)
   }, [])
 
-  const areResults = resultsQ.data?.length > 0
+  const clearSearch = () => {
+    setInputState("")
+    setSearchState("")
+  }
+
+  useOutsideClick([ref], handleOutsideClick)
 
   return (
     <div className={`w-2/3 h-max`} ref={ref}>
       <div className={`w-full h-max ${areResults && "bg-neutral-750 rounded-t-xl"}`}>
         <div 
-          className="w-full bg-neutral-800 rounded-xl flex px-2 py-2 space-x-2 items-center justify-center"
+          className="w-full bg-neutral-300 border border-neutral-800 rounded-lg flex px-2 py-2 space-x-2 items-center justify-center"
         >
-          <SearchSvg className="w-5 h-5 text-neutral-400" />
+          <SearchSvg className="w-5 h-5 text-black" />
           <input
             autoFocus
-            className="w-full outline-none bg-neutral-800 text-neutral-200 appearance-none" 
+            className="w-full outline-none bg-neutral-300 text-neutral-800 placeholder-neutral-600 appearance-none" 
             value={inputState}
             onChange={handleInput}
             // type="search"
@@ -42,7 +50,7 @@ export const FacetBar = ({ handleSelect = identity }) => {
         <Results 
           templates={resultsQ.data} 
           handleSelect={(...args) => {
-            console.log(args)
+            clearSearch()
             handleSelect(...args)
           }} 
         />
@@ -62,9 +70,8 @@ const Results = ({ templates = [], handleSelect }) => {
             key={tmpl.id}
             onClick={() => {
               const typeTemplateQs = tmpl.fields.map(id => typeTemplatesQ[id])
-              console.log('!', typeTemplatesQ, typeTemplateQs)
+
               if (allSucceeded(typeTemplateQs)) {
-                console.log('!!', typeTemplateQs.map(qry => qry.data))
                 handleSelect(tmpl, typeTemplateQs.map(qry => qry.data))
               }
             }}
