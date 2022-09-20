@@ -10,6 +10,7 @@ InstanceContext.getField = getField
 
 const setAsChanged = L.set(["hasChanged"], true)
 const setAsUnchanged = L.set(["hasChanged"], false)
+const setAsPersisted = L.set(["isUnpersisted"], false)
 const setAsUnpersisted = L.set(["isUnpersisted"], true)
 export const getInstance = L.get(["instance"])
 export const setInstance = L.set(["instance"])
@@ -18,8 +19,8 @@ export const modifyInstance = L.modify(["instance"])
 
 
 const reducer = (state, action) => {
-  // console.log("Action: ", action)
-  // console.log("State: ", state)
+  console.log("Action: ", action)
+  console.log("State: ", state)
   switch (action.type) {
     case "initialize":
       return pipe(
@@ -35,6 +36,12 @@ const reducer = (state, action) => {
 
     case "clearData":
       return ({});
+
+    case "persisted":
+      return pipe(
+        setAsUnchanged,
+        setAsPersisted
+      )(state)
       
     case "input":
       return pipe(

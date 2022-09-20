@@ -1,7 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { add, findIndex, insert, pipe, prop, sort } from "ramda"
 import { DateTime, Duration } from 'luxon'
-import { ActivityInstanceController, NewActivityInstanceController } from "../../components/activity/ActivityInstanceController"
 import { useActivityInstances } from "../../hooks/queries/activity/instance/useActivityInstances"
 import { InstanceBlob, InstanceBlobEditor } from "../components/InstanceBlob"
 import { RecordBar } from "../components/RecordBar"
@@ -9,6 +8,7 @@ import { GvSpinner } from "../../svg/GvSpinner"
 import { useState } from "react"
 import { Bauble } from "../components/Bauble"
 import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
+import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
 
 export const TimelinePage = () => {
   const { user, isAuthenticated } = useAuth0()
@@ -16,6 +16,7 @@ export const TimelinePage = () => {
     { actor: user?.sub }, 
     { enabled: isAuthenticated }
   )
+  const insertM = useInsertEntity()
   const [creating, setCreating] = useState(false)
   const prefetchedFacetsQ = useFacetTemplates()
   // this approach is suboptimal: component will re-render unnecessarily on changes to FacetTemplates
@@ -31,7 +32,11 @@ export const TimelinePage = () => {
             isOpen={true}
             instanceId="new"
             templateId={creating}
-            handleSaveNewInstance={() => setCreating(false)}
+            handleSaveNewInstance={instance => {
+              insertM.mutate(instance)
+              setCreating(false)
+            }}
+            insertMutation={insertM}
           />}
         <Timeline instances={instancesQ.data ?? []} />
       </div>

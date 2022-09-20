@@ -7,9 +7,12 @@ import { useContext } from "react"
 import { FacetInstance } from "../../components/facet/FacetInstance"
 import { PlusSvg } from "../../svg/PlusSvg"
 import { FacetBar } from "./FacetBar"
+import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
+import { useUpdateActivityInstance } from "../../hooks/queries/activity/instance/useUpdateActivityInstance"
+import { GvSpinner } from "../../svg/GvSpinner"
 
 
-export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, handleSaveNewInstance }) => {
+export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, handleSaveNewInstance, insertMutation }) => {
   const [isOpen, setIsOpen] = useState(initiallyOpen)
 
   if (isOpen && instanceId === "new") return (
@@ -17,6 +20,7 @@ export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, 
       Presenter={BaubleOpen}
       templateId={templateId}
       handleSaveNewInstance={handleSaveNewInstance}
+      insertMutation={insertMutation}
     />
   )
   if (isOpen) return (
@@ -29,9 +33,12 @@ export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, 
   return <BaubleClosed instanceId={instanceId} openBauble={() => setIsOpen(true)} />
 }
 
-const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble }) => {
+const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateMutation, insertMutation }) => {
   const [store, dispatch] = useContext(Context)
   const [addingFacet, setAddingFacet] = useState(false)
+  // const insertEntityM = useInsertEntity()
+  // const updateActInstM = useUpdateActivityInstance()
+  // console.log('mutation', updateMutation)
 
   return (
     <div className="bg-neutral-400 rounded-xl w-full flex flex-col">
@@ -69,9 +76,15 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble }) => {
             />
           : <PlusSvg className="w-6 h-6 border border-neutral-800 text-neutral-800 rounded-md" onClick={() => setAddingFacet(true)} />}
 
-        {(store.isUnpersisted || store.hasChanged) && 
+        {(store.isUnpersisted || store.hasChanged || updateMutation?.isLoading || insertMutation?.isLoading) && 
           <div className="grow flex justify-center items-center">
-            <Button>{store.isUnpersisted ? "Save" : "Save Changes"}</Button>
+            <Button
+              onClick={() => handleSaveChanges(store.instance)}
+            >
+              {updateMutation?.isLoading || insertMutation?.isLoading
+                ? <GvSpinner className="w-6 h-6 fill-yellow-300" />
+                : store.isUnpersisted ? "Save" : "Save Changes"}
+            </Button>
           </div>}
 
       </div>
@@ -100,4 +113,4 @@ const BaubleClosed = ({ instanceId, openBauble }) => {
   )
 }
 
-export const Button = props => <button className="px-2 py-1 text-neutral-300 bg-neutral-800 rounded-md">{props.children}</button>
+export const Button = props => <button className="px-2 py-1 text-neutral-300 bg-neutral-800 rounded-md" {...props}>{props.children}</button>

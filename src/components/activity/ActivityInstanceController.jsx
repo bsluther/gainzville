@@ -9,6 +9,8 @@ import { InstanceContext } from "../../state/activityInstanceReducer"
 import { makeId } from "../../utility/fns"
 import { ActivityInstancePresenter } from "./ActivityInstancePresenter"
 import { DateTime } from "luxon"
+import { useUpdateEntity } from "../../hooks/queries/entity/useUpdateEntity"
+import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
 
 export const ActivityInstanceController = ({ instanceId, Presenter = ActivityInstancePresenter, ...props }) => {
   const instanceQ = useActivityInstance(instanceId)
@@ -16,11 +18,13 @@ export const ActivityInstanceController = ({ instanceId, Presenter = ActivityIns
     instanceQ.data?.template,
     { enabled: !!instanceQ.data }
   )
-  const updateM = useUpdateActivityInstance()
+  const updateM = useUpdateEntity({ onSuccess: (_, instance) => dispatch({ type: "persisted", payload: instance })})
 
   const [store, dispatch] = useActivityInstanceReducer()
 
-  const handleSave = instance => updateM.mutate(instance)
+  const handleSave = instance => {
+    updateM.mutate(instance)
+  }
 
   useLayoutEffect(() => {
     if (instanceQ.isSuccess) {
@@ -47,6 +51,7 @@ export const ActivityInstanceController = ({ instanceId, Presenter = ActivityIns
           Context={InstanceContext}
           template={templateQ.data}
           handleSaveChanges={handleSave}
+          updateMutation={updateM}
           {...props}
         />}
     </InstanceContext.Provider>
@@ -67,8 +72,9 @@ const initializeActivityInstance = (templateId, actor) => {
 
 
 export const NewActivityInstanceController = ({ templateId, handleSaveNewInstance = identity, Presenter = ActivityInstancePresenter }) => {
-  const templateQ = useActivityTemplate(templateId)
   const { user } = useAuth0()
+  const templateQ = useActivityTemplate(templateId)
+  // const insertM = useInsertEntity()
 
   const [store, dispatch] = useActivityInstanceReducer()
 

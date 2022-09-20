@@ -1,21 +1,20 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { join } from "ramda"
+import { call, join } from "ramda"
 import { useMutation, useQueryClient } from "react-query"
-import { fetchWithError, lookupTypeQueryKey, typeofId } from "../../../utility/fns"
+import { callIfFn, fetchWithError, lookupTypeQueryKey, typeofId } from "../../../utility/fns"
 
 
-export const useInsertEntity = options => {
+export const useUpdateEntity = options => {
   const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
   return useMutation(
     entity => {
       const queryKey = lookupTypeQueryKey(typeofId(entity.id))
-      console.log('entity', entity)
       return getAccessTokenSilently()
              .then(tkn =>
-                fetchWithError(`/v2end/${join("/")(queryKey)}`, {
-                  method: "POST",
+                fetchWithError(`/v2end/${join("/")(queryKey)}/${entity.id}`, {
+                  method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${tkn}`
@@ -26,6 +25,8 @@ export const useInsertEntity = options => {
     {
       ...options,
       onSuccess: (_, variables) => {
+        console.log('onsuccess', _, variables)
+        callIfFn(options.onSuccess)(variables)
         queryClient.invalidateQueries(lookupTypeQueryKey(typeofId(variables.id)))
       }
     }
