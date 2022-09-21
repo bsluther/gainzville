@@ -116,11 +116,11 @@ const BaubleClosed = ({ instanceId, openBauble }) => {
   return (
     <div 
       className="bg-neutral-300 rounded-xl
-        flex w-max max-w-full overflow-x-scroll min-w-[8rem] p-2 space-x-2"
+        flex w-max max-w-full min-w-[8rem] p-2 space-x-2"
       onClick={openBauble}
     >
       <span className="whitespace-nowrap">{templateQ.data?.name}</span>
-      <span className="grow whitespace-nowrap text-xs self-center lowercase overflow-scroll no-scrollbar">{facetStrings}</span>
+      <span className="grow whitespace-nowrap text-xs self-center lowercase overflow-x-scroll no-scrollbar">{facetStrings}</span>
       <div>
         <DotSvg className="w-3 h-3 text-blue-400" />
       </div>

@@ -1,5 +1,5 @@
 import { any, map, zip } from "ramda"
-import { typeToString } from "./typeTemplate/TypeTemplate"
+import { initializeTypeInstance, typeToString } from "./typeTemplate/TypeTemplate"
 
 export const facetToString = ({ facetTemplate, facetInstance, typeTemplates = {} }) => {
 
@@ -17,3 +17,8 @@ export const facetToString = ({ facetTemplate, facetInstance, typeTemplates = {}
 
   return strings.join(" ")
 }
+
+export const initializeFacetInstance = facetTemplate => typeTemplateTable => ({
+  fields: map(typeTemplateId => initializeTypeInstance(typeTemplateTable[typeTemplateId]))
+             (facetTemplate.fields)
+})

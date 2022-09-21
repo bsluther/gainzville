@@ -1,16 +1,21 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { identity, prop } from "ramda"
+import { identity, keys, map, prop, reduce, union, values } from "ramda"
 import { useEffect, useLayoutEffect } from "react"
 import { useActivityInstance } from "../../hooks/queries/activity/instance/useActivityInstance"
 import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
 import { useUpdateActivityInstance } from "../../hooks/queries/activity/instance/useUpdateActivityInstance"
 import { getInstance, useActivityInstanceReducer } from "../../state/activityInstanceReducer"
 import { InstanceContext } from "../../state/activityInstanceReducer"
-import { makeId } from "../../utility/fns"
+import { allSucceeded, makeId } from "../../utility/fns"
 import { ActivityInstancePresenter } from "./ActivityInstancePresenter"
 import { DateTime } from "luxon"
 import { useUpdateEntity } from "../../hooks/queries/entity/useUpdateEntity"
 import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
+import { mapQuery, useRecentFacets } from "../../hooks/useRecentFacets"
+import { useEntities } from "../../hooks/queries/entity/useEntities"
+import * as L from "partial.lenses"
+import { initializeFacetInstance } from "../../data/Facet"
+
 
 export const ActivityInstanceController = ({ instanceId, Presenter = ActivityInstancePresenter, ...props }) => {
   const instanceQ = useActivityInstance(instanceId)
@@ -70,29 +75,71 @@ const initializeActivityInstance = (templateId, actor) => {
     })
 }
 
+// ??? :: Facet -> ({}) FacetInstance
+
+
 
 export const NewActivityInstanceController = ({ templateId, handleSaveNewInstance = identity, Presenter = ActivityInstancePresenter }) => {
   const { user } = useAuth0()
   const templateQ = useActivityTemplate(templateId)
-  // const insertM = useInsertEntity()
+
+  const recentFacetsQ = useRecentFacets(templateId)
+
+  const typeTemplateIds = L.foldl(union)
+                                 ([])
+                                 ([L.children, "data", "fields"])
+                                 (recentFacetsQ)
+
+  const typeTemplateQs = useEntities(
+    typeTemplateIds, 
+    { enabled: allSucceeded(values(recentFacetsQ)) }
+  )
+  console.log('typeTemplateQs', typeTemplateQs)
+
+  const typeQsSucceeded = allSucceeded(values(typeTemplateQs)) 
 
   const [store, dispatch] = useActivityInstanceReducer()
+  // console.log(store)
 
   useEffect(() => {
-    dispatch({
-      type: "initializeNew",
-      payload: initializeActivityInstance(templateId, user?.sub)
-    })
-  }, [user?.sub])
+    if (typeQsSucceeded) {
+      const initialInstance = initializeActivityInstance(templateId, user?.sub)
+
+      const withRecentFacets = reduce((instance, fctTmpl) => {
+        return L.set(["facets", fctTmpl.id])
+                    (initializeFacetInstance(fctTmpl)
+                                            (map(qry => qry.data)(typeTemplateQs)))
+                    (instance)
+      })
+                                     (initialInstance)
+                                     (map(prop('data'))(values(recentFacetsQ)))
+
+      dispatch({
+        type: "initializeNew",
+        payload: withRecentFacets
+      })
+    }
+  }, [user?.sub, typeQsSucceeded])
 
   const instanceTemplate = prop("template")
                                (getInstance(store))
 
   useEffect(() => {
-    if (instanceTemplate !== templateId) {
+    if (instanceTemplate !== templateId && typeQsSucceeded) {
+      const initialInstance = initializeActivityInstance(templateId, user?.sub)
+
+      const withRecentFacets = reduce((instance, fctTmpl) => {
+        return L.set(["facets", fctTmpl.id])
+                    (initializeFacetInstance(fctTmpl)
+                                            (map(qry => qry.data)(typeTemplateQs)))
+                    (instance)
+      })
+                                     (initialInstance)
+                                     (map(prop('data'))(values(recentFacetsQ)))
+
       dispatch({
         type: "initializeNew",
-        payload: initializeActivityInstance(templateId, user?.sub)
+        payload: withRecentFacets
       })
     }
   }, [instanceTemplate, user?.sub, templateId])

@@ -14,7 +14,7 @@ export const TimelinePage = () => {
   const { user, isAuthenticated } = useAuth0()
   const instancesQ = useActivityInstances(
     { actor: user?.sub }, 
-    { enabled: isAuthenticated }
+    { enabled: isAuthenticated && !!user.sub }
   )
   const insertM = useInsertEntity()
   const [creating, setCreating] = useState(false)
@@ -44,7 +44,7 @@ export const TimelinePage = () => {
   )
 }
 
-const getCreatedAt = prop('createdAt')
+export const getCreatedAt = prop('createdAt')
 
 const before = accessor => (fst, snd) => {
   const fstDt =  DateTime.fromISO(accessor(fst)) 
@@ -57,7 +57,7 @@ const before = accessor => (fst, snd) => {
       : 0
 }
 
-const after = accessor => (fst, snd) => {
+export const after = accessor => (fst, snd) => {
   const fstDt =  DateTime.fromISO(accessor(fst)) 
   const sndDt = DateTime.fromISO(accessor(snd))
 

@@ -1,9 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { append, join, last, tail } from "ramda"
+import { append, filter, head, join, last, map, pipe } from "ramda"
 import { useMutation, useQueryClient } from "react-query"
 import { fetchWithError, lookupTypeQueryKey, typeofId } from "../../../utility/fns"
-
-// const rejectAndThrow = 
 
 export const useDeleteEntity = options => {
   const { getAccessTokenSilently } = useAuth0()
@@ -28,15 +26,19 @@ export const useDeleteEntity = options => {
 
         const deletingEntity = queryClient.getQueryData(queryKey)
         queryClient.removeQueries(queryKey, { exact: true })
-        console.log('deleting entity', deletingEntity)
 
         const collectionQueries = queryClient.getQueriesData({ queryKey: typeQueryKey, predicate: qry => {
-          // console.log(last(qry.queryKey))
           return typeof last(qry.queryKey) === "object"
         }})
-        console.log('collectionQueries', collectionQueries)
+
+        const collectionQueryKeys = pipe(
+          filter(([queryKey, data]) => !!data),
+          map(head)
+        )(collectionQueries)
+
         
         queryClient.removeQueries(queryKey, { exact: true })
+        
         queryClient.setQueriesData(
           {
             queryKey: typeQueryKey,
@@ -46,26 +48,21 @@ export const useDeleteEntity = options => {
         )
 
         return () => {
-          console.log("rollin back!")
           queryClient.setQueryData(queryKey, deletingEntity)
-          queryClient.setQueriesData(
-            {
-              queryKey: typeQueryKey,
-              predicate: qry => {
-                console.log('pred!', qry)
-                return typeof last(qry.queryKey) === "object"
-              },
-            },
-            prev => {
-              console.log('prev', prev)
-              return Array.isArray(prev)
-                // ? prev.concat(deletingEntity)
-                ? prev.find(entity => entity.id === entityId)
-                  ? prev
-                  : prev.concat(deletingEntity)
-                : prev
-            }
-          )
+
+          collectionQueryKeys.forEach(qryKey => {
+            queryClient.setQueryData(
+              qryKey,
+              prev => 
+                Array.isArray(prev)
+                  ? prev.find(entity => entity.id === entityId)
+                    ? prev
+                    : prev.concat(deletingEntity)
+                  : prev
+            )
+          })
+
+          queryClient.invalidateQueries(typeQueryKey)
         }
       },
       onError: (err, variables, rollback) => rollback()

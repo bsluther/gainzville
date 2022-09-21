@@ -20,7 +20,8 @@ export const useActivityInstances = (queryObj, options) => {
         })),
     {
       onSuccess: instances => {
-        callIfFn(options.onSuccess)(instances)
+        callIfFn(options?.onSuccess)(instances)
+        
         instances.forEach(inst => {
           queryClient.setQueryData(
             ["activity", "instances", inst.id],
