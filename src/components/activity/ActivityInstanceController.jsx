@@ -3,15 +3,13 @@ import { identity, keys, map, prop, reduce, union, values } from "ramda"
 import { useEffect, useLayoutEffect } from "react"
 import { useActivityInstance } from "../../hooks/queries/activity/instance/useActivityInstance"
 import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
-import { useUpdateActivityInstance } from "../../hooks/queries/activity/instance/useUpdateActivityInstance"
 import { getInstance, useActivityInstanceReducer } from "../../state/activityInstanceReducer"
 import { InstanceContext } from "../../state/activityInstanceReducer"
 import { allSucceeded, makeId } from "../../utility/fns"
 import { ActivityInstancePresenter } from "./ActivityInstancePresenter"
 import { DateTime } from "luxon"
 import { useUpdateEntity } from "../../hooks/queries/entity/useUpdateEntity"
-import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
-import { mapQuery, useRecentFacets } from "../../hooks/useRecentFacets"
+import { useRecentFacets } from "../../hooks/useRecentFacets"
 import { useEntities } from "../../hooks/queries/entity/useEntities"
 import * as L from "partial.lenses"
 import { initializeFacetInstance } from "../../data/Facet"
@@ -75,8 +73,6 @@ const initializeActivityInstance = (templateId, actor) => {
     })
 }
 
-// ??? :: Facet -> ({}) FacetInstance
-
 
 
 export const NewActivityInstanceController = ({ templateId, handleSaveNewInstance = identity, Presenter = ActivityInstancePresenter }) => {
@@ -84,7 +80,6 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
   const templateQ = useActivityTemplate(templateId)
 
   const recentFacetsQ = useRecentFacets(templateId)
-
   const typeTemplateIds = L.foldl(union)
                                  ([])
                                  ([L.children, "data", "fields"])
@@ -94,15 +89,17 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
     typeTemplateIds, 
     { enabled: allSucceeded(values(recentFacetsQ)) }
   )
-  console.log('typeTemplateQs', typeTemplateQs)
+  
 
-  const typeQsSucceeded = allSucceeded(values(typeTemplateQs)) 
+  // currently hacked in - i have no good way to tell whether typeTemplateQs is successful
+  const queriesSucceeded = typeTemplateIds.length > 0 
+                            && allSucceeded(values(recentFacetsQ)) 
+                            && allSucceeded(values(typeTemplateQs))
 
   const [store, dispatch] = useActivityInstanceReducer()
-  // console.log(store)
 
   useEffect(() => {
-    if (typeQsSucceeded) {
+    if (queriesSucceeded) {
       const initialInstance = initializeActivityInstance(templateId, user?.sub)
 
       const withRecentFacets = reduce((instance, fctTmpl) => {
@@ -119,13 +116,13 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
         payload: withRecentFacets
       })
     }
-  }, [user?.sub, typeQsSucceeded])
+  }, [user?.sub, queriesSucceeded])
 
   const instanceTemplate = prop("template")
                                (getInstance(store))
 
   useEffect(() => {
-    if (instanceTemplate !== templateId && typeQsSucceeded) {
+    if (instanceTemplate !== templateId && queriesSucceeded) {
       const initialInstance = initializeActivityInstance(templateId, user?.sub)
 
       const withRecentFacets = reduce((instance, fctTmpl) => {
@@ -142,7 +139,7 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
         payload: withRecentFacets
       })
     }
-  }, [instanceTemplate, user?.sub, templateId])
+  }, [instanceTemplate, user?.sub, templateId, queriesSucceeded])
 
   return (
     <InstanceContext.Provider value={[store, dispatch]}>
