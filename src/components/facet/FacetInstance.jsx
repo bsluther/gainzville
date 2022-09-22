@@ -38,18 +38,17 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
           w-max
           cursor-default
         `}
-        onContextMenu={e => {
-          e.preventDefault()
-          console.log("context menu")
-        }}
-        onMouseEnter={() => setShowOptionIcon(true)}
-        onMouseLeave={() => setShowOptionIcon(false)}
       >
         {facetTemplateQuery.isSuccess && (
           <div
             className="flex items-center space-x-3"
           >
-            <span>{facetTemplateQuery.data.name}</span>
+            <span
+              onMouseEnter={() => setShowOptionIcon(true)}
+              onMouseLeave={() => setShowOptionIcon(false)}
+            >
+              {facetTemplateQuery.data.name}
+            </span>
             {facetTemplateQuery.data.fields.map((typeId, ix) => 
               <TypeInstance
                 Context={Context}
@@ -75,7 +74,7 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
                 ref={optionsIconRef}
               />}
             {optionsOpen &&
-              <div className="absolute top-0 left-full z-50">
+              <div className="absolute top-0 left-0 z-50">
                 <OptionsMenu
                   closeMenu={closeMenu}
                   optionsIconRef={optionsIconRef}
@@ -101,11 +100,11 @@ const OptionsMenu = ({ closeMenu, optionsIconRef, handleRemoveFacet }) => {
     <ul
       ref={menuRef}
       className="
-        text-sm cursor-pointer
+        text-lg cursor-pointer
         w-max h-max
         px-1 space-y-0.5 py-0.5
-        border-2 border-neutral-800
-        bg-neutral-400
+        border-2 border-neutral-300
+        text-neutral-300 bg-neutral-800
       "
     >
       <li
