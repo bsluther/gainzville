@@ -13,7 +13,7 @@ const LoggedInButton = () => {
     <div className="w-max h-max relative" ref={ref}>
       <UserSvg className="w-6 h-6 text-neutral-400" onClick={() => setMenuOpen(prev => !prev)} />
       {menuOpen &&
-        <div className="absolute top-full translate-y-1 right-0 w-max h-max bg-neutral-300 px-1 py-2 flex flex-col items-end space-y-1 rounded-sm">
+        <div className="absolute top-full translate-y-1 right-0 w-max h-max bg-neutral-300 px-1 py-2 flex flex-col items-end space-y-1 rounded-sm z-50">
           <span>{user.nickname}</span>
           <button className="font-bold uppercase" onClick={() => logout({ returnTo: window.location.origin })}>Logout</button>
         </div>

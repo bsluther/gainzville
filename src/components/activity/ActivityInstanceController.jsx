@@ -79,7 +79,8 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
   const { user } = useAuth0()
   const templateQ = useActivityTemplate(templateId)
 
-  const recentFacetsQ = useRecentFacets(templateId)
+  const recentFacetIdsQ = useRecentFacets(templateId)
+  const recentFacetsQ = useEntities(recentFacetIdsQ.data, { enabled: recentFacetIdsQ.isSuccess })
   const typeTemplateIds = L.foldl(union)
                                  ([])
                                  ([L.children, "data", "fields"])
@@ -91,8 +92,8 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
   )
   
 
-  // currently hacked in - i have no good way to tell whether typeTemplateQs is successful
-  const queriesSucceeded = typeTemplateIds.length > 0 
+  // currently a bit hacked in - it's hard to see if the data required for FacetInstance construction has been successfully fetched
+  const queriesSucceeded = (typeTemplateIds.length > 0 || (recentFacetIdsQ.isSuccess && recentFacetIdsQ.data.length === 0))
                             && allSucceeded(values(recentFacetsQ)) 
                             && allSucceeded(values(typeTemplateQs))
 
@@ -102,14 +103,15 @@ export const NewActivityInstanceController = ({ templateId, handleSaveNewInstanc
     if (queriesSucceeded) {
       const initialInstance = initializeActivityInstance(templateId, user?.sub)
 
-      const withRecentFacets = reduce((instance, fctTmpl) => {
-        return L.set(["facets", fctTmpl.id])
-                    (initializeFacetInstance(fctTmpl)
-                                            (map(qry => qry.data)(typeTemplateQs)))
-                    (instance)
-      })
+      const withRecentFacets = reduce((instance, fctTmpl) => 
+                                        L.set(["facets", fctTmpl.id])
+                                             (initializeFacetInstance(fctTmpl)
+                                                                     (map(qry => qry.data)
+                                                                         (typeTemplateQs)))
+                                             (instance))
                                      (initialInstance)
-                                     (map(prop('data'))(values(recentFacetsQ)))
+                                     (map(prop('data'))
+                                         (values(recentFacetsQ)))
 
       dispatch({
         type: "initializeNew",

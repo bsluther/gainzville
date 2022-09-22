@@ -8,7 +8,6 @@ import { FacetInstance } from "../../components/facet/FacetInstance"
 import { PlusSvg } from "../../svg/PlusSvg"
 import { FacetBar } from "./FacetBar"
 import { GvSpinner } from "../../svg/GvSpinner"
-import { TrashSVG } from "../../svg/TrashSVG"
 import { DotsVerticalSvg } from "../../svg/DotsVerticalSvg"
 import { useDeleteEntity } from "../../hooks/queries/entity/useDeleteEntity"
 import { useCallback } from "react"
@@ -41,7 +40,10 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
   const [menuOpen, setMenuOpen] = useState(false)
   const deleteM = useDeleteEntity()
 
-  const handleDelete = useCallback(() => deleteM.mutate(store.instance.id), [store.instance.id])
+  const handleDelete = useCallback(
+    () => deleteM.mutate(store.instance.id),
+    [store.instance.id]
+  )
 
   return (
     <div className="bg-neutral-400 rounded-xl w-full flex flex-col">
@@ -51,7 +53,7 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
         </div>
         <DotsVerticalSvg className="ml-2 w-6 h-6 text-blue-400" strokeWidth="3" onClick={() => setMenuOpen(prev => !prev)} />
         {menuOpen && 
-          <Menu handleDelete={handleDelete}/>}
+          <Menu handleDelete={handleDelete} isUnpersisted={store.isUnpersisted} />}
       </div>
 
       <div className="min-h-[3rem] text-sm p-2 space-y-2 no-scrollbar overflow-x-scroll rounded-b-xl">
@@ -130,7 +132,7 @@ const BaubleClosed = ({ instanceId, openBauble }) => {
 
 const Button = props => <button className={`px-2 py-1 text-neutral-300 bg-neutral-800 rounded-md ${props.className}`} {...props}>{props.children}</button>
 
-const Menu = ({ handleDelete }) => {
+const Menu = ({ handleDelete, isUnpersisted }) => {
 
   return (
     <div
@@ -138,7 +140,7 @@ const Menu = ({ handleDelete }) => {
       bg-neutral-800 text-neutral-200 rounded-sm border border-neutral-300
         flex flex-col items-end p-2 space-y-2"
     >
-      <span className="cursor-pointer" onClick={handleDelete}>Delete Record</span>
+      {!isUnpersisted && <span className="cursor-pointer" onClick={handleDelete}>Delete Record</span>}
       <span className="cursor-pointer">Set as Default</span>
     </div>
   )
