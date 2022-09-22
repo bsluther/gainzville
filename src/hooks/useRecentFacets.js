@@ -1,18 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { assoc, identity, ifElse, keys, pipe, reduceWhile, slice, sort, union } from "ramda"
 import { after, getCreatedAt } from "../mobile/pages/TimelinePage"
+import { mapQuery } from "../utility/fns"
 import { useActivityInstances } from "./queries/activity/instance/useActivityInstances"
-import { useEntities } from "./queries/entity/useEntities"
-
-// mapQuery :: (a -> b) -> Query(a) -> Query(b)
-export const mapQuery = fn => query =>
-  query.isSuccess
-    ? { ...query, data: fn(query.data) }
-    : query
 
 
 // A quick and dirty utility to see which facets a user utilized on the most the recent instance of a given template.
-// Could add a little ad hoc polymorphism: if ActivityTemplateId is undefined, return the most recently used facets generally, regardless of template.
 
 // useRecentFacets :: (ActivityTemplateId, Number) -> Query([FacetId])
 export const useRecentFacets = (activityTemplateId, quantity = Infinity) => {

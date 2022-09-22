@@ -83,3 +83,10 @@ export const callIfFn = a => (...args) => {
 
 export const allSucceeded = reduce((acc, qry) => acc && qry.isSuccess)
                                   (true)
+
+
+// mapQuery :: (a -> b) -> Query(a) -> Query(b)
+export const mapQuery = fn => query =>
+  query.isSuccess
+    ? { ...query, data: fn(query.data) }
+    : query;
