@@ -83,7 +83,7 @@ const Recents = ({ templates = [], handleSelect }) => {
   const typeTemplatesQ = useEntities(templates.flatMap(tmpl => tmpl.fields))
 
   return (
-      <div className="flex flex-col p-2 bg-neutral-700">
+      <div className="flex flex-col p-2">
         <span className="font-bold">Recent:</span>
         <ul className="flex flex-col p-2 space-y-2">
           {templates.map(tmpl => 
@@ -107,7 +107,7 @@ const Results = ({ templates = [], handleSelect }) => {
   console.log(templates)
 
   return (
-        <div className="flex flex-col p-2 space-y-2">
+        <div className="flex flex-col p-2 space-y-2 bg-neutral-700">
           {templates.map(tmpl => 
             <span 
               key={tmpl.id}

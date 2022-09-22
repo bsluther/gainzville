@@ -58,18 +58,21 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
 
       <div className="min-h-[3rem] text-sm p-2 space-y-2 no-scrollbar overflow-x-scroll rounded-b-xl">
         {Object.keys(store.instance.facets).map(fctId => 
-          <FacetInstance
-            Context={Context} 
-            facetTemplateId={fctId} 
-            key={fctId} 
-            address={{ facet: fctId }}
-            facetBgColor='bg-neutral-300'
-            // textColor="text-neutral-200"
-            fieldBgColor="bg-neutral-200"
-            hideOptions
-            facetBorder="border"
-            fieldBorder="border"
-          />)}
+          <div className="">
+            <FacetInstance
+              Context={Context} 
+              facetTemplateId={fctId} 
+              key={fctId} 
+              address={{ facet: fctId }}
+              facetBgColor='bg-neutral-300'
+              // textColor="text-neutral-200"
+              fieldBgColor="bg-neutral-200"
+              // hideOptions
+              facetBorder="border"
+              fieldBorder="border"
+            />
+          </div>
+        )}
 
         <div className="grow flex justify-end items-end space-x-2">
           {addingFacet 

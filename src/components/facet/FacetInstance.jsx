@@ -65,7 +65,7 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
                 fill="rgb(163 163 163 / var(--tw-bg-opacity))"
                 className="
                   w-6 h-6
-                  absolute -top-3 -right-3
+                  absolute -top-3NO -right-3NO -left-5 -top-2
                   cursor-pointer
                   z-50
                 "
