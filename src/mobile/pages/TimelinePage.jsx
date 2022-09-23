@@ -10,6 +10,7 @@ import { Bauble } from "../components/Bauble"
 import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
 import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
 import { Modal } from "../components/Modal"
+import { ActivityTemplateModal } from "../components/ActivityTemplateModal"
 
 export const TimelinePage = () => {
   const { user, isAuthenticated } = useAuth0()
@@ -29,7 +30,7 @@ export const TimelinePage = () => {
       <div className="w-11/12 py-8">
         <RecordBar 
           handleStartCreatingInstance={templateId => setCreatingInstance(templateId)}
-          handleStartCreatingTemplate={() => setCreatingTemplate(true)}
+          startCreatingTemplate={() => setCreatingTemplate(true)}
         />
       </div>
       <div className="w-11/12 overflow-y-scroll space-y-2 z-0">
@@ -48,10 +49,9 @@ export const TimelinePage = () => {
       </div>
 
       {creatingTemplate &&
-        <Modal>
-          <span>Line 1</span>
-          <span>This is Line 2</span>
-        </Modal>}
+        <ActivityTemplateModal closeModal={() => {
+          console.log('closing')
+          setCreatingTemplate(false)}} />}
     </div>
   )
 }

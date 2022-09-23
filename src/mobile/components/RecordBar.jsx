@@ -10,7 +10,7 @@ import { DotSvg } from "../../svg/DotSvg"
 import { SearchSvg } from "../../svg/SearchSvg"
 import { debounce } from "../../utility/fns"
 
-export const RecordBar = ({ handleStartCreatingInstance, handleStartCreatingTemplate }) => {
+export const RecordBar = ({ handleStartCreatingInstance, startCreatingTemplate }) => {
   const ref = useRef()
   const [mode, setMode] = useState("inactive")
   const [inputState, setInputState] = useState("")
@@ -38,6 +38,13 @@ export const RecordBar = ({ handleStartCreatingInstance, handleStartCreatingTemp
   const isExpanded = mode !== "inactive" && (areResults || areRecents)
 
   useOutsideClick([ref], () => setMode("inactive"))
+
+  const handleStartCreatingTemplate = () => {
+    startCreatingTemplate()
+    clearSearch()
+  }
+
+
 
   if (mode === "searching") return (
     <div className={`w-full h-max`} ref={ref}>
@@ -79,7 +86,7 @@ export const RecordBar = ({ handleStartCreatingInstance, handleStartCreatingTemp
         }
         <div className="pl-4 pb-2 flex flex-col">
           <span className="font-bold" onClick={handleStartCreatingTemplate}>+ Create new activity</span>
-          <span className="px-2 italic text-sm">Something missing? Make your own activities!</span>
+          {/* <span className="px-2 italic text-sm">Something missing? Make your own activities!</span> */}
         </div>
       </div>
     </div>

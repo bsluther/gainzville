@@ -83,7 +83,7 @@ export const TypeTemplatePresenter = ({ Context, handleSave }) => {
     </div>
   )
 }
-const ListEditor = ({ elements, updateElement, appendElement, removeElement }) => {
+export const ListEditor = ({ elements, updateElement, appendElement, removeElement }) => {
   return (
     <ol className="space-y-1">
       {elements.map((el, ix) => <ListItem
