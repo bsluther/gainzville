@@ -12,20 +12,19 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
   })
   const [, dispatch] = useContext(Context)
 
-
   const handleRemoveFacet = () =>
     dispatch({
       type: "removeFacet",
       payload: address.facet
     })
 
-  const [showOptionIcon, setShowOptionIcon] = useState(false)
-  const [optionsOpen, setOptionsOpen] = useState(false)
-  const optionsIconRef = useRef()
+  // const [showOptionIcon, setShowOptionIcon] = useState(false)
+  // const [optionsOpen, setOptionsOpen] = useState(false)
+  // const optionsIconRef = useRef()
 
-  const closeMenu = useCallback(() => {
-    setOptionsOpen(false)
-  }, [setOptionsOpen])
+  // const closeMenu = useCallback(() => {
+  //   setOptionsOpen(false)
+  // }, [setOptionsOpen])
 
   return (
     <div className="relative w-max" {...props}>
@@ -44,8 +43,8 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
             className="flex items-center space-x-3"
           >
             <span
-              onMouseEnter={() => setShowOptionIcon(true)}
-              onMouseLeave={() => setShowOptionIcon(false)}
+              // onMouseEnter={() => setShowOptionIcon(true)}
+              // onMouseLeave={() => setShowOptionIcon(false)}
             >
               {facetTemplateQuery.data.name}
             </span>
@@ -59,7 +58,7 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
                 fieldBorder={fieldBorder}
               />)}
       
-            {((showOptionIcon && !hideOptions) || optionsOpen) && 
+            {/* {((showOptionIcon && !hideOptions) || optionsOpen) && 
               <CogSVGWithRef
                 fill="rgb(163 163 163 / var(--tw-bg-opacity))"
                 className="
@@ -72,15 +71,15 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
                   setOptionsOpen(prev => !prev)
                 }}
                 ref={optionsIconRef}
-              />}
-            {optionsOpen &&
+              />} */}
+            {/* {optionsOpen &&
               <div className="absolute top-0 left-0 z-50">
                 <OptionsMenu
                   closeMenu={closeMenu}
                   optionsIconRef={optionsIconRef}
                   handleRemoveFacet={handleRemoveFacet}
                 />
-              </div>}
+              </div>} */}
           </div>
           
         )}
@@ -91,29 +90,29 @@ export const FacetInstance = ({ Context, facetTemplateId, address, facetBgColor,
 
 
 
-const OptionsMenu = ({ closeMenu, optionsIconRef, handleRemoveFacet }) => {
-  const menuRef = useRef()
+// const OptionsMenu = ({ closeMenu, optionsIconRef, handleRemoveFacet }) => {
+//   const menuRef = useRef()
 
-  useOutsideClick([menuRef, optionsIconRef], closeMenu)
+//   useOutsideClick([menuRef, optionsIconRef], closeMenu)
 
-  return (
-    <ul
-      ref={menuRef}
-      className="
-        text-lg cursor-pointer
-        w-max h-max
-        px-1 space-y-0.5 py-0.5
-        border-2 border-neutral-300
-        text-neutral-300 bg-neutral-800
-      "
-    >
-      <li
-        className="hover:text-yellow-200"
-        onClick={handleRemoveFacet}
-      >Remove Facet</li>
-      <li className="hover:text-yellow-200">Hide Facet</li>
-      <li className="hover:text-yellow-200">Set as Default Value</li>
-      <li className="hover:text-yellow-200">Make Bilateral</li>
-    </ul>
-  )
-}
+//   return (
+//     <ul
+//       ref={menuRef}
+//       className="
+//         text-lg cursor-pointer
+//         w-max h-max
+//         px-1 space-y-0.5 py-0.5
+//         border-2 border-neutral-300
+//         text-neutral-300 bg-neutral-800
+//       "
+//     >
+//       <li
+//         className="hover:text-yellow-200"
+//         onClick={handleRemoveFacet}
+//       >Remove Facet</li>
+//       <li className="hover:text-yellow-200">Hide Facet</li>
+//       <li className="hover:text-yellow-200">Set as Default Value</li>
+//       <li className="hover:text-yellow-200">Make Bilateral</li>
+//     </ul>
+//   )
+// }

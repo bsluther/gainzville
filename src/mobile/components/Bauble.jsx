@@ -11,6 +11,9 @@ import { GvSpinner } from "../../svg/GvSpinner"
 import { DotsVerticalSvg } from "../../svg/DotsVerticalSvg"
 import { useDeleteEntity } from "../../hooks/queries/entity/useDeleteEntity"
 import { useCallback } from "react"
+import { ExpandedInstance } from "../../components/facet/ExpandedInstance"
+import { useOutsideClick } from "../../hooks/useOutsideClick"
+import { useRef } from "react"
 
 
 export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, handleSaveNewInstance, insertMutation }) => {
@@ -37,42 +40,69 @@ export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, 
 const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateMutation, insertMutation }) => {
   const [store, dispatch] = useContext(Context)
   const [addingFacet, setAddingFacet] = useState(false)
+  const [editingFacets, setEditingFacets] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const deleteM = useDeleteEntity()
+  const baubleRef = useRef()
 
   const handleDelete = useCallback(
     () => deleteM.mutate(store.instance.id),
     [store.instance.id]
   )
 
+  const handleEditFacets = () => {
+    setEditingFacets(true)
+    setMenuOpen(false)
+  }
+
+  useOutsideClick([baubleRef], () => setEditingFacets(false))
+
   return (
-    <div className="bg-neutral-400 rounded-xl w-full flex flex-col">
+    <div className="bg-neutral-400 rounded-xl w-full flex flex-col" ref={baubleRef}>
       <div className="relative flex pl-2 py-2 bg-neutral-300 rounded-t-xl border-b border-neutral-800">
         <div className="grow" onClick={closeBauble}>
           <span className="whitespace-nowrap">{template.name}</span>
         </div>
-        <DotsVerticalSvg className="ml-2 w-6 h-6 text-blue-400" strokeWidth="3" onClick={() => setMenuOpen(prev => !prev)} />
+        <DotsVerticalSvg className="ml-4 w-6 h-6 text-blue-400" strokeWidth="3" onClick={() => setMenuOpen(prev => !prev)} />
         {menuOpen && 
-          <Menu handleDelete={handleDelete} isUnpersisted={store.isUnpersisted} />}
+          <Menu 
+            handleDelete={handleDelete} 
+            isUnpersisted={store.isUnpersisted}
+            handleEditFacets={handleEditFacets} 
+          />}
       </div>
 
       <div className="min-h-[3rem] text-sm p-2 space-y-2 no-scrollbar overflow-x-scroll rounded-b-xl">
-        {Object.keys(store.instance.facets).map(fctId => 
-          <FacetInstance
-            Context={Context} 
-            facetTemplateId={fctId} 
-            key={fctId} 
-            address={{ facet: fctId }}
-            facetBgColor='bg-neutral-300'
-            // textColor="text-neutral-200"
-            fieldBgColor="bg-neutral-200"
-            // hideOptions
-            facetBorder="border"
-            fieldBorder="border"
-          />
+        {Object.keys(store.instance.facets).map(fctId =>
+          editingFacets
+            ? <ExpandedInstance
+                FacetInstance={FacetInstance}
+                Context={Context}
+                facetTemplateId={fctId} 
+                key={fctId}   
+                address={{ facet: fctId }}
+                facetBgColor='bg-neutral-300'
+                // textColor="text-neutral-200"
+                fieldBgColor="bg-neutral-200"
+                // hideOptions
+                facetBorder="border"
+                fieldBorder="border"
+               />
+            : <FacetInstance
+                Context={Context} 
+                facetTemplateId={fctId} 
+                key={fctId} 
+                address={{ facet: fctId }}
+                facetBgColor='bg-neutral-300'
+                // textColor="text-neutral-200"
+                fieldBgColor="bg-neutral-200"
+                // hideOptions
+                facetBorder="border"
+                fieldBorder="border"
+              />
         )}
 
-        <div className="grow flex justify-end items-end space-x-2">
+        <div className="grow flex justify-end items-end space-x-2" onClick={() => setEditingFacets(false)}>
           {addingFacet 
             ? <FacetBar 
                 handleSelect={(facetTemplate, typeTemplates) => {
@@ -93,7 +123,6 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
             >
               {updateMutation?.isLoading || insertMutation?.isLoading
                 ? <GvSpinner className="w-6 h-6 fill-yellow-300" />
-                // : store.isUnpersisted ? "Save" : "Save Changes"}
                 : "Save"}
             </Button>}
           
@@ -133,16 +162,18 @@ const BaubleClosed = ({ instanceId, openBauble }) => {
 
 const Button = props => <button className={`px-2 py-1 text-neutral-300 bg-neutral-800 rounded-md ${props.className}`} {...props}>{props.children}</button>
 
-const Menu = ({ handleDelete, isUnpersisted }) => {
+const Menu = ({ handleDelete, isUnpersisted, handleEditFacets }) => {
 
   return (
     <div
-      className="absolute right-0 top-full -translate-y-1
+      className="absolute right-0 top-full -translate-y-1 z-40
       bg-neutral-800 text-neutral-200 rounded-sm border border-neutral-300
         flex flex-col items-end p-2 space-y-2"
     >
       {!isUnpersisted && <span className="cursor-pointer" onClick={handleDelete}>Delete Record</span>}
+      <span className="cursor-pointer" onClick={handleEditFacets}>Edit Facets</span>
       <span className="cursor-pointer">Set as Default</span>
+      <span className="cursor-pointer">Show Hidden Facets</span>
     </div>
   )
 }
