@@ -9,6 +9,7 @@ import { useState } from "react"
 import { Bauble } from "../components/Bauble"
 import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
 import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
+import { Modal } from "../components/Modal"
 
 export const TimelinePage = () => {
   const { user, isAuthenticated } = useAuth0()
@@ -17,29 +18,40 @@ export const TimelinePage = () => {
     { enabled: isAuthenticated && !!user.sub }
   )
   const insertM = useInsertEntity()
-  const [creating, setCreating] = useState(false)
+  const [creatingInstance, setCreatingInstance] = useState(false)
   const prefetchedFacetsQ = useFacetTemplates()
   // this approach is suboptimal: component will re-render unnecessarily on changes to FacetTemplates
+
+  const [creatingTemplate, setCreatingTemplate] = useState(false)
 
   return (
     <div className="w-full h-full flex flex-col items-center z-0">
       <div className="w-11/12 py-8">
-        <RecordBar handleStartCreating={templateId => setCreating(templateId)} />
+        <RecordBar 
+          handleStartCreatingInstance={templateId => setCreatingInstance(templateId)}
+          handleStartCreatingTemplate={() => setCreatingTemplate(true)}
+        />
       </div>
       <div className="w-11/12 overflow-y-scroll space-y-2 z-0">
-        {creating && 
+        {creatingInstance && 
           <Bauble
             isOpen={true}
             instanceId="new"
-            templateId={creating}
+            templateId={creatingInstance}
             handleSaveNewInstance={instance => {
               insertM.mutate(instance)
-              setCreating(false)
+              setCreatingInstance(false)
             }}
             insertMutation={insertM}
           />}
         <Timeline instances={instancesQ.data ?? []} />
       </div>
+
+      {creatingTemplate &&
+        <Modal>
+          <span>Line 1</span>
+          <span>This is Line 2</span>
+        </Modal>}
     </div>
   )
 }

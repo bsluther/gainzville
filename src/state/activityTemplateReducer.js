@@ -7,6 +7,8 @@ export const ActivityTemplateContext = createContext()
 const templateLens = ["template"]
 const hasChangedLens = ["hasChanged"]
 const isNewLens = ["isNew"]
+// isDraft is the renamed isNew property, isNew needs to be migrated in older usages
+const isDraftLens = ["isDraft"]
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -20,7 +22,8 @@ const reducer = (state, action) => {
       return pipe(
         L.set(templateLens, action.payload),
         L.set(hasChangedLens, false),
-        L.set(isNewLens, true)
+        L.set(isNewLens, true),
+        L.set(isDraftLens, true)
       )(state)
 
     case "input":

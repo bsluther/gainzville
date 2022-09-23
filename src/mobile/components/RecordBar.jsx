@@ -10,7 +10,7 @@ import { DotSvg } from "../../svg/DotSvg"
 import { SearchSvg } from "../../svg/SearchSvg"
 import { debounce } from "../../utility/fns"
 
-export const RecordBar = ({ handleStartCreating }) => {
+export const RecordBar = ({ handleStartCreatingInstance, handleStartCreatingTemplate }) => {
   const ref = useRef()
   const [mode, setMode] = useState("inactive")
   const [inputState, setInputState] = useState("")
@@ -52,6 +52,7 @@ export const RecordBar = ({ handleStartCreating }) => {
             value={inputState}
             onChange={handleInput}
             // type="search"
+            placeholder="search activities"
             spellCheck="false"
           />
           <AdjustmentsSvg className="w-7 h-7 -rotate-90 text-neutral-400" />
@@ -62,7 +63,7 @@ export const RecordBar = ({ handleStartCreating }) => {
           <Results 
             templates={resultsQ.data} 
             handleSelect={templateId => {
-              handleStartCreating(templateId)
+              handleStartCreatingInstance(templateId)
               clearSearch()
             }} 
           />
@@ -71,11 +72,15 @@ export const RecordBar = ({ handleStartCreating }) => {
           <Recents
             templates={recentActivities}
             handleSelect={templateId => {
-              handleStartCreating(templateId)
+              handleStartCreatingInstance(templateId)
               clearSearch()
             }}
           />
         }
+        <div className="pl-4 pb-2 flex flex-col">
+          <span className="font-bold" onClick={handleStartCreatingTemplate}>+ Create new activity</span>
+          <span className="px-2 italic text-sm">Something missing? Make your own activities!</span>
+        </div>
       </div>
     </div>
   )
@@ -96,7 +101,7 @@ export const RecordBar = ({ handleStartCreating }) => {
 const Recents = ({ templates = [], handleSelect }) => {
   return (
     <ol className={`flex flex-col pt-2 px-4 rounded-b-xl`}>
-      <span className="font-bold">Recent:</span>
+      <span className="font-bold">Recent activities:</span>
       <div className="flex flex-col px-2 pb-2">
         {templates.map(tmpl => 
           <span 
