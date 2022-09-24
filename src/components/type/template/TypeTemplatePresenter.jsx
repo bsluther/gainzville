@@ -103,10 +103,7 @@ const ListItem = ({ name, setName, remove, iconColor }) => {
     <div className="flex items-center space-x-1">
       <Input
         value={name}
-        onChange={e => {
-          // e.target.focus()
-          setName(e.target.value)
-        }} 
+        onChange={e => setName(e.target.value)} 
       />
       <XCircleSvg className={`w-5 h-5 cursor-pointer ${iconColor}`} onClick={remove} />
     </div>
@@ -118,11 +115,6 @@ const NewItem = ({ appendElement }) => {
   )
 }
 const Input = props => {
-  const [renders, setRenders] = useState(0)
-  console.log('renders', renders)
-  useEffect(() => {
-    setRenders(1)
-  }, [])
   return (
     <input
       autoFocus={props.autoFocus ?? true}

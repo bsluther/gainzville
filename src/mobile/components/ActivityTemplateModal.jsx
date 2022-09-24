@@ -18,15 +18,15 @@ export const ActivityTemplateModal = ({ closeModal }) => {
 
   return createPortal(
     <div
-      className="fixed w-full h-full flex flex-col space-y-8 items-center justify-centerNO backdrop-blur-md"
+      className="fixed w-full h-full flex flex-col p-2 space-y-2 items-center justify-centerNO backdrop-blur-md"
     >
       <XCircleSvg 
-        className="w-8 h-8 text-neutral-200 fixed top-4 right-4" 
+        className="w-8 h-8 text-neutral-200 fixed top-2 right-2" 
         onClick={closeModal}
       />
 
       <div className="w-full flex flex-col items-center justify-center">
-        <div className="w-11/12 text-neutral-300 bg-neutral-800 space-y-4 px-4 py-4 rounded-lg">
+        <div className=" text-neutral-300 bg-neutral-800 space-y-4 px-4 py-4 rounded-lg">
 
           <div className="flex items-center space-x-2">
             <span className="shrink text">Activity Name:</span>
