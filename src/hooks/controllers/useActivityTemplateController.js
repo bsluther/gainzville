@@ -3,10 +3,13 @@ import { identity } from "ramda"
 import { useEffect } from "react"
 import { useActivityTemplateReducer } from "../../state/activityTemplateReducer"
 import * as ActivityTemplate from "../../data/ActivityTemplate"
+import { useEntity } from "../queries/entity/useEntity"
+import { useInsertEntity } from "../queries/entity/useInsertEntity"
 
-export const useActivityTemplateController = templateId => {
+export const useActivityTemplateController = (templateId, { handleInsert }) => {
   const { user, isAuthenticated } = useAuth0()
   const templateQ = useEntity(templateId, { enabled: templateId !== "DRAFT" })
+  const insertM = useInsertEntity()
 
   const [store, dispatch] = useActivityTemplateReducer()
 
@@ -25,18 +28,23 @@ export const useActivityTemplateController = templateId => {
   useEffect(() => {
     // NEED TO CHECK THAT THERE'S IS AN AUTHENTICATED USER BEFORE ALLOWING NEW TEMPLATE CREATION
     if (templateId === "DRAFT") {
-      if (!store || !store.isDraft) {
+      if (!store || store?.isDraft) {
         dispatch({ type: "initializeNew", payload: ActivityTemplate.newTemplate(user?.sub) })
       }
     }
 
-  }, [templateId === "DRAFT", !store, !store.isDraft, user?.sub])
+  }, [templateId === "DRAFT", !store, !store?.isDraft, user?.sub])
 
-  const handleSave = identity
+  const handleSave = templateId === "DRAFT" 
+    ? handleInsert
+      ? handleInsert
+      : insertM.mutate 
+    : identity
 
   return ({
     store,
     dispatch,
-    handleSave
+    handleSave,
+    insertMutation: insertM
   })
 }

@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { join } from "ramda"
 import { useMutation, useQueryClient } from "react-query"
-import { fetchWithError, lookupTypeQueryKey, typeofId } from "../../../utility/fns"
+import { callIfFn, fetchWithError, lookupTypeQueryKey, typeofId } from "../../../utility/fns"
 
 
 export const useInsertEntity = options => {
@@ -26,6 +26,7 @@ export const useInsertEntity = options => {
     {
       ...options,
       onSuccess: (_, variables) => {
+        callIfFn(options?.onSuccess)(variables)
         queryClient.invalidateQueries(lookupTypeQueryKey(typeofId(variables.id)))
       }
     }

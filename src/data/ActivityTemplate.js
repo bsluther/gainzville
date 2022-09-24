@@ -21,7 +21,7 @@ export const newTemplate = user => {
     _id: id,
     id,
     createdBy: user,
-    name: "",
+    name: "New activity",
     aliases: []
   })
 }

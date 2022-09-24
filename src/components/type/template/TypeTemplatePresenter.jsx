@@ -83,7 +83,7 @@ export const TypeTemplatePresenter = ({ Context, handleSave }) => {
     </div>
   )
 }
-export const ListEditor = ({ elements, updateElement, appendElement, removeElement }) => {
+export const ListEditor = ({ elements = [], updateElement, appendElement, removeElement, iconColor }) => {
   return (
     <ol className="space-y-1">
       {elements.map((el, ix) => <ListItem
@@ -91,18 +91,20 @@ export const ListEditor = ({ elements, updateElement, appendElement, removeEleme
         name={el}
         setName={updateElement(ix)}
         id={ix}
-        remove={() => removeElement(ix)} />)}
+        remove={() => removeElement(ix)} 
+        iconColor={iconColor} />)}
       <NewItem appendElement={appendElement} />
     </ol>
   )
 }
-const ListItem = ({ name, setName, remove }) => {
+const ListItem = ({ name, setName, remove, iconColor }) => {
   return (
     <div className="flex items-center">
       <Input
         value={name}
-        onChange={e => setName(e.target.value)} />
-      <XCircleSvg className="w-5 h-5 cursor-pointer" onClick={remove} />
+        onChange={e => setName(e.target.value)} 
+      />
+      <XCircleSvg className={`w-5 h-5 cursor-pointer ${iconColor}`} onClick={remove} />
     </div>
   )
 }
@@ -113,5 +115,6 @@ const NewItem = ({ appendElement }) => {
 }
 const Input = props => <input
   autoFocus
-  className="h-7 text-center outline-none rounded-sm bg-neutral-400"
+  className={`h-7 text-center outline-none rounded-sm bg-neutral-400`}
+  spellCheck={false}
   {...props} />
