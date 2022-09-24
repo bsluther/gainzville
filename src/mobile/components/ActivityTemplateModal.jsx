@@ -25,8 +25,6 @@ export const ActivityTemplateModal = ({ closeModal }) => {
         onClick={closeModal}
       />
 
-      <div className="h-1/6"></div>
-
       <div className="w-full flex flex-col items-center justify-center">
         <div className="w-11/12 text-neutral-300 bg-neutral-800 space-y-4 px-4 py-4 rounded-lg">
 
