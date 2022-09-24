@@ -35,7 +35,8 @@ export const RecordBar = ({ handleStartCreatingInstance, startCreatingTemplate }
   const areResults = resultsQ.data?.length > 0
   const areRecents = recentActivities.length > 0
 
-  const isExpanded = mode !== "inactive" && (areResults || areRecents)
+  const isExpanded = mode !== "inactive"
+    // && (areResults || areRecents)
 
   useOutsideClick([ref], () => setMode("inactive"))
 

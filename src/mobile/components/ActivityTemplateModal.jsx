@@ -17,8 +17,9 @@ export const ActivityTemplateModal = ({ closeModal }) => {
   const ref = useRef()
 
   useEffect(() => {
-    const { x, y } = ref.current.getBoundingClientRect()
-    window.scrollTo(x, y)
+    // const { x, y } = ref.current.getBoundingClientRect()
+    // window.scrollTo(x, y)
+    ref.current.scrollTop = 0
   }, [])
 
   console.log('store', store)
