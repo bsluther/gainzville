@@ -1,4 +1,5 @@
 import { append, remove, update } from "ramda"
+import { useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { ListEditor } from "../../components/type/template/TypeTemplatePresenter"
 import { useActivityTemplateController } from "../../hooks/controllers/useActivityTemplateController"
@@ -13,6 +14,12 @@ export const ActivityTemplateModal = ({ closeModal }) => {
     { handleInsert: insertM.mutate}
   )
   const appEl = document.getElementById("mobile-app")
+  const ref = useRef()
+
+  useEffect(() => {
+    const { x, y } = ref.current.getBoundingClientRect()
+    window.scrollTo(x, y)
+  }, [])
 
   console.log('store', store)
 
@@ -20,12 +27,12 @@ export const ActivityTemplateModal = ({ closeModal }) => {
     <div
       className="fixed w-full h-full flex flex-col p-3 space-y-2 items-center justify-center backdrop-blur-md"
     >
-      <div className="relative w-full flex flex-col items-center justify-center">
+      <div ref={ref} className="relative w-full flex flex-col items-center justify-center">
         <XCircleSvg 
           className="w-8 h-8 text-neutral-200 fill-neutral-800 absolute -top-3 -right-3" 
           onClick={closeModal}
         />
-        <div className=" text-neutral-300 bg-neutral-800 space-y-4 px-4 py-4 rounded-lg">
+        <div className="text-neutral-300 bg-neutral-800 space-y-4 px-4 py-4 rounded-lg">
 
           <div className="flex items-center space-x-2">
             <span className="shrink text">Activity Name:</span>
