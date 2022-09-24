@@ -36,6 +36,7 @@ export const ActivityTemplateModal = ({ closeModal }) => {
               autoFocus
               className="h-max w-full bg-neutral-400 rounded-sm grow text-black outline-none px-2" 
               value={store?.template?.name ?? ""}
+              type="text"
               onChange={e =>
                 dispatch({
                   type: "input",
@@ -102,7 +103,7 @@ export const ActivityTemplateModal = ({ closeModal }) => {
       </div>
 
       <button 
-        className="bg-neutral-800 text-neutral-300 border-2NO border-neutral-400 rounded-md px-4 py-2"
+        className="bg-neutral-800 text-neutral-300 rounded-md px-4 py-2"
         onClick={() => handleSave(store.template)}
       >
         {insertM.isLoading
