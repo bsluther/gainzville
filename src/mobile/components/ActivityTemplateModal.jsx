@@ -18,7 +18,7 @@ export const ActivityTemplateModal = ({ closeModal }) => {
 
   return createPortal(
     <div
-      className="fixed w-full h-full flex flex-col p-2 space-y-2 items-center justify-centerNO backdrop-blur-md"
+      className="fixed w-full h-full flex flex-col p-2 space-y-2 items-center justify-center backdrop-blur-md"
     >
       <XCircleSvg 
         className="w-8 h-8 text-neutral-200 fixed top-2 right-2" 
