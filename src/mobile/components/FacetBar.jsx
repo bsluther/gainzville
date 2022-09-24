@@ -6,6 +6,7 @@ import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { useRecentFacets } from "../../hooks/useRecentFacets"
 import { SearchSvg } from "../../svg/SearchSvg"
 import { allSucceeded, debounce } from "../../utility/fns"
+import { FacetTemplateModal } from "./FacetTemplateModal"
 
 
 export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identity }) => {
@@ -13,10 +14,11 @@ export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identit
   const [inputState, setInputState] = useState("")
   const [searchState, setSearchState] = useState("")
   const resultsQ = useFacetTemplates({ name: searchState }, { enabled: !!searchState })
-  const recentFacetIdsQ = useRecentFacets(null, 5)
+  const recentFacetIdsQ = useRecentFacets(null, 4)
   const recentFacetsQ = useEntities(recentFacetIdsQ.data, { enabled: recentFacetIdsQ.isSuccess })
   const recentFacets = map(prop('data'))
                           (values(recentFacetsQ ?? {}))
+  const [creatingFacet, setCreatingFacet] = useState(false)
 
   const handleInput = useCallback(e => {
     setInputState(e.target.value)
@@ -56,6 +58,7 @@ export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identit
 
       <div className="bg-neutral-750 text-neutral-300 rounded-b-xl max-h-[12rem] overflow-scroll no-scrollbar">
         <ol className="flex flex-col">
+
           {areResults &&
               <Results 
                 templates={resultsQ.data} 
@@ -64,6 +67,7 @@ export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identit
                   handleSelect(...args)
                 }} 
               />}
+
           <Recents
             templates={recentFacets}
             handleSelect={(...args) => {
@@ -72,9 +76,12 @@ export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identit
             }}
           />
 
-          </ol>
-        </div>
+          <span className="px-2 mb-2 font-bold" onClick={() => setCreatingFacet(true)}>+ Create New Facet</span>
+        </ol>
+      </div>
       
+      {creatingFacet && 
+        <FacetTemplateModal closeModal={() => setCreatingFacet(false)} />}
     </div>
   )
 }

@@ -16,18 +16,13 @@ export const ActivityTemplateModal = ({ closeModal }) => {
   const appEl = document.getElementById("mobile-app")
   const ref = useRef()
 
-  useEffect(() => {
-    // const { x, y } = ref.current.getBoundingClientRect()
-    // window.scrollTo(x, y)
-    ref.current.scrollTop = 0
-  }, [])
-
   console.log('store', store)
 
   return createPortal(
     <div
-      className="fixed w-full h-full flex flex-col p-3 space-y-2 items-center justify-center backdrop-blur-md"
+      className="fixed w-full h-full flex flex-col p-3 space-y-2 items-center justify-centerNO backdrop-blur-md"
     >
+      <span className="h-8"></span>
       <div ref={ref} className="relative w-full flex flex-col items-center justify-center">
         <XCircleSvg 
           className="w-8 h-8 text-neutral-200 fill-neutral-800 absolute -top-3 -right-3" 
