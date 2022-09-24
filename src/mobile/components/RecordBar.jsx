@@ -112,9 +112,9 @@ const Recents = ({ templates = [], handleSelect }) => {
       <div className="flex flex-col px-2 pb-2">
         {templates.map(tmpl => 
           <span 
-            key={tmpl.id}
-            onClick={() => handleSelect(tmpl.id)}
-          >{tmpl.name}</span>)}
+            key={tmpl?.id}
+            onClick={() => handleSelect(tmpl?.id)}
+          >{tmpl?.name}</span>)}
       </div>
     </ol>
   )
