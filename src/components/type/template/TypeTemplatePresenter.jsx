@@ -1,7 +1,8 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { chWidth } from "../../../utility/fns"
 import { XCircleSvg } from "../../../svg/XCircleSvg"
 import { TypeInstanceDemo } from "../instance/TypeInstance"
+import { useEffect } from "react"
 
 const SET_CONSTRUCTOR_ID = "typ-c-set"
 const POWERSET_CONSTRUCTOR_ID = "typ-c-powerset"
@@ -99,10 +100,13 @@ export const ListEditor = ({ elements = [], updateElement, appendElement, remove
 }
 const ListItem = ({ name, setName, remove, iconColor }) => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center space-x-1">
       <Input
         value={name}
-        onChange={e => setName(e.target.value)} 
+        onChange={e => {
+          // e.target.focus()
+          setName(e.target.value)
+        }} 
       />
       <XCircleSvg className={`w-5 h-5 cursor-pointer ${iconColor}`} onClick={remove} />
     </div>
@@ -110,11 +114,21 @@ const ListItem = ({ name, setName, remove, iconColor }) => {
 }
 const NewItem = ({ appendElement }) => {
   return (
-    <Input value="" onChange={e => appendElement(e.target.value)} />
+    <Input autoFocus={false} value="" onChange={e => appendElement(e.target.value)} />
   )
 }
-const Input = props => <input
-  autoFocus
-  className={`h-7 text-center outline-none rounded-sm bg-neutral-400`}
-  spellCheck={false}
-  {...props} />
+const Input = props => {
+  const [renders, setRenders] = useState(0)
+  console.log('renders', renders)
+  useEffect(() => {
+    setRenders(1)
+  }, [])
+  return (
+    <input
+      autoFocus={props.autoFocus ?? true}
+      className={`h-7 text-center outline-none rounded-sm bg-neutral-400`}
+      spellCheck={false}
+      {...props} 
+    />
+  )
+}
