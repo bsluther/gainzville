@@ -1,15 +1,18 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { addIndex, ascend, equals, findIndex, map, pipe, sortWith } from "ramda"
+import { ascend, equals, findIndex, ifElse, map, pipe, sortWith, when } from "ramda"
+import { useRef } from "react"
 import { useState } from "react"
 import { createPortal } from "react-dom"
-import { FacetEditor } from "../../components/facet/FacetEditor"
 import { TypeInstanceDemo } from "../../components/type/instance/TypeInstance"
 import { Renamable } from "../../components/util/Renamable"
 import { useFacetTemplateController } from "../../hooks/controllers/useFacetTemplateController"
 import { useTypeTemplates } from "../../hooks/queries/type/useTypeTemplates"
+import { useOutsideClick } from "../../hooks/useOutsideClick"
+import { AdjustmentsSvg } from "../../svg/AdjustmentsSvg"
 import { PlusSvg } from "../../svg/PlusSvg"
+import { SearchSvg } from "../../svg/SearchSvg"
 import { XCircleSvg } from "../../svg/XCircleSvg"
-import { mapQuery, snakeToSpace } from "../../utility/fns"
+import { mapQuery } from "../../utility/fns"
 
 const FLOAT_TEMPLATE_ID = "typ-t-p-float"
 const SET_DEMO_ID = "typ-t-66071f81-c660-4b97-96ff-9707d2643251"
@@ -21,7 +24,8 @@ export const FacetTemplateModal = ({ closeModal }) => {
   const appEl = document.getElementById("mobile-app")
   const { store, dispatch, saveChanges } = useFacetTemplateController("DRAFT")
   const [fieldFocus, setFieldFocus] = useState(null)
-  console.log('focus', fieldFocus)
+  const selectorRef = useRef()
+
   const handleAppendField = () => {
     setFieldFocus(store.template.fields.length)
     dispatch({ type: "appendField", payload: FLOAT_TEMPLATE_ID })
@@ -31,9 +35,18 @@ export const FacetTemplateModal = ({ closeModal }) => {
     dispatch({ type: "updateField", payload: { index, templateId }})
   }
 
+  const handleOutsideClick = () => {
+    setFieldFocus(null)
+  }
+
+  const handleFieldClick = ix => {
+    console.log('ix', ix)
+    setFieldFocus(ix)
+  }
+
   return createPortal(
     <div
-      className="fixed w-full h-full flex flex-col pt-12 px-4 pb-4 space-y-2 items-center justify-centerNO backdrop-blur-md"
+      className="fixed w-full h-full backdrop-blur-md"
     >
       <XCircleSvg
         className="w-8 h-8 text-neutral-200 fill-neutral-800 fixed top-3 right-3" 
@@ -41,35 +54,56 @@ export const FacetTemplateModal = ({ closeModal }) => {
       />
 
       {/* <FacetEditor templateId="new" /> */}
-      <FacetBuilder 
-        name={store?.template?.name}
-        setName={str => dispatch({ type: "setName", payload: str })}
-        handleAppendField={handleAppendField}
-        fields={store?.template?.fields}
-        fieldFocus={fieldFocus}
-      />
+      <div className="w-full h-full flex flex-col pt-12 px-2 pb-4 space-y-8 items-center">
+        <FacetBuilder 
+          name={store?.template?.name}
+          setName={str => dispatch({ type: "setName", payload: str })}
+          handleAppendField={handleAppendField}
+          handleOutsideClick={handleOutsideClick}
+          handleFieldClick={handleFieldClick}
+          fields={store?.template?.fields}
+          fieldFocus={fieldFocus}
+          selectorRef={selectorRef}
+        />
 
-      {fieldFocus !== null && 
-        <div className="w-full h-1/2 overflow-scroll no-scrollbar border-2 border-yellow-300 rounded-lg">
-          <TypeTemplateSelector 
-            selected={store?.template?.fields[fieldFocus]}
-            setSelected={handleUpdateField(fieldFocus)}
-          />
-        </div>}
+        {fieldFocus !== null && 
+          <div ref={selectorRef} className="w-full h-1/2 bg-neutral-800 rounded-lg flex flex-col space-y-2 p-2">
+            <div className="h-full overflow-scroll rounded-lg">
+              <TypeTemplateSelector 
+                selected={store?.template?.fields[fieldFocus]}
+                setSelected={handleUpdateField(fieldFocus)}
+              />
+            </div>
+            <SearchBar />
+          </div>}
+
+          <button 
+            className="bg-neutral-800 text-neutral-200 border-2 border-neutral-200 font-semibold rounded-lg px-3 py-1"
+          >Save "{store?.template?.name}"</button>
+      </div>
+
     </div>,
     appEl
   )
 }
 
-const FacetBuilder = ({ name = "", setName, fields = [], handleAppendField, fieldFocus }) => {
+const FacetBuilder = ({ name = "", setName, fields = [], fieldFocus, handleAppendField, handleOutsideClick, handleFieldClick, selectorRef }) => {
+  const fieldsRef = useRef()
+  useOutsideClick([fieldsRef, selectorRef], handleOutsideClick)
 
   return (
     <div className="bg-neutral-300 flex items-center border border-neutral-800 rounded-lg px-2 py-1 space-x-2">
       <Renamable name={name} setName={setName} />
-      {fields.map((typId, ix) => 
-        <FieldWrapper key={`${ix} ${typId}`} isFocused={fieldFocus === ix}>
-          <TypeInstanceDemo typeTemplateId={typId} />
-        </FieldWrapper>)}
+      <div ref={fieldsRef} className="flex items-center space-x-2">
+        {fields.map((typId, ix) => 
+          <FieldWrapper 
+            key={`${ix} ${typId}`} 
+            isFocused={fieldFocus === ix}
+            onClick={() => handleFieldClick(ix)}
+          >
+            <TypeInstanceDemo typeTemplateId={typId} />
+          </FieldWrapper>)}
+      </div>
       <AppendFieldButton handleAppendField={handleAppendField}  />
     </div>
   )
@@ -86,10 +120,11 @@ const AppendFieldButton = ({ handleAppendField }) => {
   )
 }
 
-const FieldWrapper = ({ isFocused, children }) => {
+const FieldWrapper = ({ isFocused, children, onClick }) => {
   return (
     <div 
       className={`${isFocused && "border-2 border-yellow-300 rounded-sm"} select-none`}
+      onClick={onClick}
     >
       {children}
     </div>
@@ -98,9 +133,9 @@ const FieldWrapper = ({ isFocused, children }) => {
 
 const templateOrder = [
   "typ-t-p-float",
+  "typ-t-p-measure-length",
   "typ-t-p-string",
-  "typ-t-p-length",
-  "typ-t-p-duration"
+  "typ-t-p-measure-duration"
 ]
 
 const findPosition = tmpl => {
@@ -149,18 +184,32 @@ const TypeTemplateSelector = ({ selected, setSelected }) => {
                   ${selected === tmpl.id && "bg-yellow-300"}`}
                 onClick={() => setSelected(tmpl.id)}
               >
-                <span className="capitalize w-24">{(tmpl.name)}</span>
+                <span className="capitalize w-24">
+                  {pipe(when(equals("string"))
+                            (() => "text"),
+                        when(equals("float"))
+                            (() => "number"),
+                        when(equals("boolean"))
+                            (() => "true / false"))
+                       (tmpl.name)}
+                  </span>
                 <div className="text-xs flex items-center">
                   <TypeInstanceDemo typeTemplateId={tmpl.id} />
                 </div>
               </div>)
             (sortedTemplatesQ.data ?? [])}
 
-      <div
-        className="fixed"
-      >
+    </div>
+  )
+}
 
-      </div>
+const SearchBar = () => {
+
+  return (
+    <div className="w-full rounded-full border-2 border-neutral-300 flex items-center px-1">
+      <SearchSvg className="w-5 h-5 text-neutral-300" />
+      <input className="bg-neutral-800 text-neutral-300 w-full h-8 outline-none px-2" />
+      <AdjustmentsSvg className="w-6 h-6 text-neutral-300 rotate-90" />
     </div>
   )
 }

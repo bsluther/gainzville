@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { chWidth } from "../../utility/fns"
 
@@ -8,16 +8,20 @@ export const Renamable = ({ name, setName }) => {
 
   useOutsideClick([inputRef], () => setRenaming(false))
 
+  useEffect(() => {
+    inputRef.current?.select()
+  }, [inputRef.current])
+
   return (
     <div>
       {renaming
         ? <>
             <input
               autoFocus
-              onFocus={e => {
-                if (name === "New facet") {
-                  e.target.select()
-                }}}
+              // onFocus={e => {
+              //   if (name === "New facet") {
+              //     e.target.select()
+              //   }}}
               ref={inputRef}
               style={{ width: chWidth(name) }}
               className="text-center outline-none bg-white"
