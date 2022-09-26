@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { ascend, equals, findIndex, ifElse, map, pipe, sortWith, when } from "ramda"
+import { append, ascend, equals, findIndex, ifElse, map, pipe, sort, sortWith, when } from "ramda"
 import { useRef } from "react"
 import { useState } from "react"
 import { createPortal } from "react-dom"
@@ -67,7 +67,7 @@ export const FacetTemplateModal = ({ closeModal }) => {
         />
 
         {fieldFocus !== null && 
-          <div ref={selectorRef} className="w-full h-1/2 bg-neutral-800 rounded-lg flex flex-col space-y-2 p-2">
+          <div ref={selectorRef} className="w-full max-h-[50%] bg-neutral-800 rounded-lg flex flex-col space-y-2 p-2">
             <div className="h-full overflow-scroll rounded-lg">
               <TypeTemplateSelector 
                 selected={store?.template?.fields[fieldFocus]}
@@ -134,8 +134,10 @@ const FieldWrapper = ({ isFocused, children, onClick }) => {
 const templateOrder = [
   "typ-t-p-float",
   "typ-t-p-measure-length",
-  "typ-t-p-string",
-  "typ-t-p-measure-duration"
+  "typ-t-p-measure-duration",
+  "typ-c-set",
+  "typ-c-powerset",
+  "typ-t-p-string"
 ]
 
 const findPosition = tmpl => {
@@ -144,61 +146,41 @@ const findPosition = tmpl => {
   return res === -1 ? Infinity : res
 }
 
+const lookupOrder = el =>
+  when(ix => equals(-1)(ix))
+      (() => Infinity)
+      (findIndex(equals(el.key))
+           (templateOrder))
+
 const TypeTemplateSelector = ({ selected, setSelected }) => {
   const { user } = useAuth0()
   const typeTemplatesQ = useTypeTemplates({ user: user?.sub })
   console.log(typeTemplatesQ)
-  const sortedTemplatesQ = mapQuery(sortWith([
-   ascend(findPosition)
-  ]))(typeTemplatesQ)
+  // const sortedTemplatesQ = mapQuery(sortWith([
+  //  ascend(findPosition)
+  // ]))(typeTemplatesQ)
+
+  const templateEls = pipe(
+    map(tmpl => 
+      <TypeTemplateLi 
+        key={tmpl.id} 
+        template={tmpl} 
+        selected={selected}
+        setSelected={setSelected} 
+      />),
+    append(<TypeConstructorLi key="typ-c-set" demoId={SET_DEMO_ID} />),
+    append(<TypeConstructorLi key="typ-c-powerset" demoId={POWERSET_DEMO_ID} />),
+    sort(ascend(lookupOrder))
+  )(typeTemplatesQ.data ?? [])
+
+  console.log(templateEls)
 
   return (
     <div
-      className="bg-neutral-300 flex flex-col"
+      className="bg-neutral-400 flex flex-col"
     >
-      <div 
-        className="p-2 flex items-centers border-b border-neutral-800"
-      >
-        <span className="capitalize w-24">
-          + new Set
-        </span>
-        <div className="text-xs flex items-center">
-          <TypeInstanceDemo typeTemplateId={SET_DEMO_ID} />
-        </div>
-      </div>
-      <div 
-        className="p-2 flex items-centers border-b border-neutral-800"
-      >
-        <span className="capitalize w-24">
-          + new Power Set
-        </span>
-        <div className="text-xs flex items-center">
-          <TypeInstanceDemo typeTemplateId={POWERSET_DEMO_ID} />
-        </div>
-      </div>
       {typeTemplatesQ.isSuccess &&
-        map(tmpl => 
-              <div
-                key={tmpl.id}
-                className={`p-2 flex items-center border-b border-neutral-800
-                  ${selected === tmpl.id && "bg-yellow-300"}`}
-                onClick={() => setSelected(tmpl.id)}
-              >
-                <span className="capitalize w-24">
-                  {pipe(when(equals("string"))
-                            (() => "text"),
-                        when(equals("float"))
-                            (() => "number"),
-                        when(equals("boolean"))
-                            (() => "true / false"))
-                       (tmpl.name)}
-                  </span>
-                <div className="text-xs flex items-center">
-                  <TypeInstanceDemo typeTemplateId={tmpl.id} />
-                </div>
-              </div>)
-            (sortedTemplatesQ.data ?? [])}
-
+        templateEls}
     </div>
   )
 }
@@ -213,3 +195,39 @@ const SearchBar = () => {
     </div>
   )
 }
+
+const TypeConstructorLi = ({ demoId }) => {
+  return (
+    <div 
+      className="p-2 flex items-centers border-b border-neutral-800"
+    >
+      <span className="capitalize w-24 font-semibold">
+        + new Set
+      </span>
+      <div className="text-xs flex items-center">
+        <TypeInstanceDemo typeTemplateId={demoId} />
+      </div>
+    </div>
+  )
+}
+
+const TypeTemplateLi = ({ template, selected, setSelected }) => 
+  <div
+    key={template.id}
+    className={`p-2 flex items-center border-b border-neutral-800
+      ${selected === template.id && "bg-yellow-300"}`}
+    onClick={() => setSelected(template.id)}
+  >
+    <span className="capitalize font-semibold w-24">
+      {pipe(when(equals("string"))
+                (() => "text"),
+            when(equals("float"))
+                (() => "number"),
+            when(equals("boolean"))
+                (() => "true / false"))
+          (template.name)}
+      </span>
+    <div className="text-xs flex items-center">
+      <TypeInstanceDemo typeTemplateId={template.id} />
+    </div>
+  </div>

@@ -107,6 +107,7 @@ export const RecordBar = ({ handleStartCreatingInstance, startCreatingTemplate }
 }
 
 const Recents = ({ templates = [], handleSelect }) => {
+  console.log(templates)
   return (
     <ol className={`flex flex-col pt-2 px-4 rounded-b-xl`}>
       <span className="font-bold">Recent activities:</span>
