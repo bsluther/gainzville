@@ -7,9 +7,11 @@ export const FacetTemplateContext = createContext()
 const templateLens = ["template"]
 const hasChangedLens = ["hasChanged"]
 const isNewLens = ["isNew"]
+const isDraftLens = ["isDraft"]
 
 const reducer = (state, action) => {
-  // console.log("Action", action)
+  console.log("Store: ", state)
+  console.log("Action: ", action)
   switch (action.type) {
     case "initialize":
       return pipe(
@@ -21,7 +23,16 @@ const reducer = (state, action) => {
       return pipe(
         L.set(templateLens, action.payload),
         L.set(hasChangedLens, false),
-        L.set(isNewLens, true)
+        L.set(isNewLens, true),
+        L.set(isDraftLens, true),
+      )(state)
+
+    case "initializeDraft":
+      return pipe(
+        L.set(templateLens, action.payload),
+        L.set(hasChangedLens, false),
+        L.set(isNewLens, true),
+        L.set(isDraftLens, true),
       )(state)
 
     case "setName":

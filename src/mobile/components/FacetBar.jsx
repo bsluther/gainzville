@@ -9,7 +9,7 @@ import { allSucceeded, debounce } from "../../utility/fns"
 import { FacetTemplateModal } from "./FacetTemplateModal"
 
 
-export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identity }) => {
+export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identity, handleCreateFacet }) => {
   const ref = useRef()
   const [inputState, setInputState] = useState("")
   const [searchState, setSearchState] = useState("")
@@ -18,7 +18,7 @@ export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identit
   const recentFacetsQ = useEntities(recentFacetIdsQ.data, { enabled: recentFacetIdsQ.isSuccess })
   const recentFacets = map(prop('data'))
                           (values(recentFacetsQ ?? {}))
-  const [creatingFacet, setCreatingFacet] = useState(false)
+  // const [creatingFacet, setCreatingFacet] = useState(false)
 
   const handleInput = useCallback(e => {
     setInputState(e.target.value)
@@ -76,12 +76,12 @@ export const FacetBar = ({ handleSelect = identity, handleOutsideClick = identit
             }}
           />
 
-          <span className="px-2 mb-2 font-bold" onClick={() => setCreatingFacet(true)}>+ Create New Facet</span>
+          <span className="px-2 mb-2 font-bold" onClick={handleCreateFacet}>+ Create New Facet</span>
         </ol>
       </div>
       
-      {creatingFacet && 
-        <FacetTemplateModal closeModal={() => setCreatingFacet(false)} />}
+      {/* {creatingFacet && 
+        <FacetTemplateModal closeModal={() => setCreatingFacet(false)} />} */}
     </div>
   )
 }

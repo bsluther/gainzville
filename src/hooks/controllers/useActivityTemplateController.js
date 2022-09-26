@@ -26,7 +26,7 @@ export const useActivityTemplateController = (templateId, { handleInsert }) => {
   }, [store, store?.template.id, templateId, templateQ.isSuccess])
 
   useEffect(() => {
-    // NEED TO CHECK THAT THERE'S IS AN AUTHENTICATED USER BEFORE ALLOWING NEW TEMPLATE CREATION
+    // NEED TO CHECK THAT THERE IS AN AUTHENTICATED USER BEFORE ALLOWING NEW TEMPLATE CREATION
     if (templateId === "DRAFT") {
       if (!store || store?.isDraft) {
         dispatch({ type: "initializeNew", payload: ActivityTemplate.newTemplate(user?.sub) })

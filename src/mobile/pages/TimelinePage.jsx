@@ -11,6 +11,7 @@ import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
 import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
 import { Modal } from "../components/Modal"
 import { ActivityTemplateModal } from "../components/ActivityTemplateModal"
+import { FacetTemplateModal } from "../components/FacetTemplateModal"
 
 export const TimelinePage = () => {
   const { user, isAuthenticated } = useAuth0()
@@ -19,11 +20,14 @@ export const TimelinePage = () => {
     { enabled: isAuthenticated && !!user.sub }
   )
   const insertM = useInsertEntity()
-  const [creatingInstance, setCreatingInstance] = useState(false)
   const prefetchedFacetsQ = useFacetTemplates()
   // this approach is suboptimal: component will re-render unnecessarily on changes to FacetTemplates
-
+  
+  const [creatingInstance, setCreatingInstance] = useState(false)
+  const [creatingFacet, setCreatingFacet] = useState(false)
   const [creatingTemplate, setCreatingTemplate] = useState(false)
+
+  const handleCreateFacet = () => setCreatingFacet(true)
 
   return (
     <div className="w-full h-full flex flex-col items-center z-0">
@@ -44,14 +48,24 @@ export const TimelinePage = () => {
               setCreatingInstance(false)
             }}
             insertMutation={insertM}
+            handleCreateFacet={handleCreateFacet}
           />}
-        <Timeline instances={instancesQ.data ?? []} />
+        <Timeline 
+          instances={instancesQ.data ?? []}
+          handleCreateFacet={handleCreateFacet}
+        />
       </div>
 
       {creatingTemplate &&
         <ActivityTemplateModal closeModal={() => {
           console.log('closing')
           setCreatingTemplate(false)}} />}
+
+      {creatingFacet &&
+        <FacetTemplateModal
+          templateId="DRAFT"
+          closeModal={() => setCreatingFacet(false)}
+        />}
     </div>
   )
 }
@@ -91,7 +105,7 @@ const insertMarker = duration => marker => instances =>
         (instances)
 
 
-const Timeline = ({ instances = [] }) => {
+const Timeline = ({ instances = [], handleCreateFacet }) => {
   const sortedInstances = sort(after(getCreatedAt))(instances)
   const withMarkers = pipe(
     insertMarker(Duration.fromObject({ day: 1 }))
@@ -116,11 +130,11 @@ const Timeline = ({ instances = [] }) => {
                 {el}
               </span>
             </div>
-          // : <></>)}
           : <Bauble
               key={el.id} 
               instanceId={el.id}
               isOpen={false}
+              handleCreateFacet={handleCreateFacet}
             />)}
 
     </ol>

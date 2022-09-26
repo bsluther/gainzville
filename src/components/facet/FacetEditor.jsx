@@ -75,9 +75,8 @@ export const FacetEditorPresenter = ({ Context, closeEditor, handleSave }) => {
             className={`
             flex items-center space-x-2
             border-2 border-neutral-800 rounded-lg
-            bg-neutral-400NOT
             bg-yellow-300
-            pl-2 pr-2 py-1
+            px-2 py-1
             w-max
             cursor-default
           `}

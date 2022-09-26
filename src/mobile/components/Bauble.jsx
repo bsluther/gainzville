@@ -16,7 +16,14 @@ import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { useRef } from "react"
 
 
-export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, handleSaveNewInstance, insertMutation }) => {
+export const Bauble = ({ 
+  instanceId, 
+  templateId, 
+  isOpen: initiallyOpen = false, 
+  handleSaveNewInstance, 
+  insertMutation,
+  handleCreateFacet
+}) => {
   const [isOpen, setIsOpen] = useState(initiallyOpen)
 
   if (isOpen && instanceId === "new") return (
@@ -32,12 +39,13 @@ export const Bauble = ({ instanceId, templateId, isOpen: initiallyOpen = false, 
       Presenter={BaubleOpen}
       instanceId={instanceId}
       closeBauble={() => setIsOpen(false)}
+      handleCreateFacet={handleCreateFacet}
     />
   )
   return <BaubleClosed instanceId={instanceId} openBauble={() => setIsOpen(true)} />
 }
 
-const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateMutation, insertMutation }) => {
+const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateMutation, insertMutation, handleCreateFacet }) => {
   const [store, dispatch] = useContext(Context)
   const [addingFacet, setAddingFacet] = useState(false)
   const [editingFacets, setEditingFacets] = useState(false)
@@ -110,6 +118,7 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
                   dispatch({ type: "addFacet", payload: { facetTemplate, typeTemplates } })
                 }}
                 handleOutsideClick={() => setAddingFacet(false)}
+                handleCreateFacet={handleCreateFacet}
               />
             : <div className="border border-black rounded-md w-max h-max p-0.5">
                 <PlusSvg className="w-6 h-6 text-neutral-800" onClick={() => setAddingFacet(true)} />
