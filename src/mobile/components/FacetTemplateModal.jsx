@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { addIndex, map } from "ramda"
+import { addIndex, ascend, equals, findIndex, map, pipe, sortWith } from "ramda"
 import { useState } from "react"
 import { createPortal } from "react-dom"
 import { FacetEditor } from "../../components/facet/FacetEditor"
@@ -9,7 +9,7 @@ import { useFacetTemplateController } from "../../hooks/controllers/useFacetTemp
 import { useTypeTemplates } from "../../hooks/queries/type/useTypeTemplates"
 import { PlusSvg } from "../../svg/PlusSvg"
 import { XCircleSvg } from "../../svg/XCircleSvg"
-import { snakeToSpace } from "../../utility/fns"
+import { mapQuery, snakeToSpace } from "../../utility/fns"
 
 const FLOAT_TEMPLATE_ID = "typ-t-p-float"
 const SET_DEMO_ID = "typ-t-66071f81-c660-4b97-96ff-9707d2643251"
@@ -20,10 +20,8 @@ const POWERSET_CONSTRUCTOR_ID = "typ-c-powerset"
 export const FacetTemplateModal = ({ closeModal }) => {
   const appEl = document.getElementById("mobile-app")
   const { store, dispatch, saveChanges } = useFacetTemplateController("DRAFT")
-  const [fieldFocus, setFieldFocus] = useState()
-
-  console.log('modal store', store)
-
+  const [fieldFocus, setFieldFocus] = useState(null)
+  console.log('focus', fieldFocus)
   const handleAppendField = () => {
     setFieldFocus(store.template.fields.length)
     dispatch({ type: "appendField", payload: FLOAT_TEMPLATE_ID })
@@ -51,12 +49,13 @@ export const FacetTemplateModal = ({ closeModal }) => {
         fieldFocus={fieldFocus}
       />
 
-      <div className="w-full overflow-scroll no-scrollbar border-2 border-yellow-300 rounded-lg">
-        <TypeTemplateSelector 
-          selected={store?.template?.fields[fieldFocus]}
-          setSelected={handleUpdateField(fieldFocus)}
-        />
-      </div>
+      {fieldFocus !== null && 
+        <div className="w-full h-1/2 overflow-scroll no-scrollbar border-2 border-yellow-300 rounded-lg">
+          <TypeTemplateSelector 
+            selected={store?.template?.fields[fieldFocus]}
+            setSelected={handleUpdateField(fieldFocus)}
+          />
+        </div>}
     </div>,
     appEl
   )
@@ -97,21 +96,33 @@ const FieldWrapper = ({ isFocused, children }) => {
   )
 }
 
+const templateOrder = [
+  "typ-t-p-float",
+  "typ-t-p-string",
+  "typ-t-p-length",
+  "typ-t-p-duration"
+]
+
+const findPosition = tmpl => {
+  const res = findIndex(equals(tmpl.id))
+					 						 (templateOrder)
+  return res === -1 ? Infinity : res
+}
+
 const TypeTemplateSelector = ({ selected, setSelected }) => {
   const { user } = useAuth0()
   const typeTemplatesQ = useTypeTemplates({ user: user?.sub })
-  // console.log(selected)
+  console.log(typeTemplatesQ)
+  const sortedTemplatesQ = mapQuery(sortWith([
+   ascend(findPosition)
+  ]))(typeTemplatesQ)
+
   return (
     <div
       className="bg-neutral-300 flex flex-col"
     >
       <div 
         className="p-2 flex items-centers border-b border-neutral-800"
-        // onClick={e => {
-        //   e.stopPropagation()
-        //   closeDialog()
-        //   setEditingType(SET_CONSTRUCTOR_ID)
-        // }}
       >
         <span className="capitalize w-24">
           + new Set
@@ -122,11 +133,6 @@ const TypeTemplateSelector = ({ selected, setSelected }) => {
       </div>
       <div 
         className="p-2 flex items-centers border-b border-neutral-800"
-        // onClick={e => {
-        //   e.stopPropagation()
-        //   closeDialog()
-        //   setEditingType(POWERSET_CONSTRUCTOR_ID)
-        // }}
       >
         <span className="capitalize w-24">
           + new Power Set
@@ -143,12 +149,12 @@ const TypeTemplateSelector = ({ selected, setSelected }) => {
                   ${selected === tmpl.id && "bg-yellow-300"}`}
                 onClick={() => setSelected(tmpl.id)}
               >
-                <span className="capitalize w-24">{snakeToSpace(tmpl.name)}</span>
+                <span className="capitalize w-24">{(tmpl.name)}</span>
                 <div className="text-xs flex items-center">
                   <TypeInstanceDemo typeTemplateId={tmpl.id} />
                 </div>
               </div>)
-            (typeTemplatesQ.data ?? [])}
+            (sortedTemplatesQ.data ?? [])}
 
       <div
         className="fixed"

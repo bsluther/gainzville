@@ -10,8 +10,8 @@ const isNewLens = ["isNew"]
 const isDraftLens = ["isDraft"]
 
 const reducer = (state, action) => {
-  console.log("Store: ", state)
-  console.log("Action: ", action)
+  // console.log("Store: ", state)
+  // console.log("Action: ", action)
   switch (action.type) {
     case "initialize":
       return pipe(
