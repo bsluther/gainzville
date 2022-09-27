@@ -14,6 +14,7 @@ import { useCallback } from "react"
 import { ExpandedInstance } from "../../components/facet/ExpandedInstance"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { useRef } from "react"
+import { FacetTemplateModal } from "./FacetTemplateModal"
 
 
 export const Bauble = ({ 
@@ -39,19 +40,22 @@ export const Bauble = ({
       Presenter={BaubleOpen}
       instanceId={instanceId}
       closeBauble={() => setIsOpen(false)}
-      handleCreateFacet={handleCreateFacet}
+      // handleCreateFacet={handleCreateFacet}
     />
   )
   return <BaubleClosed instanceId={instanceId} openBauble={() => setIsOpen(true)} />
 }
 
-const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateMutation, insertMutation, handleCreateFacet }) => {
+const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateMutation, insertMutation }) => {
   const [store, dispatch] = useContext(Context)
   const [addingFacet, setAddingFacet] = useState(false)
   const [editingFacets, setEditingFacets] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const deleteM = useDeleteEntity()
   const baubleRef = useRef()
+
+  const [creatingFacet, setCreatingFacet] = useState(false)
+  const handleCreateFacet = () => setCreatingFacet(true)
 
   const handleDelete = useCallback(
     () => deleteM.mutate(store.instance.id),
@@ -110,7 +114,10 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
               />
         )}
 
-        <div className="grow flex justify-end items-end space-x-2" onClick={() => setEditingFacets(false)}>
+        <div 
+          className="grow flex justify-end items-end space-x-2" 
+          onClick={() => setEditingFacets(false)}
+        >
           {addingFacet 
             ? <FacetBar 
                 handleSelect={(facetTemplate, typeTemplates) => {
@@ -144,6 +151,15 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
         </div>
 
       </div>
+
+      {creatingFacet &&
+        <FacetTemplateModal
+          templateId="DRAFT"
+          closeModal={(facetTemplate, typeTemplates) => {
+            setCreatingFacet(false)
+            dispatch({ type: "addFacet", payload: { facetTemplate, typeTemplates } })
+          }}
+        />}
       
     </div>
   )

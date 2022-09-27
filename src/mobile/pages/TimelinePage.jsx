@@ -61,11 +61,11 @@ export const TimelinePage = () => {
           console.log('closing')
           setCreatingTemplate(false)}} />}
 
-      {creatingFacet &&
+      {/* {creatingFacet &&
         <FacetTemplateModal
           templateId="DRAFT"
           closeModal={() => setCreatingFacet(false)}
-        />}
+        />} */}
     </div>
   )
 }

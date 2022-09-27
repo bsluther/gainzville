@@ -117,8 +117,6 @@ export const TypeInstanceFromData = ({ Context, typeTemplate, address }) => {
 
 export const TypeInstanceDemo = ({ typeTemplate, typeTemplateId }) => {
   const typeTemplateQ = useTypeTemplate(typeTemplateId, { enabled: !!typeTemplateId })
-  console.log('TypeInstance: typeTemplate', typeTemplate)
-  console.log('TypeInstance: typeTemplateId', typeTemplateId)
 
   if (typeTemplate) return (
     <DemoController initialValue={initializeTypeInstance(typeTemplate)} typeTemplate={typeTemplate}>

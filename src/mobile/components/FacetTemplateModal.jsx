@@ -27,27 +27,12 @@ const SET_CONSTRUCTOR_ID = "typ-c-set"
 const POWERSET_CONSTRUCTOR_ID = "typ-c-powerset"
 
 export const FacetTemplateModal = ({ closeModal }) => {
-  // const insertM = useInsertEntity()
+  const insertM = useInsertEntity()
   const appEl = document.getElementById("mobile-app")
   const selectorRef = useRef()
   const { store, dispatch, saveChanges } = useFacetTemplateController("DRAFT")
   const [fieldFocus, setFieldFocus] = useState(null)
   const [constructedTemplates, setConstructedTemplates] = useState({})
-
-  // const focusedTemplateId = fieldFocus !== null
-  // ? L.get(["template", "fields", fieldFocus], store ?? {})
-  // : undefined
-  // const focusIsDraft = constructedTemplates.hasOwnProperty(focusedTemplateId)
-  // const focusedDraft = focusIsDraft 
-  // ? prop(focusedTemplateId)(constructedTemplates)
-  // : undefined
-  
-  // console.log('fieldfocus', fieldFocus)
-  // console.log('focused typeTemplateId', focusedTemplateId)
-  // console.log('isDraftConstruction', constructedTemplates.hasOwnProperty(focusedTemplateId))
-  // console.log('focused draft', focusedDraft)
-  console.log('constructedTemplates', constructedTemplates)
-
 
   const handleAppendField = () => {
     setFieldFocus(store.template.fields.length)
@@ -69,14 +54,19 @@ export const FacetTemplateModal = ({ closeModal }) => {
   const typeTemplatesToSave = intersection(store?.template?.fields ?? [])
                                           (keys(constructedTemplates))
 
-  // console.log('typeTemplatesToSave', typeTemplatesToSave)
-  // const handleSave = () => {
-  //   if (typeTemplatesToSave.length > 0) {
-  //     typeTemplatesToSave.forEach(typId => {
-  //       insertM.mutate()
-  //     })
-  //   }
-  // }
+
+  console.log('typeTemplatesToSave', typeTemplatesToSave)
+  const handleSave = () => {
+    if (typeTemplatesToSave.length > 0) {
+      typeTemplatesToSave.forEach(typId => {
+        insertM.mutate(
+          constructedTemplates[typId]
+        )
+      })
+    }
+    insertM.mutate(store.template)
+    closeModal(store.template, typeTemplatesToSave.map(id => constructedTemplates[id]))
+  }
 
   return createPortal(
     <div
@@ -117,6 +107,7 @@ export const FacetTemplateModal = ({ closeModal }) => {
 
           <button 
             className="bg-neutral-800 text-neutral-200 border-2 border-neutral-200 font-semibold rounded-lg px-3 py-1"
+            onClick={handleSave}
           >Save "{store?.template?.name}"</button>
       </div>
 
@@ -134,8 +125,6 @@ const FacetBuilder = ({ name = "", setName, fields = [], fieldFocus, handleAppen
       <Renamable name={name} setName={setName} />
       <div ref={fieldsRef} className="flex items-center space-x-2">
         {fields.map((typId, ix) => {
-          console.log('typid', typId, constructedTemplates.hasOwnProperty(typId) ? null : typId)
-
           return <FieldWrapper 
             key={`${ix} ${typId}`} 
             isFocused={fieldFocus === ix}
@@ -211,9 +200,6 @@ const TypeTemplateSelector = ({ selected, setSelected, setConstructedTemplates, 
              setConstructedTemplates={setConstructedTemplates}
              constructorId="typ-c-set"
              fieldFocus={fieldFocus}
-            //  initialTemplate={focusedDraft?.typeConstructor === "typ-c-set"
-            //   ? focusedDraft
-            //   : null}
             />),
     append(<TypeConstructorLi 
              key="typ-c-powerset" 
@@ -224,9 +210,6 @@ const TypeTemplateSelector = ({ selected, setSelected, setConstructedTemplates, 
              setConstructedTemplates={setConstructedTemplates}
              constructorId="typ-c-powerset"
              fieldFocus={fieldFocus}
-            //  initialTemplate={focusedDraft?.typeConstructor === "typ-c-powerset" 
-            //   ? focusedDraft
-            //   : null}
             />),
     sort(ascend(lookupOrder))
   )(typeTemplatesQ.data ?? [])
@@ -274,25 +257,12 @@ const TypeConstructorLi = ({ label, demoId, selected, setSelected, constructorId
     }
   })
 
-  // console.log('store', store)
-  // console.log('initialTemplate', initialTemplate)
-
   useEffect(() => {
     if (store?.template?.id) {
       setConstructedTemplates(prev => ({ ...prev, [store?.template?.id]: store?.template }))
     }
   }, [store?.template])
 
-  // useEffect(() => {
-  //   if (initialTemplate?.id && initialTemplate?.id !== store?.template?.id) {
-  //     dispatch({
-  //       type: "initialize",
-  //       payload: {
-  //         template: initialTemplate
-  //       }
-  //     })
-  //   }
-  // }, [initialTemplate?.id, store?.template?.id, initialTemplate])
 
   return (
     <div 
@@ -300,17 +270,6 @@ const TypeConstructorLi = ({ label, demoId, selected, setSelected, constructorId
       onClick={() => {
         setCreatingType(true)
         setSelected(store?.template?.id)
-
-        // dispatch({
-        //   type: "initialize",
-        //   payload: {
-        //     template: constructType({
-        //       constructorId,
-        //       createdBy: user?.sub
-        //     }),
-        //     constructor: constructorId
-        //   }
-        // })
       }}
 
     >
