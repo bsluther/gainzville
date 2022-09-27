@@ -90,3 +90,7 @@ export const mapQuery = fn => query =>
   query.isSuccess
     ? { ...query, data: fn(query.data) }
     : query;
+
+
+// K :: a -> b -> a
+export const K = a => b => a

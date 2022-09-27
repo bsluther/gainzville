@@ -18,21 +18,19 @@ export const Renamable = ({ name, setName }) => {
         ? <>
             <input
               autoFocus
-              // onFocus={e => {
-              //   if (name === "New facet") {
-              //     e.target.select()
-              //   }}}
+              onFocus={e => e.target.select()}
               ref={inputRef}
               style={{ width: chWidth(name) }}
               className="text-center outline-none bg-white"
               value={name} 
               onChange={e => setName(e.target.value)}
+              
             />
         </>
-        : <span
-            className="cursor-text bg-inherit px-1"
+        : <div
+            className="cursor-text bg-white px-1 py-1 text-center"
             onClick={() => setRenaming(true)}
-          >{name}</span>}
+          >{name}</div>}
     </div>
   )
 }

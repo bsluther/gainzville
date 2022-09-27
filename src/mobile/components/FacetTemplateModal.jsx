@@ -1,18 +1,22 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { append, ascend, equals, findIndex, ifElse, map, pipe, sort, sortWith, when } from "ramda"
+import { append, ascend, dissoc, equals, findIndex, ifElse, intersection, keys, map, pipe, sort, sortWith, when } from "ramda"
 import { useRef } from "react"
+import { useEffect } from "react"
 import { useState } from "react"
 import { createPortal } from "react-dom"
 import { TypeInstanceDemo } from "../../components/type/instance/TypeInstance"
+import { ListEditor } from "../../components/type/template/TypeTemplatePresenter"
 import { Renamable } from "../../components/util/Renamable"
 import { useFacetTemplateController } from "../../hooks/controllers/useFacetTemplateController"
+import { useTypeTemplateController } from "../../hooks/controllers/useTypeTemplateController"
+import { useInsertEntity } from "../../hooks/queries/entity/useInsertEntity"
 import { useTypeTemplates } from "../../hooks/queries/type/useTypeTemplates"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { AdjustmentsSvg } from "../../svg/AdjustmentsSvg"
 import { PlusSvg } from "../../svg/PlusSvg"
 import { SearchSvg } from "../../svg/SearchSvg"
 import { XCircleSvg } from "../../svg/XCircleSvg"
-import { mapQuery } from "../../utility/fns"
+import { K, mapQuery } from "../../utility/fns"
 
 const FLOAT_TEMPLATE_ID = "typ-t-p-float"
 const SET_DEMO_ID = "typ-t-66071f81-c660-4b97-96ff-9707d2643251"
@@ -21,11 +25,13 @@ const SET_CONSTRUCTOR_ID = "typ-c-set"
 const POWERSET_CONSTRUCTOR_ID = "typ-c-powerset"
 
 export const FacetTemplateModal = ({ closeModal }) => {
+  const insertM = useInsertEntity()
   const appEl = document.getElementById("mobile-app")
   const { store, dispatch, saveChanges } = useFacetTemplateController("DRAFT")
   const [fieldFocus, setFieldFocus] = useState(null)
+  const [constructedTemplates, setConstructedTemplates] = useState({})
   const selectorRef = useRef()
-
+  console.log('const tmpls', constructedTemplates)
   const handleAppendField = () => {
     setFieldFocus(store.template.fields.length)
     dispatch({ type: "appendField", payload: FLOAT_TEMPLATE_ID })
@@ -40,9 +46,18 @@ export const FacetTemplateModal = ({ closeModal }) => {
   }
 
   const handleFieldClick = ix => {
-    console.log('ix', ix)
     setFieldFocus(ix)
   }
+
+  // const typeTemplatesToSave = intersection(store?.template?.fields)
+  //                                         (keys(constructedTemplates))
+  // const handleSave = () => {
+  //   if (typeTemplatesToSave.length > 0) {
+  //     typeTemplatesToSave.forEach(typId => {
+  //       insertM.mutate()
+  //     })
+  //   }
+  // }
 
   return createPortal(
     <div
@@ -64,6 +79,7 @@ export const FacetTemplateModal = ({ closeModal }) => {
           fields={store?.template?.fields}
           fieldFocus={fieldFocus}
           selectorRef={selectorRef}
+          constructedTemplates={constructedTemplates}
         />
 
         {fieldFocus !== null && 
@@ -72,6 +88,7 @@ export const FacetTemplateModal = ({ closeModal }) => {
               <TypeTemplateSelector 
                 selected={store?.template?.fields[fieldFocus]}
                 setSelected={handleUpdateField(fieldFocus)}
+                setConstructedTemplates={setConstructedTemplates}
               />
             </div>
             <SearchBar />
@@ -87,12 +104,12 @@ export const FacetTemplateModal = ({ closeModal }) => {
   )
 }
 
-const FacetBuilder = ({ name = "", setName, fields = [], fieldFocus, handleAppendField, handleOutsideClick, handleFieldClick, selectorRef }) => {
+const FacetBuilder = ({ name = "", setName, fields = [], fieldFocus, handleAppendField, handleOutsideClick, handleFieldClick, selectorRef, constructedTemplates }) => {
   const fieldsRef = useRef()
   useOutsideClick([fieldsRef, selectorRef], handleOutsideClick)
-
+  console.log('fields', fields)
   return (
-    <div className="bg-neutral-300 flex items-center border border-neutral-800 rounded-lg px-2 py-1 space-x-2">
+    <div className="max-w-full bg-neutral-300 flex items-center border border-neutral-800 rounded-lg px-2 py-1 space-x-2">
       <Renamable name={name} setName={setName} />
       <div ref={fieldsRef} className="flex items-center space-x-2">
         {fields.map((typId, ix) => 
@@ -101,7 +118,10 @@ const FacetBuilder = ({ name = "", setName, fields = [], fieldFocus, handleAppen
             isFocused={fieldFocus === ix}
             onClick={() => handleFieldClick(ix)}
           >
-            <TypeInstanceDemo typeTemplateId={typId} />
+            <TypeInstanceDemo 
+              typeTemplateId={constructedTemplates.hasOwnProperty(typId) ? null : typId}
+              typeTemplate={constructedTemplates[typId]}
+            />
           </FieldWrapper>)}
       </div>
       <AppendFieldButton handleAppendField={handleAppendField}  />
@@ -123,7 +143,7 @@ const AppendFieldButton = ({ handleAppendField }) => {
 const FieldWrapper = ({ isFocused, children, onClick }) => {
   return (
     <div 
-      className={`${isFocused && "border-2 border-yellow-300 rounded-sm"} select-none`}
+      className={`${isFocused && "border-4 border-yellow-300 rounded-sm"} select-none`}
       onClick={onClick}
     >
       {children}
@@ -140,25 +160,16 @@ const templateOrder = [
   "typ-t-p-string"
 ]
 
-const findPosition = tmpl => {
-  const res = findIndex(equals(tmpl.id))
-					 						 (templateOrder)
-  return res === -1 ? Infinity : res
-}
 
 const lookupOrder = el =>
-  when(ix => equals(-1)(ix))
-      (() => Infinity)
+  when(equals(-1))
+      (K(Infinity))
       (findIndex(equals(el.key))
-           (templateOrder))
+                (templateOrder))
 
-const TypeTemplateSelector = ({ selected, setSelected }) => {
+const TypeTemplateSelector = ({ selected, setSelected, setConstructedTemplates }) => {
   const { user } = useAuth0()
   const typeTemplatesQ = useTypeTemplates({ user: user?.sub })
-  console.log(typeTemplatesQ)
-  // const sortedTemplatesQ = mapQuery(sortWith([
-  //  ascend(findPosition)
-  // ]))(typeTemplatesQ)
 
   const templateEls = pipe(
     map(tmpl => 
@@ -168,12 +179,26 @@ const TypeTemplateSelector = ({ selected, setSelected }) => {
         selected={selected}
         setSelected={setSelected} 
       />),
-    append(<TypeConstructorLi key="typ-c-set" demoId={SET_DEMO_ID} />),
-    append(<TypeConstructorLi key="typ-c-powerset" demoId={POWERSET_DEMO_ID} />),
+    append(<TypeConstructorLi 
+             key="typ-c-set" 
+             label="+ new dropdown" 
+             demoId={SET_DEMO_ID}
+             selected={selected}
+             setSelected={setSelected}
+             setConstructedTemplates={setConstructedTemplates}
+             constructorId="typ-c-set"
+            />),
+    append(<TypeConstructorLi 
+             key="typ-c-powerset" 
+             label="+ new multi-select" 
+             demoId={POWERSET_DEMO_ID}
+             selected={selected}
+             setSelected={setSelected}
+             setConstructedTemplates={setConstructedTemplates}
+             constructorId="typ-c-powerset"
+            />),
     sort(ascend(lookupOrder))
   )(typeTemplatesQ.data ?? [])
-
-  console.log(templateEls)
 
   return (
     <div
@@ -196,16 +221,48 @@ const SearchBar = () => {
   )
 }
 
-const TypeConstructorLi = ({ demoId }) => {
+const TypeConstructorLi = ({ label, demoId, selected, setSelected, constructorId, setConstructedTemplates }) => {
+  const [creatingType, setCreatingType] = useState(false)
+  const { store, dispatch, handleSave } = useTypeTemplateController("DRAFT", constructorId)
+
+  useEffect(() => {
+    if (store?.template?.id) {
+      setConstructedTemplates(prev => ({ ...prev, [store?.template?.id]: store?.template }))
+    }
+
+    return () => setConstructedTemplates(prev => dissoc(store?.template?.id)(prev))
+  }, [store?.template])
+
   return (
     <div 
-      className="p-2 flex items-centers border-b border-neutral-800"
+      className={`p-2 flex items-centers border-b border-neutral-800 ${selected === store?.template?.id && "bg-yellow-300"}`}
+      onClick={() => {
+        setCreatingType(true)
+        setSelected(store?.template?.id)
+      }}
+
     >
       <span className="capitalize w-24 font-semibold">
-        + new Set
+        {label}
       </span>
-      <div className="text-xs flex items-center">
-        <TypeInstanceDemo typeTemplateId={demoId} />
+      <div 
+        className="text-xs flex items-center"
+      >
+        <div className="flex flex-col space-y-2">
+          <TypeInstanceDemo
+            typeTemplateId={creatingType ? null : demoId} 
+            typeTemplate={creatingType ? store?.template : null} 
+          />
+
+          {creatingType &&
+            <ListEditor
+              elements={store?.template?.elements}
+              appendElement={el => dispatch({ type: "appendElement", payload: el })}
+              removeElement={ix => dispatch({ type: "removeElement", payload: ix })}
+              updateElement={ix => el => 
+                dispatch({ type: "updateElement", payload: { element: el, index: ix }})}
+            />}
+        </div>
       </div>
     </div>
   )
@@ -231,3 +288,5 @@ const TypeTemplateLi = ({ template, selected, setSelected }) =>
       <TypeInstanceDemo typeTemplateId={template.id} />
     </div>
   </div>
+
+// const SetBuilder
