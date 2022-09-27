@@ -81,8 +81,7 @@ const DemoController = ({ initialValue, children, typeTemplate }) => {
   const [currentTypeConstructor, setCurrentTypeConstructor] = useState(typeTemplate?.typeConstructor)
 
   useEffect(() => {
-    if (currentTypeConstructor !== typeTemplate?.typeConstructor) {
-      console.log("IFING")
+    if (typeTemplate && currentTypeConstructor !== typeTemplate?.typeConstructor) {
       setCurrentTypeConstructor(typeTemplate?.typeConstructor)
       dispatch({
         type: "initialize",
@@ -118,6 +117,8 @@ export const TypeInstanceFromData = ({ Context, typeTemplate, address }) => {
 
 export const TypeInstanceDemo = ({ typeTemplate, typeTemplateId }) => {
   const typeTemplateQ = useTypeTemplate(typeTemplateId, { enabled: !!typeTemplateId })
+  console.log('TypeInstance: typeTemplate', typeTemplate)
+  console.log('TypeInstance: typeTemplateId', typeTemplateId)
 
   if (typeTemplate) return (
     <DemoController initialValue={initializeTypeInstance(typeTemplate)} typeTemplate={typeTemplate}>

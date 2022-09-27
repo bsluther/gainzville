@@ -1,4 +1,4 @@
-import { pipe, remove } from "ramda";
+import { append, pipe, remove } from "ramda";
 import * as L from "partial.lenses";
 import { useReducer } from "react";
 

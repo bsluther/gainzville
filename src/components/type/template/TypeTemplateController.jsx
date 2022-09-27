@@ -33,7 +33,7 @@ export const TypeTemplateController = ({ typeTemplateId, constructorId, handleSa
         })
       }
     }
-  }, [!store.keys])
+  }, [Object.keys(store).length === 0])
 
   return (
     <TypeTemplateContext.Provider value={[store, dispatch]}>

@@ -4,9 +4,9 @@ import { constructType } from "../../data/typeConstructor/typeConstructor"
 import { useTypeTemplateReducer } from "../../state/typeTemplateReducer"
 import { useInsertEntity } from "../queries/entity/useInsertEntity"
 
-export const useTypeTemplateController = (typeTemplateId, constructorId) => {
+export const useTypeTemplateController = (typeTemplateId, constructorId, initialState) => {
   const { user } = useAuth0()
-  const [store, dispatch] = useTypeTemplateReducer()
+  const [store, dispatch] = useTypeTemplateReducer(initialState)
   const insertM = useInsertEntity()
 
   const handleSave = insertM.mutate
