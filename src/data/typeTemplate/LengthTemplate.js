@@ -10,6 +10,7 @@ export const initializeLengthInstance = () => ({
   type: "TypeInstance",
   template: "typ-t-p-measure-length",
   value: {
-    mi: "0"
+    mi: "0",
+    mm: "0"
   }
 })

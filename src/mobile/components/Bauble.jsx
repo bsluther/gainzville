@@ -141,12 +141,6 @@ const BaubleOpen = ({ Context, template, handleSaveChanges, closeBauble, updateM
                 ? <GvSpinner className="w-6 h-6 fill-yellow-300" />
                 : "Save"}
             </Button>}
-          
-          {/* <div className="grow" /> */}
-            
-          {/* <button className="px-2 py-1 text-neutral-300 bg-red-500 rounded-md border-2 border-neutral-800">
-            <TrashSVG className="w-5 h-5 text-neutral-800" />
-          </button> */}
 
         </div>
 

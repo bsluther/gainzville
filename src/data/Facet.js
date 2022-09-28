@@ -4,8 +4,9 @@ import { initializeTypeInstance, typeToString } from "./typeTemplate/TypeTemplat
 export const facetToString = ({ facetTemplate, facetInstance, typeTemplates = {} }) => {
 
   if (any(id => id === "typ-t-p-boolean")(facetTemplate.fields)) {
-    const value = facetInstance.fields.find(fld => fld.template === "typ-t-p-boolean")?.value
-    return value ? facetTemplate.name : `not ${facetTemplate.name}`
+    const field = facetInstance.fields.find(fld => fld.template === "typ-t-p-boolean")
+
+    return field?.value ? facetTemplate.name : `not ${facetTemplate.name}`
   }
 
   const tuples = map(typeInstance => 

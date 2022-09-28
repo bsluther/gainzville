@@ -14,7 +14,6 @@ export const useFacetStrings = (facetsObj = {}) => {
   const typeTemplateIds = [...new Set(L.collect([L.children, "fields", L.elems, "template"], facetsObj))]
   const typeTemplatesQ = useEntities(typeTemplateIds)
 
-  if (false || false) console.log("IFING")
   if (!allSucceeded(Object.values(facetTemplatesQ).concat(Object.values(typeTemplatesQ)))) {
     return ""
   }
