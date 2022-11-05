@@ -84,7 +84,7 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
   return (
     <div
       className="
-        w-full h-full
+        w-full h-full NO grow
         bg-neutral-800
         flex flex-col pb-4 px-4 space-y-2
       "
@@ -130,7 +130,7 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
         </select>
       </div> */}
 
-      <div className="h-full">
+      <div className="basis-0 grow min-h-0">
         <EntityListbox
           entities={unwrapSuccesses(templatesQ)}
           selected={selectedTemplate}

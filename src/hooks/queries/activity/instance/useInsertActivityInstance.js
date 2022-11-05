@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "react-query"
-import { fetchWithError } from "../../../../utility/fns"
+import { callIfFn, fetchWithError } from "../../../../utility/fns"
 import { useAuth0 } from "@auth0/auth0-react"
 
 export const useInsertActivityInstance = options => {
@@ -42,7 +42,12 @@ export const useInsertActivityInstance = options => {
           queryClient.removeQueries(["activity", "instances", instance.id], { exact: true })
         }
       },
-      onError: (error, variables, rollback) => rollback()
+      onError: (error, variables, rollback) => rollback(),
+      onSuccess: (data, variables, context) => {
+        callIfFn(options?.onSuccess)(data, variables, context)
+
+        queryClient.invalidateQueries(["activity", "instances"])
+      }
     }
       
   )

@@ -1,6 +1,6 @@
-import { useCallback, useContext, useRef, useMemo, useState } from "react"
-import { keys, map, pipe, prop } from "ramda"
-import { snakeToSpace } from "../../utility/fns"
+import { useCallback, useContext, useRef, useMemo, useState, useLayoutEffect } from "react"
+import { keys, map, pipe, prop, values } from "ramda"
+import { allSucceeded, snakeToSpace } from "../../utility/fns"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { DotsVerticalSvg } from "../../svg/DotsVerticalSvg"
 import { ChevronUpSVG } from "../../svg/ChevronUpSVG"
@@ -10,6 +10,9 @@ import { getInstance } from "../../state/activityInstanceReducer"
 
 import { useFacetTemplates } from "../../hooks/queries/facet/useFacetTemplates"
 import { useTypeTemplates } from "../../hooks/queries/type/useTypeTemplates"
+import { useEffect } from "react"
+import { ChevronDoubleDown } from "../../svg/ChevronDoubleDown"
+import { useEntities } from "../../hooks/queries/entity/useEntities"
 
 export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges }) => {
   const [optionsOpen, setOptionsOpen] = useState(false)
@@ -110,11 +113,42 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
 }
 
 
+const useScrolled = ref => {
+  const [scrolled, setScrolled] = useState(true)
+
+  useEffect(() => {
+    const el = ref.current
+    if (el) {
+      const scrollBottom = el.scrollHeight - el.clientHeight
+  
+      const updateScroll = () => {
+        if (el.scrollTop === scrollBottom) {
+          setScrolled(true)
+        }
+        else {
+          setScrolled(false)
+        }
+      }
+      updateScroll()
+      el.addEventListener("scroll", updateScroll)
+  
+      return () => el.removeEventListener("scroll", updateScroll)
+    }
+    else {
+      setScrolled(true)
+    }
+  }, [ref.current, ref.current?.clientHeight])
+
+  return scrolled
+}
+
 
 const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu, setCreatingFacet }) => {
   const facetTemplatesQ = useFacetTemplates()
   const [submenu, setSubmenu] = useState(null)
   const menuRef = useRef()
+  const olRef = useRef()
+  const scrolled = useScrolled(olRef)
 
   useOutsideClick([menuRef, optionsIconRef], closeMenu)
 
@@ -124,7 +158,8 @@ const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu, setCreatingFac
     <div
       className="
         absolute top-0 left-full
-        w-48 h-max
+        w-48
+        NOmax-h-64 NOoverflow-scroll NOno-scrollbar
         border-2 border-neutral-800
         bg-neutral-400
         flex flex-col
@@ -141,12 +176,16 @@ const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu, setCreatingFac
         >add facet</span>
         {submenu === "addFacet" && <ChevronUpSVG className="w-4 h-4 mr-2" />}
       </div>
-      {submenu === "addFacet" &&
+      {/* {submenu === "addFacet" && */}
         <ol
-          className="
+          ref={olRef}
+          className={`
+            ${submenu === "addFacet" ? "" : "hidden"}
+            relative
             border-l border-neutral-800
             ml-4 mr-2
-          "
+            max-h-64 overflow-scroll no-scrollbar
+          `}
         >
           <li 
             className="cursor-pointer hover:text-yellow-300 border-b border-neutral-800 pl-2"
@@ -159,7 +198,8 @@ const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu, setCreatingFac
           {facetTemplates.map(template =>
             <FacetLi key={template.id} facetTemplate={template} handleAddFacet={handleAddFacet} />)}
         </ol>
-      }
+          {!scrolled && submenu === "addFacet" && <ChevronDoubleDown className="w-5 h-5 self-center opacity-50 mt-1" />}
+      {/* } */}
     </div>
   )
 }
@@ -167,16 +207,18 @@ const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu, setCreatingFac
 
 
 const FacetLi = ({ facetTemplate, handleAddFacet }) => {
-  const typeTemplatesQ = useTypeTemplates({ ids: facetTemplate.fields })
+  const typeTemplatesQ = useEntities(facetTemplate.fields)
 
-  if (!typeTemplatesQ.isSuccess) {
+  if (!allSucceeded(values(typeTemplatesQ))) {
     return <li>...</li>
   }
+
+  const typeTemplates = values(typeTemplatesQ).map(qry => qry.data)
 
   return (
     <li 
       className="cursor-pointer hover:text-yellow-300 capitalize border-b border-neutral-800 pl-2"
-      onClick={() => handleAddFacet(facetTemplate, typeTemplatesQ.data)}
+      onClick={() => handleAddFacet(facetTemplate, typeTemplates)}
     >{snakeToSpace(facetTemplate.name)}</li>
   )
 }

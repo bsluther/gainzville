@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react"
-import { identity, keys, map, prop, reduce, union, values } from "ramda"
+import { identity, map, prop, reduce, union, values } from "ramda"
 import { useEffect, useLayoutEffect } from "react"
 import { useActivityInstance } from "../../hooks/queries/activity/instance/useActivityInstance"
 import { useActivityTemplate } from "../../hooks/queries/activity/template/useActivityTemplate"
@@ -17,9 +17,10 @@ import { initializeFacetInstance } from "../../data/Facet"
 
 export const ActivityInstanceController = ({ instanceId, Presenter = ActivityInstancePresenter, ...props }) => {
   const instanceQ = useActivityInstance(instanceId)
+
   const templateQ = useActivityTemplate(
     instanceQ.data?.template,
-    { enabled: !!instanceQ.data }
+    { enabled: !!instanceQ.data?.template }
   )
   const updateM = useUpdateEntity({ onSuccess: (_, instance) => dispatch({ type: "persisted", payload: instance })})
 

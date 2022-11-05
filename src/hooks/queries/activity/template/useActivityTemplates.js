@@ -12,7 +12,7 @@ export const useActivityTemplates = (queryObj, options) => {
     () =>
       getAccessTokenSilently()
       .then(tkn => 
-        fetchWithError(`/v2end/activity/templates?${searchParams.toString()}`, {
+        fetchWithError(`/v2end/activity/templates?${searchParams.toString() ?? ""}`, {
           headers: { Authorization: `Bearer ${tkn}` }
         })),
     options

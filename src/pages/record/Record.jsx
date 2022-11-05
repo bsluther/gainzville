@@ -63,7 +63,7 @@ export const Record = () => {
         </Routes>
           
       </div>
-      <div className="h-full w-1/4">
+      <div className="h-full w-max">
         <ActivityInstanceBrowser
           selectedInstance={target}
           setSelectedInstance={id => {

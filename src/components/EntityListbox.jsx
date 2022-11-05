@@ -8,10 +8,11 @@ export const EntityListbox = ({ entities = [], selected, setSelected, ItemButton
   return (
     <ol
       className="
-        h-full w-full
+        max-h-fullNO h-full w-full
         bg-neutral-400
         border-2 border-neutral-800 rounded-md
         cursor-pointer
+        overflow-scroll no-scrollbar
       "
     >
       {map(ent => 
