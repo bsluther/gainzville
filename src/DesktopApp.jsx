@@ -6,6 +6,7 @@ import { useActivityInstances } from "./hooks/queries/activity/instance/useActiv
 import { useActivityTemplates } from "./hooks/queries/activity/template/useActivityTemplates"
 import { useFacetTemplates } from "./hooks/queries/facet/useFacetTemplates"
 import { useTypeTemplates } from "./hooks/queries/type/useTypeTemplates"
+import { About } from "./pages/about/About"
 import { Record } from "./pages/record/Record"
 
 
@@ -24,7 +25,7 @@ function DesktopApp() {
         className="h-fullNO grow basis-1   w-screen flex justify-center"
       >
         <Routes>
-        
+
           <Route
             path="/"
             element={<Welcome />}
@@ -34,7 +35,12 @@ function DesktopApp() {
             path="record/*"
             element={<Record />}
           />
-        
+
+          <Route
+            path="about/*"
+            element={<About />}
+          />
+
           <Route
             path="*"
             element={<Welcome />}
