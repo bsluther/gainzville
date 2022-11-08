@@ -8,7 +8,6 @@ import { ActivityTemplateController } from "../../components/activity/ActivityTe
 import { TemplateCreate } from "./TemplateCreate"
 import { InstanceNew } from "./InstanceNew"
 import { FacetTemplateController } from "../../components/facet/FacetTemplateController"
-import { ActivityTemplateBrowser } from "../../components/activity/ActivityTemplateBrowser"
 
 
 export const Record = () => {
@@ -29,7 +28,7 @@ export const Record = () => {
           }}
         />
       </div>
-      <div className="h-full w-1/2 flex justify-center items-start p-4 grow">
+      <div className="h-full w-1/2 flex justify-center items-start p-4 grow z-20">
         <Routes>
           <Route
             path="instance-new"
@@ -63,7 +62,7 @@ export const Record = () => {
         </Routes>
 
       </div>
-      <div className="h-full w-max">
+      <div className="h-full w-max NO-z-10">
         <ActivityInstanceBrowser
           selectedInstance={target}
           setSelectedInstance={id => {

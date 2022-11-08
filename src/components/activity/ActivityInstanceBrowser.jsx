@@ -17,6 +17,7 @@ import { SearchSvg } from "../../svg/SearchSvg"
 import { AdjustmentsSvg } from "../../svg/AdjustmentsSvg"
 import { PlusSvg } from "../../svg/PlusSvg"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
+import { GvSpinner } from "../../svg/GvSpinner"
 
 
 const findTemplate = templateId => templates =>
@@ -60,9 +61,6 @@ export const ActivityInstanceBrowser = ({ selectedInstance, setSelectedInstance 
   const filteredInstances = filter(ai => {
     return predicates.reduce((acc, pred) => acc && pred(ai), true)
   })(decoratedInstances)
-  // console.log('dec inst', decoratedInstances)
-  // console.log('preds', predicates)
-  // console.log(filteredInstances)
 
   const DeleteIcon = ({ id, className }) => {
     return (
@@ -107,9 +105,10 @@ export const ActivityInstanceBrowser = ({ selectedInstance, setSelectedInstance 
 }
 
 const LiFormatter = ({ entity }) => {
+  if (!entity?.name) return null
   return (
     <div className="flex w-full">
-      <span className="grow">{entity.name}</span>
+      <span className="grow">{entity?.name}</span>
       <span className="justify-self-end text-neutral-600 italic">{DateTime.fromISO(entity.createdAt).toFormat("MM/dd/yy")}</span>
     </div>
   )
@@ -169,11 +168,11 @@ export const FilterMenu = ({ setPredicates }) => {
         className="w-full min-w-[24rem] flex flex-col rounded-md space-y-2"
       >
         <div
-          className="w-full flex flex-col bg-neutral-400 rounded-md"
+          className="w-full flex flex-col bg-neutral-400 rounded-md -z-10NO"
           onFocus={() => setSearching(true)}
           ref={searchRef}
         >
-          <div className="flex items-center w-full relative rounded-md bg-neutral-400 px-2 py-1">
+          <div className="flex items-center w-full relative rounded-md bg-neutral-400NO px-2 py-1 -z-10NO">
             <FilterLabel name="activity" />
             <input
               type="search"
@@ -272,8 +271,6 @@ const AdjustmentsDropdown = ({ inactiveFilters, activateFilter }) => {
       <AdjustmentsSvg
         className={`w-6 h-6 ${open ? "text-yellow-300" : "text-neutral-800"} rotate-90 cursor-pointer`}
         onClick={() => setOpen(prev => !prev)}
-      // onClickCapture={() => {
-      //   setFiltering(true)}} 
       />
 
       {open &&

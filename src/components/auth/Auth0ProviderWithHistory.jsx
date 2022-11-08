@@ -11,7 +11,8 @@ export const Auth0ProviderWithHistory = ({ children }) => {
   // This may need to be changed if the purpose is to replace the current location instead of pushing a new one onto the history stack
   const onRedirectCallback = appState => {
     console.log(window.location.pathname)
-    navigate(appState?.returnTo || "record")
+    navigate("record")
+    // navigate(appState?.returnTo || "record")
   }
 
   return (

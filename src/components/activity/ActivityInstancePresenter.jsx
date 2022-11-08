@@ -4,7 +4,7 @@ import { allSucceeded, snakeToSpace } from "../../utility/fns"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
 import { DotsVerticalSvg } from "../../svg/DotsVerticalSvg"
 import { ChevronUpSVG } from "../../svg/ChevronUpSVG"
-import { FacetInstance } from "../facet/FacetInstance"
+// import { FacetInstance } from "../facet/FacetInstance"
 import { FacetEditor } from "../facet/FacetEditor"
 import { getInstance } from "../../state/activityInstanceReducer"
 
@@ -13,6 +13,7 @@ import { useTypeTemplates } from "../../hooks/queries/type/useTypeTemplates"
 import { useEffect } from "react"
 import { ChevronDoubleDown } from "../../svg/ChevronDoubleDown"
 import { useEntities } from "../../hooks/queries/entity/useEntities"
+import { FacetInstanceDesktop } from "../facet/FacetInstanceDesktop"
 
 export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges }) => {
   const [optionsOpen, setOptionsOpen] = useState(false)
@@ -28,9 +29,9 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
     }
   })
 
-  const facetIds = useMemo(() => 
+  const facetIds = useMemo(() =>
     pipe(getInstance, prop("facets"), keys)
-        (store),
+      (store),
     [store])
 
   const closeMenu = useCallback(() => setOptionsOpen(false))
@@ -49,11 +50,11 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
           rounded-t-md border-t-2 border-x-2 border-neutral-800 py-1"
       >
         <div className="h-full w-full flex items-center">
-          <span 
+          <span
             style={{ width: `${optionsIconRef.current?.clientWidth}px` }}
           />
           <span
-          className="
+            className="
             grow px-2 text-center bg-neutral-800 font-semibold text-lg text-neutral-300 uppercase"
           >
             {template.name}
@@ -81,20 +82,20 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
         "
       >
         {map(id =>
-              <FacetInstance
-                Context={Context}
-                key={id}
-                facetTemplateId={id}
-                address={{ facet: id }}
-              />)
-            (facetIds)}
-        {creatingFacet && 
-          <FacetEditor 
-            templateId="new" 
+          <FacetInstanceDesktop
+            Context={Context}
+            key={id}
+            facetTemplateId={id}
+            address={{ facet: id }}
+          />)
+          (facetIds)}
+        {creatingFacet &&
+          <FacetEditor
+            templateId="new"
             closeEditor={() => setCreatingFacet(false)}
             handleSave={handleAddFacet}
           />}
-        <span className="h-2"/>
+        <span className="h-2" />
         <button
           className={`
           border-2 border-neutral-800 rounded-md
@@ -106,7 +107,7 @@ export const ActivityInstancePresenter = ({ Context, template, handleSaveChanges
           `}
           disabled={!store?.hasChanged}
           onClick={() => handleSaveChanges(getInstance(store))}
-          >Save Changes</button>
+        >Save Changes</button>
       </div>
     </div>
   )
@@ -120,7 +121,7 @@ const useScrolled = ref => {
     const el = ref.current
     if (el) {
       const scrollBottom = el.scrollHeight - el.clientHeight
-  
+
       const updateScroll = () => {
         if (el.scrollTop === scrollBottom) {
           setScrolled(true)
@@ -131,7 +132,7 @@ const useScrolled = ref => {
       }
       updateScroll()
       el.addEventListener("scroll", updateScroll)
-  
+
       return () => el.removeEventListener("scroll", updateScroll)
     }
     else {
@@ -171,34 +172,34 @@ const OptionsMenu = ({ handleAddFacet, optionsIconRef, closeMenu, setCreatingFac
         className="flex items-center hover:text-yellow-300"
         onClick={() => submenu === "addFacet" ? setSubmenu(null) : setSubmenu("addFacet")}
       >
-        <span 
+        <span
           className="capitalize hover:text-yellow-300 cursor-pointer grow"
         >add facet</span>
         {submenu === "addFacet" && <ChevronUpSVG className="w-4 h-4 mr-2" />}
       </div>
       {/* {submenu === "addFacet" && */}
-        <ol
-          ref={olRef}
-          className={`
+      <ol
+        ref={olRef}
+        className={`
             ${submenu === "addFacet" ? "" : "hidden"}
             relative
             border-l border-neutral-800
             ml-4 mr-2
             max-h-64 overflow-scroll no-scrollbar
           `}
-        >
-          <li 
-            className="cursor-pointer hover:text-yellow-300 border-b border-neutral-800 pl-2"
-            onClick={() => {
-              setCreatingFacet(true)
-              setSubmenu(null)
-              closeMenu()
-            }}
-          >+ new facet</li>
-          {facetTemplates.map(template =>
-            <FacetLi key={template.id} facetTemplate={template} handleAddFacet={handleAddFacet} />)}
-        </ol>
-          {!scrolled && submenu === "addFacet" && <ChevronDoubleDown className="w-5 h-5 self-center opacity-50 mt-1" />}
+      >
+        <li
+          className="cursor-pointer hover:text-yellow-300 border-b border-neutral-800 pl-2"
+          onClick={() => {
+            setCreatingFacet(true)
+            setSubmenu(null)
+            closeMenu()
+          }}
+        >+ new facet</li>
+        {facetTemplates.map(template =>
+          <FacetLi key={template.id} facetTemplate={template} handleAddFacet={handleAddFacet} />)}
+      </ol>
+      {!scrolled && submenu === "addFacet" && <ChevronDoubleDown className="w-5 h-5 self-center opacity-50 mt-1" />}
       {/* } */}
     </div>
   )
@@ -216,7 +217,7 @@ const FacetLi = ({ facetTemplate, handleAddFacet }) => {
   const typeTemplates = values(typeTemplatesQ).map(qry => qry.data)
 
   return (
-    <li 
+    <li
       className="cursor-pointer hover:text-yellow-300 capitalize border-b border-neutral-800 pl-2"
       onClick={() => handleAddFacet(facetTemplate, typeTemplates)}
     >{snakeToSpace(facetTemplate.name)}</li>

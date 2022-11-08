@@ -8,41 +8,42 @@ export const EntityListbox = ({ entities = [], Formatter, selected, setSelected,
   return (
     <ol
       className="
-        max-h-fullNO h-full w-full
+        h-full w-full
         bg-neutral-400
         border-2 border-neutral-800 rounded-md
         cursor-pointer
         overflow-scroll no-scrollbar
       "
     >
-      {map(ent => 
-            <li
-              key={ent.id}
-              className={`
+      {map(ent =>
+        <li
+          key={ent.id}
+          className={`
                 flex items-center
                 h-max
                 px-3 py-1
                 rounded-t-md rounded-b-md
                 text-black
                 ${selected === ent.id
-                    ? "bg-yellow-300 hover:bg-yellow-300"
-                    : "hover:bg-neutral-450"}
+              ? "bg-yellow-300 hover:bg-yellow-300"
+              : "hover:bg-neutral-450"}
               `}
-              onClick={() => 
-                selected === ent.id
-                  ? setSelected(null)
-                  : setSelected(ent.id)}
-            >
-              <span
-                className="grow pr-4"
-              >{Formatter ? <Formatter entity={ent} /> : ent.name}</span>
+          onClick={() => {
+            selected === ent.id
+              ? setSelected(null)
+              : setSelected(ent.id)
+          }}
+        >
+          <span
+            className="grow pr-4"
+          >{Formatter ? <Formatter entity={ent} /> : ent.name}</span>
 
-              {ItemButtons && 
-                <ItemButtons 
-                  id={ent.id} 
-                  className={`${selected === ent.id || "hidden"}`} />}
-            </li>)
-          (entities)}
+          {ItemButtons &&
+            <ItemButtons
+              id={ent.id}
+              className={`${selected === ent.id || "hidden"}`} />}
+        </li>)
+        (entities)}
     </ol>
   )
 }
