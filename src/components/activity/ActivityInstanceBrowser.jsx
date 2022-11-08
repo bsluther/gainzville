@@ -1,23 +1,17 @@
-import { assoc, filter, find, map, pipe, prop, propEq, propOr, reduce, toPairs } from "ramda"
+import { assoc, filter, find, prop, propEq, propOr, reduce, toPairs } from "ramda"
 import { DateTime } from "luxon"
 import { useDeleteActivityInstance } from "../../hooks/queries/activity/instance/useDeleteActivityInstance"
 import { useActivityTemplatesById } from "../../hooks/queries/activity/template/useActivityTemplatesById"
 import { EntityListbox } from "../EntityListbox"
 import { TrashSVG } from "../../svg/TrashSVG"
-import { useRef, useState } from "react"
-import { useEffect } from "react"
-import { useMemo } from "react"
+import { useRef, useState, useEffect } from "react"
 import { useActivityInstances } from "../../hooks/queries/activity/instance/useActivityInstances"
 import { useAuth0 } from "@auth0/auth0-react"
-import { FilterSvg } from "../../svg/FilterSvg"
 import { XSvg } from "../../svg/XSvg"
 import { XCircleSvg } from "../../svg/XCircleSvg"
-import { WithTooltip } from "../WithTooltip"
 import { SearchSvg } from "../../svg/SearchSvg"
 import { AdjustmentsSvg } from "../../svg/AdjustmentsSvg"
-import { PlusSvg } from "../../svg/PlusSvg"
 import { useOutsideClick } from "../../hooks/useOutsideClick"
-import { GvSpinner } from "../../svg/GvSpinner"
 
 
 const findTemplate = templateId => templates =>
@@ -54,8 +48,9 @@ export const ActivityInstanceBrowser = ({ selectedInstance, setSelectedInstance 
   const templates = successes(templateQs)
   const decoratedInstances = instancesQ.data?.map(inst =>
     pasteName(inst)
-      (findTemplate(inst.template)
-        (templates))) ?? []
+             (findTemplate(inst.template)
+                          (templates))
+  ) ?? []
 
   const [predicates, setPredicates] = useState([() => true])
   const filteredInstances = filter(ai => {

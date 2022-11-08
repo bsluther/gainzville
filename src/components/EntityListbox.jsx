@@ -19,15 +19,15 @@ export const EntityListbox = ({ entities = [], Formatter, selected, setSelected,
         <li
           key={ent.id}
           className={`
-                flex items-center
-                h-max
-                px-3 py-1
-                rounded-t-md rounded-b-md
-                text-black
-                ${selected === ent.id
+            flex items-center
+            h-max
+            px-3 py-1
+            rounded-t-md rounded-b-md
+            text-black
+            ${selected === ent.id
               ? "bg-yellow-300 hover:bg-yellow-300"
               : "hover:bg-neutral-450"}
-              `}
+            `}
           onClick={() => {
             selected === ent.id
               ? setSelected(null)
