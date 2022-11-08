@@ -1,4 +1,4 @@
-import { find, ifElse, pipe, prop, propEq, propOr, reduce, union } from "ramda"
+import { find, ifElse, pipe, prop, propEq, propOr, reduce, sort, sortBy, union } from "ramda"
 import { useState } from "react"
 import { useActivityTemplatesById } from "../../hooks/queries/activity/template/useActivityTemplatesById"
 import { PlusSvg } from "../../svg/PlusSvg"
@@ -132,7 +132,7 @@ export const LibraryBrowser = ({ selectedTemplate, setSelectedTemplate }) => {
 
       <div className="basis-0 grow min-h-0">
         <EntityListbox
-          entities={unwrapSuccesses(templatesQ)}
+          entities={sortBy(prop("name"))(unwrapSuccesses(templatesQ))}
           selected={selectedTemplate}
           setSelected={setSelectedTemplate}
           ItemButtons={TemplateButtons}

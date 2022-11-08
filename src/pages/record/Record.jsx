@@ -29,7 +29,7 @@ export const Record = () => {
           }}
         />
       </div>
-      <div className="h-full w-1/2 flex justify-center items-start p-4">
+      <div className="h-full w-1/2 flex justify-center items-start p-4 grow">
         <Routes>
           <Route
             path="instance-new"
@@ -61,7 +61,7 @@ export const Record = () => {
               <FacetTemplateController templateId="fct-t-8e97ca24-50dc-4e18-ae69-731e6d2570d6" />}
           />
         </Routes>
-          
+
       </div>
       <div className="h-full w-max">
         <ActivityInstanceBrowser

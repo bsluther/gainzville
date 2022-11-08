@@ -21,13 +21,13 @@ import { useOutsideClick } from "../../hooks/useOutsideClick"
 
 const findTemplate = templateId => templates =>
   find(propEq("id")(templateId))
-      (templates)
+    (templates)
 
 const pasteName = instance => template =>
   assoc("name")
-       (prop("name")
-            (template))
-       (instance)
+    (prop("name")
+      (template))
+    (instance)
 
 const successes = queries =>
   queries.reduce((acc, q) =>
@@ -42,7 +42,7 @@ export const ActivityInstanceBrowser = ({ selectedInstance, setSelectedInstance 
   const { user, isAuthenticated } = useAuth0()
   const instancesQ = useActivityInstances(
     { actor: user?.sub },
-    { enabled: isAuthenticated}
+    { enabled: isAuthenticated }
   )
   const templateQs = useActivityTemplatesById(
     instancesQ.data?.map(inst => inst.template),
@@ -53,8 +53,8 @@ export const ActivityInstanceBrowser = ({ selectedInstance, setSelectedInstance 
   const templates = successes(templateQs)
   const decoratedInstances = instancesQ.data?.map(inst =>
     pasteName(inst)
-             (findTemplate(inst.template)
-                          (templates))) ?? []
+      (findTemplate(inst.template)
+        (templates))) ?? []
 
   const [predicates, setPredicates] = useState([() => true])
   const filteredInstances = filter(ai => {
@@ -80,28 +80,38 @@ export const ActivityInstanceBrowser = ({ selectedInstance, setSelectedInstance 
 
   return (
 
-      <div 
-        className="
+    <div
+      className="
           w-full h-full
           flex flex-col items-center
           bg-neutral-800
           px-4 pb-4 space-y-4
       ">
-        <FilterMenu setPredicates={setPredicates} />
-        <div
-          className="w-full basis-0 grow min-h-0"
-        >
-          <EntityListbox
-            entities={filteredInstances}
-            selected={selectedInstance}
-            setSelected={id => setSelectedInstance(id)}
-            ItemButtons={DeleteIcon}      
-          />
-        </div>
-        
+      <FilterMenu setPredicates={setPredicates} />
+      <div
+        className="w-full basis-0 grow min-h-0"
+      >
+        <EntityListbox
+          entities={filteredInstances}
+          selected={selectedInstance}
+          setSelected={id => setSelectedInstance(id)}
+          ItemButtons={DeleteIcon}
+          Formatter={LiFormatter}
+        />
       </div>
 
+    </div>
 
+
+  )
+}
+
+const LiFormatter = ({ entity }) => {
+  return (
+    <div className="flex w-full">
+      <span className="grow">{entity.name}</span>
+      <span className="justify-self-end text-neutral-600 italic">{DateTime.fromISO(entity.createdAt).toFormat("MM/dd/yy")}</span>
+    </div>
   )
 }
 
@@ -109,7 +119,7 @@ export const FilterMenu = ({ setPredicates }) => {
   const [activity, setActivity] = useState("")
   const [before, setBefore] = useState(DateTime.now().toISODate())
   const [after, setAfter] = useState(DateTime.now().minus({ day: 7 }).toISODate())
-  const [within, setWithin] = useState({ range: "28", date: DateTime.now().toISODate()})
+  const [within, setWithin] = useState({ range: "28", date: DateTime.now().toISODate() })
 
   const [searching, setSearching] = useState(false)
 
@@ -124,23 +134,23 @@ export const FilterMenu = ({ setPredicates }) => {
     setPredicates([
       ai => {
         const res = activeFilters.before
-              ? DateTime.fromISO(ai.createdAt) <= DateTime.fromISO(before) 
-              : true
+          ? DateTime.fromISO(ai.createdAt) <= DateTime.fromISO(before)
+          : true
         // console.log('before bool', res)
         return res
       },
       ai => {
         const res = activeFilters.activity
-          ? propOr("")("name")(ai).toLowerCase().includes(activity.toLowerCase()) 
+          ? propOr("")("name")(ai).toLowerCase().includes(activity.toLowerCase())
           : true
-          // console.log('name bool', res)
-          return res
+        // console.log('name bool', res)
+        return res
       },
       ai => {
         const aiDt = DateTime.fromISO(ai.createdAt)
         const originDt = DateTime.fromISO(within.date)
-        const lowerBound = originDt.minus({ day: within.range})
-        const upperBound = originDt.plus({ day: within.range})
+        const lowerBound = originDt.minus({ day: within.range })
+        const upperBound = originDt.plus({ day: within.range })
 
         const res = activeFilters.within
           ? (lowerBound <= aiDt) && (aiDt <= upperBound)
@@ -158,7 +168,7 @@ export const FilterMenu = ({ setPredicates }) => {
       <div
         className="w-full min-w-[24rem] flex flex-col rounded-md space-y-2"
       >
-        <div 
+        <div
           className="w-full flex flex-col bg-neutral-400 rounded-md"
           onFocus={() => setSearching(true)}
           ref={searchRef}
@@ -173,26 +183,26 @@ export const FilterMenu = ({ setPredicates }) => {
               onChange={e => setActivity(e.target.value)}
             />
             {
-               searching
+              searching
                 ? <div className="absolute right-1 top-1/2 -translate-y-1/2">
-                    <AdjustmentsDropdown
-                      inactiveFilters={reduce((acc, [name, isActive]) => isActive ? acc : acc.concat(name))
-                                             ([])
-                                             (toPairs(activeFilters))}
-                      activateFilter={name => {
-                        if (name === "before") setActiveFilters(assoc("before")(true))
-                        if (name === "after") setActiveFilters(assoc("after")(true))
-                        if (name === "within") setActiveFilters(assoc("within")(true))
-                      }}
-                    />
-                  </div>
+                  <AdjustmentsDropdown
+                    inactiveFilters={reduce((acc, [name, isActive]) => isActive ? acc : acc.concat(name))
+                      ([])
+                      (toPairs(activeFilters))}
+                    activateFilter={name => {
+                      if (name === "before") setActiveFilters(assoc("before")(true))
+                      if (name === "after") setActiveFilters(assoc("after")(true))
+                      if (name === "within") setActiveFilters(assoc("within")(true))
+                    }}
+                  />
+                </div>
                 : <SearchSvg className="w-6 h-6 absolute right-1 top-1/2 -translate-y-1/2 text-neutral-800" />
-              }
+            }
           </div>
         </div>
 
         {activeFilters.after && (
-          <FilterInterface 
+          <FilterInterface
             name="After"
             handleRemove={() => setActiveFilters(prev => ({ ...prev, after: false }))}
             Input={
@@ -207,7 +217,7 @@ export const FilterMenu = ({ setPredicates }) => {
         )}
 
         {activeFilters.before && (
-          <FilterInterface 
+          <FilterInterface
             name="Before"
             handleRemove={() => setActiveFilters(prev => ({ ...prev, before: false }))}
             Input={
@@ -222,7 +232,7 @@ export const FilterMenu = ({ setPredicates }) => {
         )}
 
         {activeFilters.within && (
-          <FilterInterface 
+          <FilterInterface
             name="Within"
             handleRemove={() => setActiveFilters(prev => ({ ...prev, within: false }))}
             Input={
@@ -259,29 +269,29 @@ const AdjustmentsDropdown = ({ inactiveFilters, activateFilter }) => {
 
   return (
     <div className="relative w-max h-max">
-      <AdjustmentsSvg 
+      <AdjustmentsSvg
         className={`w-6 h-6 ${open ? "text-yellow-300" : "text-neutral-800"} rotate-90 cursor-pointer`}
         onClick={() => setOpen(prev => !prev)}
-        // onClickCapture={() => {
-        //   setFiltering(true)}} 
+      // onClickCapture={() => {
+      //   setFiltering(true)}} 
       />
 
-      {open && 
+      {open &&
         <div
           className="absolute top-full right-1/2 bg-neutral-400 flex flex-col items-center space-y-1 w-max p-2 border-2 border-neutral-800 rounded-sm"
         >
           <div className="text-black pb-2">Add filter:</div>
-          {inactiveFilters.map(name => 
-            <FilterButton 
-              key={name} 
-              name={name} 
+          {inactiveFilters.map(name =>
+            <FilterButton
+              key={name}
+              name={name}
               onClick={() => {
                 activateFilter(name)
                 setOpen(false)
-              }} 
+              }}
             />)}
-          <XCircleSvg 
-            className="w-6 h-6 text-neutral-800 fill-neutral-200 absolute top-0 right-0 translate-x-1/2 -translate-y-2/3 cursor-pointer" 
+          <XCircleSvg
+            className="w-6 h-6 text-neutral-800 fill-neutral-200 absolute top-0 right-0 translate-x-1/2 -translate-y-2/3 cursor-pointer"
             onClick={() => setOpen(false)}
           />
         </div>}
@@ -316,8 +326,8 @@ const FilterInterface = ({ name, Input, handleRemove }) => {
           {Input}
         </div>
       </div>
-      <XSvg 
-        className="ml-1 w-6 h-6 cursor-pointer hover:text-red-400" 
+      <XSvg
+        className="ml-1 w-6 h-6 cursor-pointer hover:text-red-400"
         onClick={handleRemove}
       />
     </div>

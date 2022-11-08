@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom"
 import { AuthenticationButton } from "../auth/AuthenticationButton"
-
-
+import { AuthButton } from "../../mobile/auth/AuthButton"
 const NavItem = props =>
   <NavLink
     className={({ isActive }) =>
-      `px-8 text-neutral-400 text-lg font-semibold uppercase
-      ${isActive ? "text-yellow-300" : ""}`}
+      `px-8 text-lg font-semibold uppercase
+      ${isActive ? "text-yellow-300" : "text-neutral-400"}`
+    }
     {...props}
   >
     {props.children}
@@ -26,7 +26,7 @@ export const NavBar = () => {
         "
       >
         <div className="grow h-full flex flex-col justify-end items-start">
-          <span className="h-4"/>
+          <span className="h-4" />
           <span className="font-paytoneOneNOT font-semibold text-4xl text-neutral-500">Gainzville</span>
         </div>
         <div className="flex items-center">
@@ -38,9 +38,10 @@ export const NavBar = () => {
           <NavItem
             to="about"
           >About</NavItem>
-   
+
           <div className="pl-8">
             <AuthenticationButton />
+            {/* <AuthButton /> */}
           </div>
         </div>
       </nav>
