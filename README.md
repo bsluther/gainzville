@@ -7,6 +7,11 @@ This is a 2022 prototype of Gainzville, built as a standard client-server web ap
 - The right side of the screen contains the "log" of all the user's activities, with some basic search and filter capabilities.
 
 ##### Creating and using a "Climb Outcome" data type in the desktop app
+![Screenshot of creating a "Climb Outcome" data type](/images/create-climb-outcome.png)
+- Creating a data type (Facet) to capture information about a rock climb: Did you fall? Did you climb to the top without falling (redpoint)? Did you climb it first try without falling (onsight)?
+- In this case, more than one of these cases can be true at the same time: you could fall on the climb, then spend some time "working" (practicing) the moves.
+![Screenshot of using the newly created "Climb Outcome" data type](/images/use-climb-outcome.png)
+- A record which represents attempting a sport climb (a type of rock climb) with a grade (difficulty) of 13a in which the user fell and then worked (practiced) the route.
 
 ##### Creating and using a new data type in the mobile app
 https://github.com/user-attachments/assets/5dba0dd5-d175-4159-9e4b-171aef02f3f2
