@@ -6,6 +6,8 @@ This is a 2022 prototype of Gainzville, built as a standard client-server web ap
 - Center screen is an exercise the user recorded: on 9/13/23 they did 8 reps of "Windshield Wipers" (a core exercise) with 10 pounds of ankle weights on. The goal is to create a system that is expressive enough for the user to capture the information they care about while maintaining the required structure to analyze and visualize the data.
 - The right side of the screen contains the "log" of all the user's activities, with some basic search and filter capabilities.
 
+##### Creating and using a "Climb Outcome" data type in the desktop app
+
 ##### Creating and using a new data type in the mobile app
 https://github.com/user-attachments/assets/5dba0dd5-d175-4159-9e4b-171aef02f3f2
 - This video demonstrates the process of creating a new data type (or "Facet" as I called it at this point).
