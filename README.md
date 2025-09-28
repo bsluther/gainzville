@@ -1,6 +1,8 @@
-This is a 2022 prototype of Gainzville, built as a standard client-server web app. I was focused on building a model and UX which was flexible enough to allow users to create their owns activities (run, rock climb, Romanian deadlift) and data types. It started as a desktop-only web app and I eventually started working on a mobile-friendly version to support what I still see as a primary use case: entering workout data on a phone while at the gym or out climbing. My experience trying to create a good user experience for a highly interactive app with many data fields in a mobile web browser eventually led me to React Native and, a few years later, Swift.
+This is a 2022 prototype of Gainzville, built as a standard client-server web app. I was focused on building a model and UX which was flexible enough to allow users to create their owns activities (run, rock climb, Romanian deadlift) and data types. It started as a desktop-only web app and I eventually started working on a mobile-friendly version to support what I still see as a primary use case: entering workout data on a phone while at the gym or out climbing. My experience trying to create a good user experience for a highly interactive app with many input fields in a mobile web browser eventually led me to React Native and, a few years later, Swift.
 
+###### Viewing a recorded exercise in the desktop app
 ![Screenshot of viewing a record in the app](/images/viewing-record.png)
 
+###### Creating and using a new data type in the mobile app
 https://github.com/user-attachments/assets/5dba0dd5-d175-4159-9e4b-171aef02f3f2
 
