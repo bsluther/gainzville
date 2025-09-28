@@ -12,6 +12,10 @@ This is a 2022 prototype of Gainzville, built as a standard client-server web ap
 - In this case, more than one of these cases can be true at the same time: you could fall on the climb, then spend some time "working" (practicing) the moves.
 ![Screenshot of using the newly created "Climb Outcome" data type](/images/use-climb-outcome.png)
 - A record which represents attempting a sport climb (a type of rock climb) with a grade (difficulty) of 13a in which the user fell and then worked (practiced) the route.
+![Screenshot of using the newly created "Climb Outcome on another record](/images/record-boulder-problem.png)
+- The "Climb Outcome" can be re-used on other types of exercises to capture consistent, structured data.
+- Here "Boulder Problem" is another type of rock cliimbing, but the "Climb Outcome" data is structured exactly the same.
+- This avoids repeated effort and enables queries such as "how many rock climbs did I attempt this week?", although those kind of analytical queries are not supported in this version.
 
 ##### Creating and using a new data type in the mobile app
 https://github.com/user-attachments/assets/5dba0dd5-d175-4159-9e4b-171aef02f3f2
