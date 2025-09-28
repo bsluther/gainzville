@@ -6,12 +6,16 @@ This is a 2022 prototype of Gainzville, built as a standard client-server web ap
 - Center screen is an exercise the user recorded: on 9/13/23 they did 8 reps of "Windshield Wipers" (a core exercise) with 10 pounds of ankle weights on. The goal is to create a system that is expressive enough for the user to capture the information they care about while maintaining the required structure to analyze and visualize the data.
 - The right side of the screen contains the "log" of all the user's activities, with some basic search and filter capabilities.
 
-#### Creating and using a "Climb Outcome" data type in the desktop app
+#### Creating a "Climb Outcome" data type in the desktop app
 ![Screenshot of creating a "Climb Outcome" data type](/images/create-climb-outcome.png)
 - Creating a data type (Facet) to capture information about a rock climb: Did you fall? Did you climb to the top without falling (redpoint)? Did you climb it first try without falling (onsight)?
 - In this case, more than one of these cases can be true at the same time: you could fall on the climb, then spend some time "working" (practicing) the moves.
+
+#### Using the new "Climb Outcome" data type
 ![Screenshot of using the newly created "Climb Outcome" data type](/images/use-climb-outcome.png)
 - A record which represents attempting a sport climb (a type of rock climb) with a grade (difficulty) of 13a in which the user fell and then worked (practiced) the route.
+
+#### Re-using the new "Climb Outcome" data type
 ![Screenshot of using the newly created "Climb Outcome on another record](/images/record-boulder-problem.png)
 - The "Climb Outcome" can be re-used on other types of exercises to capture consistent, structured data.
 - Here "Boulder Problem" is another type of rock cliimbing, but the "Climb Outcome" data is structured exactly the same.
