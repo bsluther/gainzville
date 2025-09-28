@@ -2,7 +2,5 @@ This is a 2022 prototype of Gainzville, built as a standard client-server web ap
 
 ![Screenshot of viewing a record in the app](/images/viewing-record.png)
 
-![Video of creating an "Effort" attribute](/images//create-effort-facet.MP4)
-
 https://github.com/user-attachments/assets/5dba0dd5-d175-4159-9e4b-171aef02f3f2
 
