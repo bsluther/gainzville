@@ -1,3 +1,9 @@
+### What is Gainzville?
+Gainzville is an app to record and analyze physical training. The primary problem it sets out to address is that there are many apps which support particular types of training and exercises, but some training doesn't fit neatly into the boxes that app developers choose to create. What if rather than hard-coding particular exercises and relevant data points, the user was empowered to express the training they actually perform? Gainzville is an attempt to build a platform which is expressive enough to describe the vast majority of training while retaining enough structure to support analysis of that data.
+
+See [here](https://github.com/bsluther/gainzville-swift/blob/main/Docs/product.md) for an aspirational descriptoin of Gainzville.
+
+### About this repository
 This is a 2022 prototype of Gainzville, built as a standard client-server web app. I was focused on building a model and UX which was flexible enough to allow users to create their owns activities (run, rock climb, Romanian deadlift) and data types. It started as a desktop-only web app and I eventually started working on a mobile-friendly version to support what I still see as a primary use case: entering workout data on a phone while at the gym or out climbing. My experience trying to create a good user experience for a highly interactive app with many input fields in a mobile web browser eventually led me to React Native and, a few years later, Swift.
 
 #### Viewing a recorded exercise in the desktop app
