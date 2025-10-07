@@ -31,3 +31,9 @@ This is a 2022 prototype of Gainzville, built as a standard client-server web ap
 https://github.com/user-attachments/assets/5dba0dd5-d175-4159-9e4b-171aef02f3f2
 - This video demonstrates the process of creating a new data type (or "Facet" as I called it at this point).
 - Here the idea is that the user wants to record how much effort they put into an exercise, which can modeled as selection from a list of options. Rate of the perceived exertion (RPE) is a common way of describing this but the choice is up to the user.
+
+### Other versions of Gainzville
+
+I've tried a lot of approaches, models, platforms, libraries, languages, etc. Part of this has been exploring the problem space, and part of it has been learning about software engineering.
+- [A Gainzville mobile app via Swift](https://github.com/bsluther/gainzville-swift)
+- [A Gainzville mobile app via React Native](https://github.com/bsluther/gv-2025-01-15)
